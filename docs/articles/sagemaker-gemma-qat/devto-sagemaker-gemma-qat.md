@@ -3,7 +3,7 @@ title: "Gemma 4 on Amazon SageMaker: QAT Weights Decode 2.05x Faster Than bf16 o
 published: false
 description: "A short background on SageMaker real-time endpoints, then a measured comparison of Gemma 4 E2B's QAT w4a16 checkpoint against the full-size bf16 release on the same NVIDIA L4 endpoint: decode speed, parallel throughput, answers and cost."
 tags: aws, sagemaker, gemma, vllm
-cover_image: COVER_PENDING
+cover_image: https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/devto-cover.63181c8d.jpg
 ---
 
 This article gives a short background on Amazon SageMaker real-time endpoints, then measures Gemma 4 E2B's quantization-aware trained (QAT) checkpoint against the full-size bf16 release on the same NVIDIA L4 endpoint. A suite of Python MCP tools is built to simplify management of the vLLM hosted deployment.
@@ -65,7 +65,7 @@ With one L4 per region to work with, the two checkpoints ran one after the other
 
 #### Where Do I Start?
 
-The deployment itself, from quota check to teardown with the aws CLI and the MCP server, is the first article in this pair: DEPLOY_ARTICLE_PENDING
+The deployment itself, from quota check to teardown with the aws CLI and the MCP server, is the first article in this pair: https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md
 
 This article starts from a working endpoint and changes one thing: the checkpoint.
 
@@ -343,7 +343,7 @@ The strategy for using MCP for SageMaker deployment and benchmarking was validat
 #### References
 
 - Repository: https://github.com/xbill9/sagemaker-gemma
-- Part one, deploying Gemma 4 to SageMaker: DEPLOY_ARTICLE_PENDING
+- Part one, deploying Gemma 4 to SageMaker: https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md
 - Gemma 4 E2B QAT w4a16: https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct
 - Gemma 4 E2B: https://huggingface.co/google/gemma-4-E2B-it
 - Gemma 4 on a Tesla T4, QAT vs bf16: https://dev.to/gde/gemma-4-on-a-tesla-t4-qat-weights-decode-179x-faster-than-bf16-2fi4
