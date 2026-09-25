@@ -3,7 +3,7 @@ title: "Gemma 4 on Amazon SageMaker: QAT Weights Decode 2.05x Faster Than bf16 o
 published: false
 description: "A short background on SageMaker real-time endpoints, then a measured comparison of Gemma 4 E2B's QAT w4a16 checkpoint against the full-size bf16 release on the same NVIDIA L4 endpoint: decode speed, parallel throughput, answers and cost."
 tags: aws, sagemaker, gemma, vllm
-cover_image: https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/devto-cover.63181c8d.jpg
+cover_image: https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/devto-cover.88bbac1a.jpg
 ---
 
 This article gives a short background on Amazon SageMaker real-time endpoints, then measures Gemma 4 E2B's quantization-aware trained (QAT) checkpoint against the full-size bf16 release on the same NVIDIA L4 endpoint. A suite of Python MCP tools is built to simplify management of the vLLM hosted deployment.
