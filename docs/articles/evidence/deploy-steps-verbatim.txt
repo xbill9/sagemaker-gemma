@@ -1,0 +1,38 @@
+# Captured 2026-09-25T16:37:29Z, aws-cli aws-cli/2.36.45, docs/DEPLOY.md steps run verbatim with NAME=gemma-guide-check in us-east-1
+$ aws sts get-caller-identity --query Arn --output text
+arn:aws:iam::<account-id>:root
+[exit 0]
+
+$ aws service-quotas list-service-quotas --service-code sagemaker --query "Quotas[?QuotaName=='ml.g6.xlarge for endpoint usage'].Value"
+[
+    1.0
+]
+[exit 0]
+
+$ echo $IMAGE
+763104351884.dkr.ecr.us-east-1.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1
+[exit 0]
+
+$ aws iam create-role --role-name sagemaker-gemma-execution-role --assume-role-policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"sagemaker.amazonaws.com"},"Action":"sts:AssumeRole"}]}' --query Role.Arn
+
+aws: [ERROR]: An error occurred (EntityAlreadyExists) when calling the CreateRole operation: Role with name sagemaker-gemma-execution-role already exists.
+[exit 254]
+
+$ aws sagemaker create-model --model-name $NAME --execution-role-arn $ROLE --primary-container "{\"Image\":\"$IMAGE\",\"Environment\":{\"SM_VLLM_MODEL\":\"$MODEL_ID\",\"SM_VLLM_MAX_MODEL_LEN\":\"8192\",\"SM_VLLM_GPU_MEMORY_UTILIZATION\":\"0.9\"}}"
+{
+    "ModelArn": "arn:aws:sagemaker:us-east-1:<account-id>:model/gemma-guide-check"
+}
+[exit 0]
+
+$ aws sagemaker create-endpoint-config --endpoint-config-name $NAME --production-variants "[{\"VariantName\":\"AllTraffic\",\"ModelName\":\"$NAME\",\"InitialInstanceCount\":1,\"InstancePools\":[{\"InstanceType\":\"ml.g6.xlarge\",\"Priority\":1},{\"InstanceType\":\"ml.g6.2xlarge\",\"Priority\":2},{\"InstanceType\":\"ml.g6.4xlarge\",\"Priority\":3}],\"ContainerStartupHealthCheckTimeoutInSeconds\":1800,\"ModelDataDownloadTimeoutInSeconds\":1800}]"
+{
+    "EndpointConfigArn": "arn:aws:sagemaker:us-east-1:<account-id>:endpoint-config/gemma-guide-check"
+}
+[exit 0]
+
+$ aws sagemaker delete-endpoint-config --endpoint-config-name $NAME
+[exit 0]
+
+$ aws sagemaker delete-model --model-name $NAME
+[exit 0]
+

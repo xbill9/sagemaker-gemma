@@ -1,0 +1,8 @@
+{
+  "endpoint": "gemma-4-e2b",
+  "model_id": "google/gemma-4-E2B-it",
+  "instance_type": "ml.g6.xlarge",
+  "image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1-2026-09-23-23-20-47",
+  "role": "arn:aws:iam::<account-id>:role/sagemaker-gemma-execution-role",
+  "status": "Creating"
+}

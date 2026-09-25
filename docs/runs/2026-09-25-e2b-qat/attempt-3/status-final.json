@@ -1,0 +1,7 @@
+{
+  "endpoint": "gemma-4-e2b-qat",
+  "status": "Failed",
+  "created": "2026-09-25T13:06:15.500000-04:00",
+  "last_modified": "2026-09-25T13:37:13.193000-04:00",
+  "failure_reason": "Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time."
+}

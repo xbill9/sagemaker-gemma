@@ -1,0 +1,26 @@
+{
+    "variants": [
+        {
+            "VariantName": "AllTraffic",
+            "DeployedImages": [
+                {
+                    "SpecifiedImage": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1",
+                    "ResolvedImage": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7",
+                    "ResolutionTime": "2026-09-25T12:01:10.125000-04:00"
+                }
+            ],
+            "CurrentWeight": 1.0,
+            "DesiredWeight": 1.0,
+            "CurrentInstanceCount": 1,
+            "DesiredInstanceCount": 1,
+            "InstancePools": [
+                {
+                    "InstanceType": "ml.g6.xlarge",
+                    "CurrentInstanceCount": 1
+                }
+            ]
+        }
+    ],
+    "created": "2026-09-25T12:01:09.587000-04:00",
+    "modified": "2026-09-25T12:11:06.958000-04:00"
+}

@@ -1,0 +1,9 @@
+attempt-2 us-west-2 deploy submitted
+attempt-2 us-west-2 16:34:44 Creating
+attempt-2 us-west-2 17:06:05 Failed
+attempt-2 us-west-2 ended Failed: Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.
+attempt-3 us-east-1 deploy submitted
+attempt-3 us-east-1 17:06:16 Creating
+attempt-3 us-east-1 17:37:44 Failed
+attempt-3 us-east-1 ended Failed: Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.
+NO CAPACITY in: us-west-2 us-east-1

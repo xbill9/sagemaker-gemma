@@ -1,0 +1,93 @@
+# Captured 2026-09-25T18:39:43Z, aws-cli aws-cli/2.36.45, docs/DEPLOY.md commands run verbatim in us-east-2
+## Step 9 on the full-size endpoint (NAME=gemma-4-e2b)
+$ aws sagemaker delete-endpoint --endpoint-name $NAME
+[exit 0]
+
+$ aws sagemaker delete-endpoint-config --endpoint-config-name $NAME
+[exit 0]
+
+$ aws sagemaker delete-model --model-name $NAME
+[exit 0]
+
+## Steps 1-7 for the QAT endpoint (NAME=gemma-4-e2b-qat, MODEL_ID=google/gemma-4-E2B-it-qat-w4a16-ct)
+$ aws sts get-caller-identity --query Arn --output text
+arn:aws:iam::<account-id>:root
+[exit 0]
+
+$ aws service-quotas list-service-quotas --service-code sagemaker --query "Quotas[?QuotaName=='ml.g6.xlarge for endpoint usage'].Value"
+[
+    1.0
+]
+[exit 0]
+
+$ echo $IMAGE
+763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1
+[exit 0]
+
+$ aws sagemaker create-model --model-name $NAME --execution-role-arn $ROLE --primary-container "{\"Image\":\"$IMAGE\",\"Environment\":{\"SM_VLLM_MODEL\":\"$MODEL_ID\",\"SM_VLLM_MAX_MODEL_LEN\":\"8192\",\"SM_VLLM_GPU_MEMORY_UTILIZATION\":\"0.9\"}}"
+{
+    "ModelArn": "arn:aws:sagemaker:us-east-2:<account-id>:model/gemma-4-e2b-qat"
+}
+[exit 0]
+
+$ aws sagemaker create-endpoint-config --endpoint-config-name $NAME --production-variants "[{\"VariantName\":\"AllTraffic\",\"ModelName\":\"$NAME\",\"InitialInstanceCount\":1,\"InstancePools\":[{\"InstanceType\":\"ml.g6.xlarge\",\"Priority\":1},{\"InstanceType\":\"ml.g6.2xlarge\",\"Priority\":2},{\"InstanceType\":\"ml.g6.4xlarge\",\"Priority\":3}],\"ContainerStartupHealthCheckTimeoutInSeconds\":1800,\"ModelDataDownloadTimeoutInSeconds\":1800}]"
+{
+    "EndpointConfigArn": "arn:aws:sagemaker:us-east-2:<account-id>:endpoint-config/gemma-4-e2b-qat"
+}
+[exit 0]
+
+$ aws sagemaker create-endpoint --endpoint-name $NAME --endpoint-config-name $NAME
+{
+    "EndpointArn": "arn:aws:sagemaker:us-east-2:<account-id>:endpoint/gemma-4-e2b-qat"
+}
+[exit 0]
+
+$ aws sagemaker describe-endpoint --endpoint-name $NAME --query '{status:EndpointStatus,pools:ProductionVariants[0].InstancePools}'
+{
+    "status": "InService",
+    "pools": [
+        {
+            "InstanceType": "ml.g6.xlarge",
+            "CurrentInstanceCount": 1
+        }
+    ]
+}
+[exit 0]
+
+## Steps 4-6 and teardown for the full-size model (NAME=gemma-4-e2b, MODEL_ID=google/gemma-4-E2B-it), 2026-09-25T19:15:17Z; endpoint deleted right after create-endpoint returned
+$ aws sagemaker create-model --model-name $NAME --execution-role-arn $ROLE --primary-container "{\"Image\":\"$IMAGE\",\"Environment\":{\"SM_VLLM_MODEL\":\"$MODEL_ID\",\"SM_VLLM_MAX_MODEL_LEN\":\"8192\",\"SM_VLLM_GPU_MEMORY_UTILIZATION\":\"0.9\"}}"
+{
+    "ModelArn": "arn:aws:sagemaker:us-east-2:<account-id>:model/gemma-4-e2b"
+}
+[exit 0]
+
+$ aws sagemaker create-endpoint-config --endpoint-config-name $NAME --production-variants "[{\"VariantName\":\"AllTraffic\",\"ModelName\":\"$NAME\",\"InitialInstanceCount\":1,\"InstancePools\":[{\"InstanceType\":\"ml.g6.xlarge\",\"Priority\":1},{\"InstanceType\":\"ml.g6.2xlarge\",\"Priority\":2},{\"InstanceType\":\"ml.g6.4xlarge\",\"Priority\":3}],\"ContainerStartupHealthCheckTimeoutInSeconds\":1800,\"ModelDataDownloadTimeoutInSeconds\":1800}]"
+{
+    "EndpointConfigArn": "arn:aws:sagemaker:us-east-2:<account-id>:endpoint-config/gemma-4-e2b"
+}
+[exit 0]
+
+$ aws sagemaker create-endpoint --endpoint-name $NAME --endpoint-config-name $NAME
+{
+    "EndpointArn": "arn:aws:sagemaker:us-east-2:<account-id>:endpoint/gemma-4-e2b"
+}
+[exit 0]
+
+$ aws sagemaker delete-endpoint --endpoint-name $NAME
+
+aws: [ERROR]: An error occurred (ValidationException) when calling the DeleteEndpoint operation: Cannot update in-progress endpoint "arn:aws:sagemaker:us-east-2:<account-id>:endpoint/gemma-4-e2b".
+[exit 254]
+
+2026-09-25T19:20:28Z delete-endpoint refused while Creating: ValidationException Cannot update in-progress endpoint
+2026-09-25T19:25:02Z left Creating: InService
+$ aws sagemaker delete-endpoint --endpoint-name $NAME
+[exit 0]
+
+$ aws sagemaker delete-endpoint-config --endpoint-config-name $NAME
+[exit 0]
+
+$ aws sagemaker delete-model --model-name $NAME
+[exit 0]
+
+### 0 endpoint(s) matching `gemma`
+

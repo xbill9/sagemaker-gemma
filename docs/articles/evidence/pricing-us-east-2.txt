@@ -1,0 +1,4 @@
+# 2026-09-25T19:21:27Z aws pricing get-products AmazonSageMaker, regionCode=us-east-2, OnDemand hosting
+ml.g6.xlarge USE2-Host:ml.g6.xlarge 1.1267000000 Hrs | $1.1267 per Hosting ml.g6.xlarge hour in US East (Ohio)
+ml.g6.2xlarge USE2-Host:ml.g6.2xlarge 1.2220000000 Hrs | $1.222 per Hosting ml.g6.2xlarge hour in US East (Ohio)
+ml.g6.4xlarge USE2-Host:ml.g6.4xlarge 1.6540000000 Hrs | $1.654 per Hosting ml.g6.4xlarge hour in US East (Ohio)

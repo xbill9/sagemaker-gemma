@@ -1,0 +1,11 @@
+attempt-2 us-east-1 15:52:39 Creating
+attempt-2 us-east-1 16:01:00 Failed
+attempt-2 us-east-1 ended Failed: Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.
+attempt-3 us-east-2 deploy submitted
+attempt-3 us-east-2 16:01:10 Creating
+attempt-3 log: (EngineCore pid=66) INFO 09-25 16:08:33 [model_runner.py:428] Model loading took 9.75 GiB memory and 82.751806 seconds
+attempt-3 log: (EngineCore pid=66) INFO 09-25 16:10:22 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8773 without CUDA graph memo
+attempt-3 log: (EngineCore pid=66) INFO 09-25 16:10:22 [kv_cache_utils.py:2395] GPU KV cache size: 723,484 tokens, Maximum concurrency for 8,192 tokens per request: 88.32x
+attempt-3 us-east-2 16:11:10 InService
+attempt-3 log: (APIServer pid=14) INFO:     Application startup complete.
+READY attempt-3 us-east-2 (.env AWS_REGION updated)

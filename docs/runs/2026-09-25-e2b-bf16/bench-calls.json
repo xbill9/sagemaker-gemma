@@ -1,0 +1,173 @@
+[
+  {
+    "text": "Canberra",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 21,
+    "completion_tokens": 3,
+    "wall_seconds": 0.708,
+    "tokens_per_second": 4.2,
+    "prompt_name": "short-fact",
+    "repeat": 0,
+    "correct": true
+  },
+  {
+    "text": "Canberra",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 21,
+    "completion_tokens": 3,
+    "wall_seconds": 0.628,
+    "tokens_per_second": 4.8,
+    "prompt_name": "short-fact",
+    "repeat": 1,
+    "correct": true
+  },
+  {
+    "text": "Canberra",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 21,
+    "completion_tokens": 3,
+    "wall_seconds": 0.646,
+    "tokens_per_second": 4.6,
+    "prompt_name": "short-fact",
+    "repeat": 2,
+    "correct": true
+  },
+  {
+    "text": "391",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 25,
+    "completion_tokens": 4,
+    "wall_seconds": 0.863,
+    "tokens_per_second": 4.6,
+    "prompt_name": "arithmetic",
+    "repeat": 0,
+    "correct": true
+  },
+  {
+    "text": "391",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 25,
+    "completion_tokens": 4,
+    "wall_seconds": 0.669,
+    "tokens_per_second": 6.0,
+    "prompt_name": "arithmetic",
+    "repeat": 1,
+    "correct": true
+  },
+  {
+    "text": "391",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 25,
+    "completion_tokens": 4,
+    "wall_seconds": 0.706,
+    "tokens_per_second": 5.7,
+    "prompt_name": "arithmetic",
+    "repeat": 2,
+    "correct": true
+  },
+  {
+    "text": "An Amazon SageMaker real-time endpoint is a scalable, managed deployment of a machine learning model that allows for low-latency, online predictions. It enables applications to send data to the endpoint and receive immediate model outputs in real-time. This feature is ideal for use cases requiring instant inference, such as live recommendations or real-time fraud detection.",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 24,
+    "completion_tokens": 71,
+    "wall_seconds": 1.97,
+    "tokens_per_second": 36.0,
+    "prompt_name": "explain",
+    "repeat": 0
+  },
+  {
+    "text": "An Amazon SageMaker real-time endpoint is a scalable, managed deployment of a machine learning model that allows for low-latency, online predictions. It enables applications to send data to the endpoint and receive immediate model outputs in real-time. This feature is ideal for use cases requiring instant inference, such as live recommendations or real-time fraud detection.",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 24,
+    "completion_tokens": 71,
+    "wall_seconds": 2.001,
+    "tokens_per_second": 35.5,
+    "prompt_name": "explain",
+    "repeat": 1
+  },
+  {
+    "text": "An Amazon SageMaker real-time endpoint is a scalable, managed deployment of a machine learning model that allows for low-latency, online predictions. It enables applications to send data to the endpoint and receive immediate model outputs in real-time. This feature is ideal for use cases requiring instant inference, such as live recommendations or real-time fraud detection.",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 24,
+    "completion_tokens": 71,
+    "wall_seconds": 2.002,
+    "tokens_per_second": 35.5,
+    "prompt_name": "explain",
+    "repeat": 2
+  },
+  {
+    "text": "```python\ndef fibonacci_iterative(n):\n    \"\"\"\n    Returns the n-th Fibonacci number iteratively.\n\n    Args:\n        n: The index of the Fibonacci number to return (n >= 0).\n\n    Returns:\n        The n-th Fibonacci number.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Input must be a non-negative integer\")\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n```",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 26,
+    "completion_tokens": 155,
+    "wall_seconds": 3.553,
+    "tokens_per_second": 43.6,
+    "prompt_name": "code",
+    "repeat": 0
+  },
+  {
+    "text": "```python\ndef fibonacci_iterative(n):\n    \"\"\"\n    Returns the n-th Fibonacci number iteratively.\n\n    Args:\n        n: The index of the Fibonacci number to return (n >= 0).\n\n    Returns:\n        The n-th Fibonacci number.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Input must be a non-negative integer\")\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n```",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 26,
+    "completion_tokens": 155,
+    "wall_seconds": 3.586,
+    "tokens_per_second": 43.2,
+    "prompt_name": "code",
+    "repeat": 1
+  },
+  {
+    "text": "```python\ndef fibonacci_iterative(n):\n    \"\"\"\n    Returns the n-th Fibonacci number iteratively.\n\n    Args:\n        n: The index of the Fibonacci number to return (n >= 0).\n\n    Returns:\n        The n-th Fibonacci number.\n    \"\"\"\n    if n < 0:\n        raise ValueError(\"Input must be a non-negative integer\")\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n```",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 26,
+    "completion_tokens": 155,
+    "wall_seconds": 3.582,
+    "tokens_per_second": 43.3,
+    "prompt_name": "code",
+    "repeat": 2
+  },
+  {
+    "text": "## Quantized vs. Full-Precision Language Models for Inference: A Trade-Off Analysis\n\nThe choice between using quantized and full-precision language models (LLMs) for inference involves a critical trade-off between **model performance/accuracy** and **computational efficiency**.\n\n**Full-Precision (e.g., FP32 or FP16)** models offer the highest potential accuracy. They retain the full range of numerical values, minimizing quantization error and often leading to superior performance on complex reasoning tasks. However, this comes at a significant cost: **high computational requirements** (more memory bandwidth and processing power) and **larger model file sizes**, making them slow and expensive to run, especially on resource-constrained devices.\n\n**Quantized models** (e.g., INT8, INT4) address these limitations by reducing the numerical precision of the model's weights and activations. This drastically **reduces memory footprint** and **accelerates inference speed** because lower-bit operations are computationally cheaper. This efficiency makes quantized models ideal for deployment on edge devices or high-throughput serving environments where latency and power consumption are paramount.\n\nThe primary trade-off lies in **accuracy vs. efficiency**. Aggressive quantization can introduce noticeable degradation in the model's output quality, potentially leading to factual errors or a loss of nuanced understanding. Conversely, using full precision sacrifices speed and deployability.\n\nUltimately, the optimal choice depends entirely on the application: high-stakes tasks requiring maximum accuracy might necessitate full precision, whereas real-time applications or large-scale serving where throughput is key strongly favor the efficiency gains offered by quantization.",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 34,
+    "completion_tokens": 330,
+    "wall_seconds": 7.172,
+    "tokens_per_second": 46.0,
+    "prompt_name": "long",
+    "repeat": 0
+  },
+  {
+    "text": "## Quantized vs. Full-Precision Language Models for Inference: A Trade-Off Analysis\n\nThe choice between using quantized and full-precision language models (LLMs) for inference involves a critical trade-off between **model performance/accuracy** and **computational efficiency/resource utilization**.\n\n**Full-Precision (e.g., FP32 or FP16)** models offer the highest potential for accuracy. They retain the full range of numerical values, minimizing quantization error and often yielding the best performance on complex or nuanced tasks. However, this comes at a significant cost: high memory footprint and substantial computational requirements (FLOPs), making them slow to run on resource-constrained devices or for high-throughput serving.\n\n**Quantized models** (e.g., INT8, INT4) address these limitations by reducing the numerical precision of the model's weights and activations. This drastically shrinks the model size (leading to lower memory usage) and significantly speeds up inference due to the reduced computational load on hardware optimized for lower precision. The trade-off here is a potential **degradation in accuracy**. Aggressive quantization can introduce errors, leading to subtle drops in the model's ability to generate coherent or contextually accurate responses.\n\n**In summary:**\n\n* **Choose Full-Precision when:** Maximum accuracy is paramount, and computational resources (memory/latency) are abundant.\n* **Choose Quantized when:** Efficiency, speed, and deployment on edge devices are critical, and a small, acceptable drop in accuracy is tolerable.\n\nThe optimal choice depends entirely on the specific application's requirements\u2014balancing the need for state-of-the-art performance against the practical constraints of deployment.",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 34,
+    "completion_tokens": 346,
+    "wall_seconds": 7.28,
+    "tokens_per_second": 47.5,
+    "prompt_name": "long",
+    "repeat": 1
+  },
+  {
+    "text": "## Quantized vs. Full-Precision Language Models for Inference: A Trade-Off Analysis\n\nThe choice between using quantized and full-precision language models (LLMs) for inference involves a critical trade-off between **model performance/accuracy** and **computational efficiency/resource utilization**.\n\n**Full-Precision (e.g., FP32 or FP16)** models offer the highest potential for accuracy. They retain the full range of numerical values, minimizing quantization error and often yielding the best performance on complex or nuanced tasks. However, this comes at a significant cost: high memory footprint and substantial computational requirements (FLOPs), making them slow to run on resource-constrained devices or for high-throughput serving.\n\n**Quantized models** (e.g., INT8, INT4) address these limitations by reducing the numerical precision of the model's weights and activations. This drastically shrinks the model size (leading to lower memory usage) and significantly speeds up inference due to the reduced computational load on hardware optimized for lower precision. The trade-off here is a potential **degradation in accuracy**. Aggressive quantization can introduce errors, leading to subtle drops in the model's ability to generate coherent or contextually accurate responses.\n\n**In summary:**\n\n* **Choose Full-Precision when:** Maximum accuracy is paramount, and computational resources (memory/latency) are abundant.\n* **Choose Quantized when:** Efficiency, speed, and deployment on edge devices are critical, and a small, acceptable drop in accuracy is tolerable.\n\nThe optimal choice depends entirely on the specific application's requirements\u2014balancing the need for state-of-the-art performance against the practical constraints of deployment.",
+    "finish_reason": "stop",
+    "model": "google/gemma-4-E2B-it",
+    "prompt_tokens": 34,
+    "completion_tokens": 346,
+    "wall_seconds": 7.284,
+    "tokens_per_second": 47.5,
+    "prompt_name": "long",
+    "repeat": 2
+  }
+]

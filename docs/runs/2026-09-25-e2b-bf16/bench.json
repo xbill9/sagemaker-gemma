@@ -1,0 +1,174 @@
+{
+  "endpoint": "gemma-4-e2b",
+  "model_id": "google/gemma-4-E2B-it",
+  "instance_type": "ml.g6.xlarge",
+  "sampling": {
+    "max_tokens": 512,
+    "temperature": 0.0,
+    "repeats": 3
+  },
+  "window": [
+    "2026-09-25T16:11:32.770601+00:00",
+    "2026-09-25T16:12:15.425877+00:00"
+  ],
+  "total_calls": 15,
+  "per_prompt": {
+    "short-fact": {
+      "wall_seconds": {
+        "n": 3,
+        "median": 0.646,
+        "min": 0.628,
+        "max": 0.708
+      },
+      "completion_tokens": {
+        "n": 3,
+        "median": 3,
+        "min": 3,
+        "max": 3
+      },
+      "tokens_per_second": {
+        "n": 3,
+        "median": 4.6,
+        "min": 4.2,
+        "max": 4.8
+      },
+      "identical_outputs": true,
+      "correct": 3
+    },
+    "arithmetic": {
+      "wall_seconds": {
+        "n": 3,
+        "median": 0.706,
+        "min": 0.669,
+        "max": 0.863
+      },
+      "completion_tokens": {
+        "n": 3,
+        "median": 4,
+        "min": 4,
+        "max": 4
+      },
+      "tokens_per_second": {
+        "n": 3,
+        "median": 5.7,
+        "min": 4.6,
+        "max": 6.0
+      },
+      "identical_outputs": true,
+      "correct": 3
+    },
+    "explain": {
+      "wall_seconds": {
+        "n": 3,
+        "median": 2.001,
+        "min": 1.97,
+        "max": 2.002
+      },
+      "completion_tokens": {
+        "n": 3,
+        "median": 71,
+        "min": 71,
+        "max": 71
+      },
+      "tokens_per_second": {
+        "n": 3,
+        "median": 35.5,
+        "min": 35.5,
+        "max": 36.0
+      },
+      "identical_outputs": true
+    },
+    "code": {
+      "wall_seconds": {
+        "n": 3,
+        "median": 3.582,
+        "min": 3.553,
+        "max": 3.586
+      },
+      "completion_tokens": {
+        "n": 3,
+        "median": 155,
+        "min": 155,
+        "max": 155
+      },
+      "tokens_per_second": {
+        "n": 3,
+        "median": 43.3,
+        "min": 43.2,
+        "max": 43.6
+      },
+      "identical_outputs": true
+    },
+    "long": {
+      "wall_seconds": {
+        "n": 3,
+        "median": 7.28,
+        "min": 7.172,
+        "max": 7.284
+      },
+      "completion_tokens": {
+        "n": 3,
+        "median": 346,
+        "min": 330,
+        "max": 346
+      },
+      "tokens_per_second": {
+        "n": 3,
+        "median": 47.5,
+        "min": 46.0,
+        "max": 47.5
+      },
+      "identical_outputs": false
+    }
+  },
+  "load_facts": {
+    "vllm_version": null,
+    "weights_gib": "9.75",
+    "load_seconds": "82.751806",
+    "kv_cache_tokens": "723,484",
+    "max_concurrency": "88.32"
+  },
+  "cloudwatch": {
+    "ModelLatency": [
+      {
+        "Timestamp": "2026-09-25T12:11:00-04:00",
+        "Average": 1536784.923076923,
+        "Unit": "Microseconds"
+      },
+      {
+        "Timestamp": "2026-09-25T12:12:00-04:00",
+        "Average": 6641796.0,
+        "Unit": "Microseconds"
+      }
+    ],
+    "OverheadLatency": [
+      {
+        "Timestamp": "2026-09-25T12:11:00-04:00",
+        "Average": 34558.38461538462,
+        "Unit": "Microseconds"
+      },
+      {
+        "Timestamp": "2026-09-25T12:12:00-04:00",
+        "Average": 32113.333333333332,
+        "Unit": "Microseconds"
+      }
+    ],
+    "Invocations": [
+      {
+        "Timestamp": "2026-09-25T12:13:00-04:00",
+        "Sum": 0.0,
+        "Unit": "None"
+      },
+      {
+        "Timestamp": "2026-09-25T12:12:00-04:00",
+        "Sum": 3.0,
+        "Unit": "None"
+      },
+      {
+        "Timestamp": "2026-09-25T12:11:00-04:00",
+        "Sum": 13.0,
+        "Unit": "None"
+      }
+    ]
+  }
+}

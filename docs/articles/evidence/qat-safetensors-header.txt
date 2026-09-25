@@ -1,0 +1,7 @@
+# https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct/resolve/main/model.safetensors
+# safetensors header read by HTTP range, 2504 tensors, 8.316 GB
+per-layer embedding      4.698 GB  56.5%  tensors=1     dtypes=['BF16']
+vocabulary embedding     1.611 GB  19.4%  tensors=2     dtypes=['BF16']
+transformer body         1.056 GB  12.7%  tensors=1090  dtypes=['BF16', 'I32', 'I64']
+audio tower              0.614 GB   7.4%  tensors=752   dtypes=['BF16']
+vision tower             0.337 GB   4.1%  tensors=659   dtypes=['BF16']

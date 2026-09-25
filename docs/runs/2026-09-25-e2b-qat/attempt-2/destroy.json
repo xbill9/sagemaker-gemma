@@ -1,0 +1,8 @@
+{
+  "endpoint": "gemma-4-e2b-qat",
+  "results": {
+    "endpoint": "deleted",
+    "endpoint-config": "deleted",
+    "model": "deleted"
+  }
+}

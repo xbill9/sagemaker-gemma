@@ -1,0 +1,26 @@
+# Captured 2026-09-25T19:01:05Z in ~/sagemaker-gemma, Python 3.14.7, mcp 2.2.0
+$ make lint
+All checks passed!
+16 files already formatted
+[exit 0]
+
+$ make test 2>&1 | tail -4
+----------------------------------------------------------------------
+Ran 16 tests in 0.010s
+
+OK
+[exit 0]
+
+$ { printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"probe","version":"0"}}}' '{"jsonrpc":"2.0","method":"notifications/initialized"}' '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'; sleep 3; } | python3 server.py 2>/dev/null | python3 -c 'import json,sys; [print(r["id"], (r["result"].get("serverInfo") or {}).get("name") or sorted(t["name"] for t in r["result"]["tools"])) for r in map(json.loads, sys.stdin)]'
+1 sagemaker-gemma
+2 ['check_quotas', 'delete_endpoint', 'deploy_endpoint', 'find_vllm_image', 'get_deployment_config', 'get_endpoint_logs', 'get_endpoint_status', 'get_help', 'list_endpoints', 'query_model', 'verify_model_health']
+[exit 0]
+
+$ claude mcp get sagemaker-gemma
+sagemaker-gemma:
+  Scope: Project config (shared via .mcp.json)
+  Status: ✔ Connected
+
+To remove this server, run: claude mcp remove sagemaker-gemma -s project
+[exit 0]
+

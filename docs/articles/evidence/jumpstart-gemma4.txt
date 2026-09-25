@@ -1,0 +1,8 @@
+# 2026-09-25T19:21:20Z aws sagemaker list-hub-contents --hub-name SageMakerPublicHub --hub-content-type Model (all pages), names containing gemma-4, us-east-1
+huggingface-llm-gemma-4-31b-it-nvfp4
+huggingface-vlm-gemma-4-12b-it
+huggingface-vlm-gemma-4-26b-a4b-it
+huggingface-vlm-gemma-4-31b-it
+huggingface-vlm-gemma-4-31b-it-fp8-block
+huggingface-vlm-gemma-4-e2b-instruct
+huggingface-vlm-gemma-4-e4b-it

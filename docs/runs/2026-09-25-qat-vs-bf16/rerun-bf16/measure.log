@@ -1,0 +1,79 @@
+decode gemma-4-e2b n=16 rep=0: 2.483s
+decode gemma-4-e2b n=512 rep=0: 10.623s
+decode gemma-4-e2b n=16 rep=1: 0.896s
+decode gemma-4-e2b n=512 rep=1: 10.6s
+decode gemma-4-e2b n=16 rep=2: 0.988s
+decode gemma-4-e2b n=512 rep=2: 10.632s
+decode gemma-4-e2b n=16 rep=3: 0.967s
+decode gemma-4-e2b n=512 rep=3: 10.553s
+decode gemma-4-e2b n=16 rep=4: 0.913s
+decode gemma-4-e2b n=512 rep=4: 10.552s
+load gemma-4-e2b c=1 rep=0: 256 tok in 5.67s
+load gemma-4-e2b c=1 rep=1: 256 tok in 5.70s
+load gemma-4-e2b c=4 rep=0: 1024 tok in 5.97s
+load gemma-4-e2b c=4 rep=1: 1024 tok in 5.95s
+load gemma-4-e2b c=16 rep=0: 4096 tok in 6.51s
+load gemma-4-e2b c=16 rep=1: 4096 tok in 6.60s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-25-qat-vs-bf16/rerun-bf16/measure-gemma-4-e2b.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "9.75",
+    "load_seconds": "82.751806",
+    "kv_cache_tokens": "723,484",
+    "max_concurrency_at_max_len": "88.32",
+    "quantization": "None"
+  },
+  "decode_tokens_per_second": 51.5,
+  "per_call_fixed_cost_seconds": 0.656,
+  "load_tokens_per_second": {
+    "1": 45.05,
+    "4": 171.75,
+    "16": 625.15
+  },
+  "server_peak": {
+    "lines": 12,
+    "peak_tokens_per_second": 409.6
+  },
+  "quality": "37/40"
+}

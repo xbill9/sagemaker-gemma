@@ -1,0 +1,15 @@
+# Pin the lint rule set so `make lint` is stable across ruff releases.
+target-version = "py311"
+line-length = 110
+
+[lint]
+select = [
+    "E4",   # imports (incl. E402 — tests/ deliberately imports after sys.path setup)
+    "E7",
+    "E9",
+    "F",    # pyflakes
+    "I",    # import order
+    "UP",   # pyupgrade
+    "B",    # bugbear
+    "RUF",
+]
