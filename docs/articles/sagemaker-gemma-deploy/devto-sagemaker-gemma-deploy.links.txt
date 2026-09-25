@@ -1,5 +1,5 @@
 devto-aws = https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
 companion = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
 repo = https://github.com/xbill9/sagemaker-gemma
-# builder = add once the Builder Center article is published
+builder = https://builder.aws.com/content/3JpyKyp6D1g16eYgEiB1xwa7CyT/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server
 linkedin = https://www.linkedin.com/feed/update/urn:li:share:7509373263823675392/
