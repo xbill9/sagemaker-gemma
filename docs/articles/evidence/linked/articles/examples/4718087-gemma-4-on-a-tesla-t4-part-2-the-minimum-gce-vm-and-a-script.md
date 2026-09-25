@@ -1,0 +1,1 @@
+../../../../examples/4718087-gemma-4-on-a-tesla-t4-part-2-the-minimum-gce-vm-and-a-script.md
