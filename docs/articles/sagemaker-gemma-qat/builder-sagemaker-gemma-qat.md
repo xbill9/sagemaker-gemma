@@ -59,7 +59,7 @@ With one L4 per region to work with, the two checkpoints ran one after the other
 
 #### Where Do I Start?
 
-The deployment itself, from quota check to teardown with the aws CLI and the MCP server, is the first article in this pair: https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md
+The deployment itself, from quota check to teardown with the aws CLI and the MCP server, is the first article in this pair: https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
 
 This article starts from a working endpoint and changes one thing: the checkpoint.
 
@@ -337,7 +337,7 @@ The strategy for using MCP for SageMaker deployment and benchmarking was validat
 #### References
 
 - Repository: https://github.com/xbill9/sagemaker-gemma
-- Part one, deploying Gemma 4 to SageMaker: https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md
+- Part one, deploying Gemma 4 to SageMaker: https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
 - Gemma 4 E2B QAT w4a16: https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct
 - Gemma 4 E2B: https://huggingface.co/google/gemma-4-E2B-it
 - Gemma 4 on a Tesla T4, QAT vs bf16: https://dev.to/gde/gemma-4-on-a-tesla-t4-qat-weights-decode-179x-faster-than-bf16-2fi4
