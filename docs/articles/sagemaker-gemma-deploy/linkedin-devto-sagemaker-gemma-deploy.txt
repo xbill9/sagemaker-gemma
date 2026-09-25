@@ -1,0 +1,14 @@
+Gemma 4 on an Amazon SageMaker Endpoint: AWS CLI, NVIDIA L4, and an MCP Server
+
+Step by step deployment of Gemma 4 E2B to a SageMaker real-time endpoint on one NVIDIA L4 with the AWS vLLM container, driven by the aws CLI and managed by a Python MCP server from Claude Code or Gemini CLI.
+
+What is in it:
+
+- 🟢 Eight CLI steps take an account from quota check to a serving endpoint and back to nothing
+- 🟢 The endpoint reached InService 9.9 minutes after create-endpoint, with the weights using 9.75 GiB of the L4's 24 GB
+- 🟢 The MCP server runs every step from Claude Code, marks each tool read-only, write or destructive, and passes its tests offline
+- 🟢 InstancePools gives one endpoint config several fallback instance types
+
+dev.to (AWS Community Builders): https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
+Companion article: https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
+Source: https://github.com/xbill9/sagemaker-gemma

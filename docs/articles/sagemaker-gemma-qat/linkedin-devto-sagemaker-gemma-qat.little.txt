@@ -1,0 +1,14 @@
+Gemma 4 on Amazon SageMaker: QAT Weights Decode 2.05x Faster Than bf16 on One L4
+
+A short background on SageMaker real-time endpoints, then a measured comparison of Gemma 4 E2B's QAT w4a16 checkpoint against the full-size bf16 release on the same NVIDIA L4 endpoint: decode speed, parallel throughput, answers and cost.
+
+What is in it:
+
+- 🟢 QAT decodes at 105.1 tok/s against bf16's 51.3, 2.05x
+- 🟢 At 16 requests at once QAT serves 1077.25 tok/s against 619.1, 1.74x
+- 🟢 Both score 37 of 40 on checked questions, with 35 identical answers
+- 🟢 A second bf16 deployment after QAT reproduced the first within 1.21%
+
+dev.to \(AWS Community Builders\): https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
+Companion article: https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
+Source: https://github.com/xbill9/sagemaker-gemma
