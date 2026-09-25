@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Gemma 4 on an Amazon SageMaker Endpoint: AWS CLI, NVIDIA L4, and an MCP Server</title>
+  <meta name="description" content="Step by step deployment of Gemma 4 E2B to a SageMaker real-time endpoint on one NVIDIA L4 with the AWS vLLM container, driven by the aws CLI and managed by a Python MCP server from Claude Code or Gemini CLI." />
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+    body{font-family:-apple-system,'Segoe UI',Roboto,'Liberation Sans',Arial,sans-serif;
+         font-size:18px;line-height:1.58;max-width:42em;color:#242424;}
+    h1,h2,h3,h4{font-weight:700;line-height:1.25;margin-top:1.8em;}
+    h4{font-size:1.25em;}
+    img{max-width:100%;height:auto;display:block;margin:1.6em 0;}
+    pre{background:#f7f7f7;border:1px solid #e6e6e6;border-radius:4px;
+        padding:12px 14px;overflow-x:auto;font-size:14px;line-height:1.45;}
+    code{font-family:'Liberation Mono',Menlo,Consolas,monospace;}
+    :not(pre)>code{background:#f2f2f2;padding:1px 5px;border-radius:3px;font-size:.9em;}
+    blockquote{border-left:3px solid #ddd;margin-left:0;padding-left:1em;color:#555;}
+    hr{border:0;border-top:1px solid #e6e6e6;margin:2.4em 0;}
+  </style>
+</head>
+<body>
+<p>This article provides a step by step deployment guide for Gemma 4 E2B
+to an Amazon SageMaker hosted GPU enabled system. A suite of Python MCP
+tools is built to simplify management of the vLLM hosted deployment with
+Claude Code.</p>
+<figure><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-deploy/medium/img/devto-cover.e07a8baa.jpg" alt="Gemma 4 on an Amazon SageMaker Endpoint: AWS CLI, NVIDIA L4, and an MCP Server" /></figure>
+<p><a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></p>
+<hr />
+<h4 id="what-is-this-project-trying-to-do">What is this project trying
+to Do?</h4>
+<p>This project serves Gemma 4 E2B from a SageMaker real-time endpoint
+on one NVIDIA L4 GPU, using the vLLM container AWS publishes for
+SageMaker. Every AWS call is a plain <code>aws</code> CLI command, so
+each step can be run by hand or by the MCP server.</p>
+<p>A SageMaker real-time endpoint is a managed HTTPS inference server.
+SageMaker places the container on a GPU instance, health-checks it,
+routes requests to it and writes its logs to CloudWatch. There is no
+instance to patch, no security group to open and no load balancer to
+build.</p>
+<hr />
+<h4 id="where-do-i-start">Where do I start?</h4>
+<p>The strategy for starting MCP development for model management is a
+incremental step by step approach.</p>
+<p>First, the basic development environment is setup with the required
+system variables and a working Claude Code configuration.</p>
+<p>Then, the Python MCP server is brought up over stdio and validated
+with Claude Code in the local environment. The deployment follows as
+eight steps, each shown as the raw <code>aws</code> command and the MCP
+tool that runs it.</p>
+<hr />
+<h4 id="at-this-point-you-should-have">At This Point You Should
+Have…</h4>
+<ul>
+<li>An AWS account and the AWS CLI v2, signed in with
+<code>aws login</code></li>
+<li>A SageMaker endpoint quota of at least 1 for a single-L4 instance
+type (<code>ml.g6.xlarge</code>, <code>ml.g6.2xlarge</code> or
+<code>ml.g6.4xlarge</code>)</li>
+<li>Python 3.11 or newer with <code>mcp</code> 2.x</li>
+<li>Claude Code or Gemini CLI installed and working</li>
+<li><code>jq</code> for reading JSON replies</li>
+</ul>
+<hr />
+<h4 id="setup-the-basic-environment">Setup the Basic Environment</h4>
+<p>Clone the repository and install the one requirement into the system
+Python:</p>
+<pre class="shell"><code>git clone https://github.com/xbill9/sagemaker-gemma
+cd sagemaker-gemma
+python3 -m pip install -r requirements.txt
+cp .env.example .env</code></pre>
+<p><code>.env</code> is gitignored. It holds the settings every tool
+reads:</p>
+<pre class="shell"><code>cat .env
+# Copy to .env (gitignored) and edit. sm.py reads it, so the MCP server, CLI and Makefile all see it.
+AWS_REGION=us-east-2
+MODEL_ID=google/gemma-4-E2B-it
+INSTANCE_TYPE=ml.g6.xlarge
+ENDPOINT_NAME=gemma-4-e2b
+ROLE_NAME=sagemaker-gemma-execution-role
+MAX_MODEL_LEN=8192
+# Leave empty to use the newest SageMaker vLLM image in the region.
+IMAGE_URI=
+# Fallback instance types, highest priority first (same GPU keeps runs comparable).
+INSTANCE_POOLS=ml.g6.xlarge,ml.g6.2xlarge,ml.g6.4xlarge</code></pre>
+<p>Gemma 4 is Apache-2.0 and ungated on Hugging Face, so no Hugging Face
+token is needed.</p>
+<hr />
+<h4 id="model-management-tool-with-mcp-stdio-transport">Model Management
+Tool with MCP Stdio Transport</h4>
+<p>The simplest MCP transport is stdio: the client launches the server
+as a local process and talks to it over stdin and stdout. In this
+project Claude Code is the MCP client. The server is one file,
+<code>server.py</code>, on the MCP Python SDK 2.x:</p>
+<pre class="python"><code>mcp = MCPServer(RIG_NAME)
+READ_ONLY = ToolAnnotations(readOnlyHint=True, idempotentHint=True)
+WRITE = ToolAnnotations(destructiveHint=False)
+DESTRUCTIVE = ToolAnnotations(destructiveHint=True)</code></pre>
+<p>Every tool carries one of the three annotations, so a client can tell
+a status check from a deploy from a delete.</p>
+<p>The tools do no AWS work themselves. They call <code>sm.py</code>,
+which runs each request as an <code>aws</code> CLI subprocess:</p>
+<pre class="python"><code>def aws(*args: str, region: str | None = REGION, parse: bool = True) -&gt; Any:
+    &quot;&quot;&quot;Run `aws &lt;args&gt; --output json` and return the parsed result.&quot;&quot;&quot;
+    cmd = [&quot;aws&quot;, *args, &quot;--output&quot;, &quot;json&quot;]</code></pre>
+<p>The CLI renews an <code>aws login</code> session on its own, so a
+server that stays up for hours keeps working credentials.
+<code>sm.py</code> also drops any <code>AWS_SESSION_TOKEN</code> the
+server inherits from its parent process, because a static token expires
+inside a long-running server and outranks the login session.</p>
+<hr />
+<h4 id="running-the-python-code">Running the Python Code</h4>
+<p>The project can be linted:</p>
+<pre class="shell"><code>make lint
+All checks passed!
+16 files already formatted</code></pre>
+<p>and tested:</p>
+<pre class="shell"><code>make test
+----------------------------------------------------------------------
+Ran 16 tests in 0.010s
+ 
+OK</code></pre>
+<p>The tests replace the <code>aws</code> subprocess with a fake, so
+they run offline with no credentials. One of them compares the
+registered tool set and annotations against a fixed list: a tool that
+failed to register, or a delete that lost its destructive flag, fails
+the suite. ✅</p>
+<hr />
+<h4 id="test-the-protocol-by-hand">Test the Protocol by Hand</h4>
+<p>A client speaks JSON-RPC over stdio. Hold stdin open with
+<code>sleep</code>, or the server sees end-of-input and exits before it
+answers:</p>
+<pre class="shell"><code>{ printf &#39;%s\n&#39; \
+  &#39;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;initialize&quot;,&quot;params&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;capabilities&quot;:{},&quot;clientInfo&quot;:{&quot;name&quot;:&quot;probe&quot;,&quot;version&quot;:&quot;0&quot;}}}&#39; \
+  &#39;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;method&quot;:&quot;notifications/initialized&quot;}&#39; \
+  &#39;{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/list&quot;,&quot;params&quot;:{}}&#39;; sleep 3; } \
+  | python3 server.py 2&gt;/dev/null</code></pre>
+<p>Summarised:</p>
+<pre class="plaintext"><code>1 sagemaker-gemma
+2 [&#39;check_quotas&#39;, &#39;delete_endpoint&#39;, &#39;deploy_endpoint&#39;, &#39;find_vllm_image&#39;, &#39;get_deployment_config&#39;, &#39;get_endpoint_logs&#39;, &#39;get_endpoint_status&#39;, &#39;get_help&#39;, &#39;list_endpoints&#39;, &#39;query_model&#39;, &#39;verify_model_health&#39;]</code></pre>
+<p>🟢 The server answers the handshake and lists 11 tools.</p>
+<hr />
+<h4 id="claude-code-mcpjson">Claude Code .mcp.json</h4>
+<p>Claude Code reads <code>.mcp.json</code> in the project directory and
+launches the server with the system <code>python3</code>:</p>
+<pre class="json"><code>{
+  &quot;mcpServers&quot;: {
+    &quot;sagemaker-gemma&quot;: {
+      &quot;command&quot;: &quot;python3&quot;,
+      &quot;args&quot;: [&quot;/home/xbill/sagemaker-gemma/server.py&quot;]
+    }
+  }
+}</code></pre>
+<p>Gemini CLI reads the same entry from
+<code>.gemini/settings.json</code>.</p>
+<hr />
+<h4 id="validation-with-claude-code">Validation with Claude Code</h4>
+<pre class="shell"><code>claude mcp get sagemaker-gemma
+sagemaker-gemma:
+  Scope: Project config (shared via .mcp.json)
+  Status: ✔ Connected</code></pre>
+<p>From inside Claude Code, <code>get_help</code> returns the resolved
+settings and the order of work:</p>
+<pre class="markdown"><code>### sagemaker-gemma
+ 
+Serving `google/gemma-4-E2B-it` with vLLM on a **SageMaker real-time endpoint**, managed
+entirely through the aws CLI.
+ 
+| Setting | Value |
+| --- | --- |
+| Region | `us-east-2` |
+| Endpoint | `gemma-4-e2b` |
+| Instance types (priority order) | `ml.g6.xlarge`, `ml.g6.2xlarge`, `ml.g6.4xlarge` |
+| Max model length | `8192` |
+| Image | `newest SageMaker vLLM image (find_vllm_image)` |
+| Execution role | `sagemaker-gemma-execution-role` |
+ 
+**Order of work:** check_quotas → deploy_endpoint → get_endpoint_status until
+`InService` (about 10 minutes once an instance is placed) → verify_model_health
+→ query_model → delete_endpoint.</code></pre>
+<p>The steps below follow that order. Each one shows the raw CLI
+command; <code>deploy_endpoint</code> runs Steps 2 to 6 in one call.</p>
+<pre class="shell"><code>export AWS_REGION=us-east-2 AWS_PAGER=
+export NAME=gemma-4-e2b
+export MODEL_ID=google/gemma-4-E2B-it</code></pre>
+<hr />
+<h4 id="step-1--check-the-endpoint-quota">Step 1 — Check the Endpoint
+Quota</h4>
+<p>SageMaker endpoint quotas are per instance type, per region, and
+count instances.</p>
+<pre class="shell"><code>aws service-quotas list-service-quotas --service-code sagemaker \
+  --query &quot;Quotas[?QuotaName==&#39;ml.g6.xlarge for endpoint usage&#39;].Value&quot;
+[
+    1.0
+]</code></pre>
+<p>The <code>check_quotas</code> tool reads the same quota for each
+fallback type across the US regions:</p>
+<pre class="plaintext"><code>| Instance | us-east-1 | us-east-2 | us-west-1 | us-west-2 |
+| --- | ---: | ---: | ---: | ---: |
+| `ml.g6.xlarge` | 1 | 1 | - | 1 |
+| `ml.g6.2xlarge` | 1 | 1 | - | 1 |
+| `ml.g6.4xlarge` | 1 | 1 | - | 1 |
+ 
+Regions with quota for at least one of these types: us-east-1, us-east-2, us-west-2.</code></pre>
+<p>A <code>-</code> means the type is not offered in that region. A
+<code>0</code> means a quota increase request first.</p>
+<hr />
+<h4 id="mag_right-tip-one-quota-call-per-region">🔎 Tip: One Quota Call
+per Region</h4>
+<p><code>list-service-quotas</code> pages through every SageMaker quota
+in the region, and the Service Quotas API is rate limited per account.
+Twelve calls at once, one per type per region, came back as:</p>
+<pre class="plaintext"><code>An error occurred (TooManyRequestsException) when calling the ListServiceQuotas operation (reached max retries: 2)</code></pre>
+<p><code>check_quotas</code> makes one call per region, one region at a
+time, and filters the types from that one result. <code>sm.py</code>
+also sets <code>AWS_RETRY_MODE=adaptive</code> so the CLI backs off and
+retries.</p>
+<hr />
+<h4 id="step-2--find-the-vllm-container">Step 2 — Find the vLLM
+Container</h4>
+<p>The AWS vLLM repository holds pinned release tags such as
+<code>0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1</code>, floating
+aliases such as <code>0.30-gpu-py312</code>, and <code>-soci</code>
+index tags. Older release lines receive patch rebuilds, so the most
+recent push can carry an older vLLM. Sort the pinned tags by
+version:</p>
+<pre class="shell"><code>TAG=$(aws ecr describe-images --registry-id 763104351884 --repository-name vllm \
+  --query &quot;imageDetails[].imageTags[]&quot; --output text | tr &#39;\t&#39; &#39;\n&#39; \
+  | grep -E -- &#39;^[0-9]+\.[0-9]+\.[0-9]+-.*-sagemaker-v[0-9]+\.[0-9]+$&#39; | sort -V | tail -1)
+export IMAGE=763104351884.dkr.ecr.$AWS_REGION.amazonaws.com/vllm:$TAG
+echo $IMAGE
+763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1</code></pre>
+<p>The <code>find_vllm_image</code> tool applies the same rule. The
+image runs vLLM 0.30.0.</p>
+<hr />
+<h4 id="step-3--create-the-execution-role">Step 3 — Create the Execution
+Role</h4>
+<p>SageMaker assumes this role to pull the image and write logs. It is
+created once per account.</p>
+<pre class="shell"><code>aws iam create-role --role-name sagemaker-gemma-execution-role \
+  --assume-role-policy-document &#39;{&quot;Version&quot;:&quot;2012-10-17&quot;,&quot;Statement&quot;:[{&quot;Effect&quot;:&quot;Allow&quot;,&quot;Principal&quot;:{&quot;Service&quot;:&quot;sagemaker.amazonaws.com&quot;},&quot;Action&quot;:&quot;sts:AssumeRole&quot;}]}&#39;
+aws iam attach-role-policy --role-name sagemaker-gemma-execution-role \
+  --policy-arn arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+export ROLE=$(aws iam get-role --role-name sagemaker-gemma-execution-role --query Role.Arn --output text)</code></pre>
+<p>On a second run <code>create-role</code> reports
+<code>EntityAlreadyExists</code>; <code>get-role</code> still sets
+<code>ROLE</code>. <code>deploy_endpoint</code> creates the role only
+when it is missing.</p>
+<hr />
+<h4 id="step-4--create-the-model">Step 4 — Create the Model</h4>
+<p>A SageMaker model pairs an image with its settings. The container
+turns each <code>SM_VLLM_</code> variable into the matching vLLM flag:
+<code>SM_VLLM_MAX_MODEL_LEN</code> becomes
+<code>--max-model-len</code>.</p>
+<pre class="shell"><code>aws sagemaker create-model --model-name $NAME --execution-role-arn $ROLE \
+  --primary-container &quot;{\&quot;Image\&quot;:\&quot;$IMAGE\&quot;,\&quot;Environment\&quot;:{
+    \&quot;SM_VLLM_MODEL\&quot;:\&quot;$MODEL_ID\&quot;,
+    \&quot;SM_VLLM_MAX_MODEL_LEN\&quot;:\&quot;8192\&quot;,
+    \&quot;SM_VLLM_GPU_MEMORY_UTILIZATION\&quot;:\&quot;0.9\&quot;}}&quot;
+{
+    &quot;ModelArn&quot;: &quot;arn:aws:sagemaker:us-east-2:&lt;account-id&gt;:model/gemma-4-e2b&quot;
+}</code></pre>
+<hr />
+<h4
+id="step-5--create-the-endpoint-config-with-fallback-instance-types">Step
+5 — Create the Endpoint Config With Fallback Instance Types</h4>
+<p>The endpoint config says where the model runs.
+<code>InstancePools</code> lists up to five instance types in priority
+order, and SageMaker places the first one with a free instance. All
+three types below carry one L4, so the model sees the same GPU whichever
+is placed.</p>
+<pre class="shell"><code>aws sagemaker create-endpoint-config --endpoint-config-name $NAME \
+  --production-variants &quot;[{\&quot;VariantName\&quot;:\&quot;AllTraffic\&quot;,\&quot;ModelName\&quot;:\&quot;$NAME\&quot;,
+    \&quot;InitialInstanceCount\&quot;:1,
+    \&quot;InstancePools\&quot;:[{\&quot;InstanceType\&quot;:\&quot;ml.g6.xlarge\&quot;,\&quot;Priority\&quot;:1},
+                       {\&quot;InstanceType\&quot;:\&quot;ml.g6.2xlarge\&quot;,\&quot;Priority\&quot;:2},
+                       {\&quot;InstanceType\&quot;:\&quot;ml.g6.4xlarge\&quot;,\&quot;Priority\&quot;:3}],
+    \&quot;ContainerStartupHealthCheckTimeoutInSeconds\&quot;:1800,
+    \&quot;ModelDataDownloadTimeoutInSeconds\&quot;:1800}]&quot;
+{
+    &quot;EndpointConfigArn&quot;: &quot;arn:aws:sagemaker:us-east-2:&lt;account-id&gt;:endpoint-config/gemma-4-e2b&quot;
+}</code></pre>
+<p>The two 1800-second timeouts give the container time to download the
+weights and compile before SageMaker's health check gives up.</p>
+<hr />
+<h4
+id="mag_right-tip-a-fallback-list-holds-quota-for-every-type-in-it">🔎
+Tip: A Fallback List Holds Quota for Every Type in It</h4>
+<p>With one Gemma endpoint running on <code>ml.g6.xlarge</code> from the
+three-type list above, a second endpoint asking for
+<code>ml.g6.2xlarge</code> in the same region was refused:</p>
+<pre class="plaintext"><code>ResourceLimitExceeded: The account-level service limit &#39;ml.g6.2xlarge for endpoint usage&#39; is 1 Instances, with current utilization of 1 Instances and a request delta of 1 Instances.</code></pre>
+<p>With a quota of 1 per type, a second endpoint goes in another region,
+or uses types outside the first endpoint's list.</p>
+<hr />
+<h4 id="step-6--create-the-endpoint">Step 6 — Create the Endpoint</h4>
+<pre class="shell"><code>aws sagemaker create-endpoint --endpoint-name $NAME --endpoint-config-name $NAME
+{
+    &quot;EndpointArn&quot;: &quot;arn:aws:sagemaker:us-east-2:&lt;account-id&gt;:endpoint/gemma-4-e2b&quot;
+}</code></pre>
+<p>Billing starts when an instance is placed.
+<code>aws sagemaker wait endpoint-in-service --endpoint-name $NAME</code>
+blocks until it is ready; <code>get_endpoint_status</code> reports the
+same state and the instance type that was placed:</p>
+<pre class="plaintext"><code>✅ `gemma-4-e2b` in `us-east-2`: **InService**
+- Instance: `ml.g6.xlarge`</code></pre>
+<p>The container log is in CloudWatch, and
+<code>get_endpoint_logs</code> tails it:</p>
+<pre class="shell"><code>aws logs tail /aws/sagemaker/Endpoints/$NAME --follow</code></pre>
+<p>Start-up on the L4, in minutes after
+<code>create-endpoint</code>:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-deploy/medium/img/devto-sagemaker-gemma-deploy-table-1.png"
+alt="Table: Phase, Minutes" /></p>
+<hr />
+<h4 id="mag_right-tip-a-creating-endpoint-cannot-be-deleted">🔎 Tip: A
+Creating Endpoint Cannot Be Deleted</h4>
+<p><code>create-endpoint</code> cannot be undone until the endpoint
+settles. A <code>delete-endpoint</code> sent while it is
+<code>Creating</code> is refused:</p>
+<pre class="plaintext"><code>aws: [ERROR]: An error occurred (ValidationException) when calling the DeleteEndpoint operation: Cannot update in-progress endpoint &quot;arn:aws:sagemaker:us-east-2:&lt;account-id&gt;:endpoint/gemma-4-e2b&quot;.</code></pre>
+<p>The endpoint finishes starting, bills from the moment its instance is
+placed, and can be deleted once it reaches <code>InService</code> or
+<code>Failed</code>. Check the model ID and instance types before Step
+6.</p>
+<hr />
+<h4 id="mag_right-tip-capacity-is-separate-from-quota">🔎 Tip: Capacity
+Is Separate From Quota</h4>
+<p>A quota of 1 lets you request one instance; the region still has to
+have one free. In <code>us-east-1</code>, two requests for L4 instances
+each stayed in <code>Creating</code> for about 30 minutes and then
+failed:</p>
+<pre class="plaintext"><code>Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.</code></pre>
+<p>The same request in <code>us-east-2</code> placed an instance at
+once. While SageMaker waits for capacity, no container starts and the
+CloudWatch log group never appears, which is how
+<code>get_endpoint_logs</code> tells a capacity wait from a slow model
+load. No charge accrues during the wait. When it fails, repeat Steps 4
+to 6 in another region where Step 1 shows the same quota.</p>
+<hr />
+<h4 id="step-7--cross-check-the-deployed-model">Step 7 — Cross Check the
+Deployed Model</h4>
+<p>The vLLM container accepts an OpenAI chat body on
+<code>invoke-endpoint</code>:</p>
+<pre class="shell"><code>echo &#39;{&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Why is the sky blue?&quot;}],&quot;max_tokens&quot;:256}&#39; &gt; req.json
+aws sagemaker-runtime invoke-endpoint --endpoint-name $NAME \
+  --content-type application/json --body fileb://req.json out.json
+jq -r &#39;.choices[0].message.content&#39; out.json | head -1
+jq -c &#39;{model,usage}&#39; out.json
+{
+    &quot;ContentType&quot;: &quot;application/json&quot;,
+    &quot;InvokedProductionVariant&quot;: &quot;AllTraffic&quot;
+}
+The sky is blue due to a phenomenon called **Rayleigh scattering**. This process is caused by how sunlight interacts with the Earth&#39;s atmosphere.
+{&quot;model&quot;:&quot;google/gemma-4-E2B-it&quot;,&quot;usage&quot;:{&quot;prompt_tokens&quot;:15,&quot;total_tokens&quot;:271,&quot;completion_tokens&quot;:256,&quot;prompt_tokens_details&quot;:null,&quot;completion_tokens_details&quot;:null}}</code></pre>
+<p><code>verify_model_health</code> sends one short request and checks
+for a reply:</p>
+<pre class="plaintext"><code>✅ model=`google/gemma-4-E2B-it` tokens=2 wall=0.749s reply=&#39;ok&#39;</code></pre>
+<hr />
+<h4 id="step-8--teardown">Step 8 — Teardown</h4>
+<p>The endpoint bills by the hour until it is deleted. Deleting the
+config and the model as well leaves nothing behind.
+<code>delete_endpoint</code> runs all three:</p>
+<pre class="shell"><code>aws sagemaker delete-endpoint --endpoint-name $NAME
+aws sagemaker delete-endpoint-config --endpoint-config-name $NAME
+aws sagemaker delete-model --model-name $NAME</code></pre>
+<p>Each command prints nothing and exits 0. <code>list_endpoints</code>
+confirms the account is clear:</p>
+<pre class="plaintext"><code>### 0 endpoint(s) matching `gemma`</code></pre>
+<hr />
+<h4 id="summary">Summary</h4>
+<p>The goal of this article was to deploy Gemma 4 E2B to an Amazon
+SageMaker real-time endpoint with the AWS CLI and manage it from an MCP
+server. The key to the solution was the AWS vLLM SageMaker container,
+which turns the deployment into three <code>create-</code> calls and
+makes the endpoint answer OpenAI-style chat requests. The deployment
+results were:</p>
+<ul>
+<li>🟢 Eight CLI steps take an account from quota check to a serving
+endpoint and back to nothing</li>
+<li>🟢 The endpoint reached <code>InService</code> 9.9 minutes after
+<code>create-endpoint</code>, with the weights using 9.75 GiB of the
+L4's 24 GB</li>
+<li>🟢 The MCP server runs every step from Claude Code, marks each tool
+read-only, write or destructive, and passes its tests offline</li>
+<li>🟢 <code>InstancePools</code> gives one endpoint config several
+fallback instance types</li>
+<li>⚠️ L4 capacity varied by region: <code>us-east-1</code> refused
+twice, about 30 minutes each, while <code>us-east-2</code> placed an
+instance at once</li>
+<li>⚠️ A fallback list holds quota for every type in it</li>
+</ul>
+<p>Scope: one account, <code>ml.g6.xlarge</code> with one NVIDIA L4,
+vLLM 0.30.0 from the AWS container, <code>google/gemma-4-E2B-it</code>
+at full precision, deployed in <code>us-east-2</code> on 2026-09-25.
+Start-up times are from a single deployment.</p>
+<p>The strategy for using MCP for SageMaker deployment was validated
+with an incremental step by step approach.</p>
+<hr />
+<h4 id="references">References</h4>
+<ul>
+<li>Repository: <a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></li>
+<li>Gemma 4 E2B on Hugging Face: <a
+href="https://huggingface.co/google/gemma-4-E2B-it">https://huggingface.co/google/gemma-4-E2B-it</a></li>
+<li>AWS Deep Learning Containers: <a
+href="https://github.com/aws/deep-learning-containers">https://github.com/aws/deep-learning-containers</a></li>
+<li>SageMaker real-time inference: <a
+href="https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html">https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html</a></li>
+<li>CreateEndpointConfig API: <a
+href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html">https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html</a></li>
+<li>MCP Python SDK: <a
+href="https://github.com/modelcontextprotocol/python-sdk">https://github.com/modelcontextprotocol/python-sdk</a></li>
+<li>vLLM: <a href="https://docs.vllm.ai/">https://docs.vllm.ai/</a></li>
+</ul>
+</body>
+</html>

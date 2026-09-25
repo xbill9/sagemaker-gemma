@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Gemma 4 on Amazon SageMaker: QAT Weights Decode 2.05x Faster Than bf16 on One L4</title>
+  <meta name="description" content="A short background on SageMaker real-time endpoints, then a measured comparison of Gemma 4 E2B&#x27;s QAT w4a16 checkpoint against the full-size bf16 release on the same NVIDIA L4 endpoint: decode speed, parallel throughput, answers and cost." />
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+    body{font-family:-apple-system,'Segoe UI',Roboto,'Liberation Sans',Arial,sans-serif;
+         font-size:18px;line-height:1.58;max-width:42em;color:#242424;}
+    h1,h2,h3,h4{font-weight:700;line-height:1.25;margin-top:1.8em;}
+    h4{font-size:1.25em;}
+    img{max-width:100%;height:auto;display:block;margin:1.6em 0;}
+    pre{background:#f7f7f7;border:1px solid #e6e6e6;border-radius:4px;
+        padding:12px 14px;overflow-x:auto;font-size:14px;line-height:1.45;}
+    code{font-family:'Liberation Mono',Menlo,Consolas,monospace;}
+    :not(pre)>code{background:#f2f2f2;padding:1px 5px;border-radius:3px;font-size:.9em;}
+    blockquote{border-left:3px solid #ddd;margin-left:0;padding-left:1em;color:#555;}
+    hr{border:0;border-top:1px solid #e6e6e6;margin:2.4em 0;}
+  </style>
+</head>
+<body>
+<p>This article gives a short background on Amazon SageMaker real-time
+endpoints, then measures Gemma 4 E2B's quantization-aware trained (QAT)
+checkpoint against the full-size bf16 release on the same NVIDIA L4
+endpoint. A suite of Python MCP tools is built to simplify management of
+the vLLM hosted deployment.</p>
+<figure><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-cover.88bbac1a.jpg" alt="Gemma 4 on Amazon SageMaker: QAT Weights Decode 2.05x Faster Than bf16 on One L4" /></figure>
+<p><a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-1.png"
+alt="Table: Models, Hardware, Region, Software" /></p>
+<hr />
+<h4 id="sagemaker-hosting-in-five-minutes">SageMaker Hosting in Five
+Minutes</h4>
+<p>SageMaker real-time inference is three objects, created in order:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-2.png"
+alt="Table: Object, What it holds" /></p>
+<p>Requests go through
+<code>aws sagemaker-runtime invoke-endpoint</code>, signed with your AWS
+credentials. SageMaker health-checks the container, routes traffic to it
+and writes its log to CloudWatch under
+<code>/aws/sagemaker/Endpoints/&lt;name&gt;</code>.</p>
+<p>The container here is the vLLM build AWS publishes for SageMaker. It
+reads vLLM settings from <code>SM_VLLM_</code> environment variables,
+downloads the model from Hugging Face at start-up, and accepts
+OpenAI-style chat bodies. Switching checkpoints is one variable:
+<code>SM_VLLM_MODEL</code>.</p>
+<p>SageMaker JumpStart also lists Gemma 4 as ready-made packages:</p>
+<pre class="shell"><code>aws sagemaker list-hub-contents --hub-name SageMakerPublicHub --hub-content-type Model \
+  --query &quot;HubContentSummaries[].HubContentName&quot; --output text | tr &#39;\t&#39; &#39;\n&#39; | grep gemma-4
+huggingface-llm-gemma-4-31b-it-nvfp4
+huggingface-vlm-gemma-4-12b-it
+huggingface-vlm-gemma-4-26b-a4b-it
+huggingface-vlm-gemma-4-31b-it
+huggingface-vlm-gemma-4-31b-it-fp8-block
+huggingface-vlm-gemma-4-e2b-instruct
+huggingface-vlm-gemma-4-e4b-it</code></pre>
+<p>None of the seven is a Google QAT checkpoint, so this comparison uses
+the vLLM container with a Hugging Face model ID.</p>
+<p>Three account limits shape every deployment:</p>
+<ul>
+<li><strong>Quota</strong> is per instance type, per region, counted in
+instances. This account holds 1 for each single-L4 type in
+<code>us-east-1</code>, <code>us-east-2</code> and
+<code>us-west-2</code>.</li>
+<li><strong>Capacity</strong> is separate. <code>us-east-1</code> and
+<code>us-west-2</code> each left an L4 request in <code>Creating</code>
+for about 30 minutes and then returned
+<code>InsufficientInstanceCapacity</code>. <code>us-east-2</code> placed
+one within minutes every time it was asked.</li>
+<li><strong>A fallback list</strong> (<code>InstancePools</code> in the
+endpoint config) holds quota for every type in it, so two endpoints
+cannot share one region's single-L4 quota.</li>
+</ul>
+<p>With one L4 per region to work with, the two checkpoints ran one
+after the other on the same instance type in the same region.</p>
+<hr />
+<h4 id="where-do-i-start">Where Do I Start?</h4>
+<p>The deployment itself, from quota check to teardown with the aws CLI
+and the MCP server, is the first article in this pair: <a
+href="https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md">https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md</a></p>
+<p>This article starts from a working endpoint and changes one thing:
+the checkpoint.</p>
+<hr />
+<h4 id="at-this-point-you-should-have">At This Point You Should
+Have…</h4>
+<ul>
+<li>The repository above, with <code>aws login</code> done and
+<code>mcp</code> 2.x installed</li>
+<li>A SageMaker quota of at least 1 for <code>ml.g6.xlarge</code> in a
+region with L4 capacity</li>
+<li>The full-size endpoint from the first article deployed as
+<code>gemma-4-e2b</code></li>
+</ul>
+<hr />
+<h4 id="what-qat-changes">What QAT Changes</h4>
+<p>Google trains the QAT checkpoint with 4-bit weights in the loop, then
+exports it in the <code>compressed-tensors</code> format vLLM reads
+natively. The <code>-w4a16-ct</code> suffix means 4-bit weights, 16-bit
+activations. Google publishes the same model in four QAT forms; only
+this one loads in vLLM:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-3.png"
+alt="Table: Checkpoint, vLLM" /></p>
+<p>Deploying it is the first article's Steps 4 to 6 with two variables
+changed:</p>
+<pre class="shell"><code>export NAME=gemma-4-e2b-qat
+export MODEL_ID=google/gemma-4-E2B-it-qat-w4a16-ct</code></pre>
+<p>vLLM names the format when it starts:</p>
+<pre class="plaintext"><code>quantization=compressed-tensors</code></pre>
+<hr />
+<h4 id="what-the-engine-allocates">What the Engine Allocates</h4>
+<p>The container log records the weights, the load time and the KV cache
+vLLM builds from what is left of the L4's memory:</p>
+<pre class="plaintext"><code>Model loading took 9.75 GiB memory and 82.751806 seconds
+GPU KV cache size: 723,484 tokens, Maximum concurrency for 8,192 tokens per request: 88.32x
+Model loading took 8.01 GiB memory and 66.190265 seconds
+GPU KV cache size: 867,999 tokens, Maximum concurrency for 8,192 tokens per request: 105.96x</code></pre>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-4.png"
+alt="Table: bf16, QAT, QAT / bf16" /></p>
+<p>The 4-bit weights save 18% of GPU memory. The checkpoint's own header
+shows why: only the transformer body is 4-bit.</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-5.png"
+alt="Table: Part of the QAT file, GB, Share, Stored as" /></p>
+<p>The memory the smaller weights free goes to the KV cache.</p>
+<hr />
+<h4 id="how-the-measurement-works">How the Measurement Works</h4>
+<p><code>compare.py</code> runs the same three measurements against each
+endpoint, at temperature 0, through the same
+<code>aws sagemaker-runtime invoke-endpoint</code> call:</p>
+<ol type="1">
+<li><strong>Decode.</strong> Fixed-length replies of 16 and 512 tokens
+(<code>ignore_eos</code>), five of each. The decode rate is (512 − 16) /
+(median time at 512 − median time at 16), which cancels the aws CLI
+start-up and the network round trip.</li>
+<li><strong>Parallel requests.</strong> 1, 4 and 16 requests at once,
+256 tokens each, two batches per level. Throughput is total output
+tokens divided by the batch's wall time.</li>
+<li><strong>Answers.</strong> 40 fixed questions with exact answers: 15
+two-digit multiplications, 15 three-number sums, 10 capitals. Scored by
+regular expression.</li>
+</ol>
+<pre class="shell"><code>python3 compare.py measure docs/runs/2026-09-25-qat-vs-bf16 gemma-4-e2b-qat@us-east-2
+wrote docs/runs/2026-09-25-qat-vs-bf16/measure-gemma-4-e2b-qat.json
+{
+  &quot;decode_tokens_per_second&quot;: 105.1,
+  &quot;per_call_fixed_cost_seconds&quot;: 0.562,
+  &quot;load_tokens_per_second&quot;: {
+    &quot;1&quot;: 85.35,
+    &quot;4&quot;: 328.7,
+    &quot;16&quot;: 1077.25
+  },
+  &quot;quality&quot;: &quot;37/40&quot;
+}</code></pre>
+<p><code>combine</code> computes every ratio from the two result
+files:</p>
+<pre class="shell"><code>python3 compare.py combine compare.json measure-gemma-4-e2b.json measure-gemma-4-e2b-qat.json
+                               gemma-4-e2b     gemma-4-e2b-qat  ratio
+weights_gib                           9.75                8.01  0.82
+kv_cache_tokens                     723484              867999  1.2
+load_seconds                     82.751806           66.190265  
+decode_tokens_per_second              51.3               105.1  2.05
+load_c1_tokens_per_second             45.6               85.35  1.87
+load_c4_tokens_per_second            171.6               328.7  1.92
+load_c16_tokens_per_second           619.1             1077.25  1.74
+quality_correct                         37                  37  
+identical answers: 35/40</code></pre>
+<hr />
+<h4 id="decode-speed">Decode Speed</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-6.png"
+alt="Table: bf16, QAT" /></p>
+<p><strong>QAT decodes 2.05x faster.</strong> The slowest QAT reply
+finished in about half the time of the fastest bf16 one, so the gap is
+far larger than the spread between repeats.</p>
+<p>Each decode step reads every transformer layer's weights from GPU
+memory, so decode speed follows how many bytes those layers take. Those
+are the layers the QAT export stores at 4 bits. The embeddings are
+looked up one row per token, so their 16-bit size costs memory and
+little time.</p>
+<hr />
+<h4 id="parallel-requests">Parallel Requests</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-7.png"
+alt="Table: Requests at once, bf16 tok/s, QAT tok/s, QAT / bf16" /></p>
+<p>QAT leads at every level. The ratio narrows at 16, where a batch
+shares each weight read across more requests and the per-token saving
+counts for less. The single-request figures sit below the decode rate
+because each call also pays the aws CLI start-up.</p>
+<hr />
+<h4 id="does-it-still-answer-correctly">Does It Still Answer
+Correctly?</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-8.png"
+alt="Table: Questions, bf16, QAT" /></p>
+<p>35 of the 40 answers are identical character for character. The other
+five are all sums, and each model misses three of them:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-9.png"
+alt="Table: Question, Expected, bf16, QAT" /></p>
+<p>The two models make the same number of mistakes on different
+questions. Forty questions are enough to show a large loss and too few
+to measure a small one.</p>
+<hr />
+<h4 id="re-measured-in-a-b-a-order">Re-Measured in A-B-A Order</h4>
+<p>Each endpoint runs on its own physical instance, and the two ran 15
+minutes apart. To check that the gap belongs to the checkpoint, the bf16
+endpoint was deployed a second time after QAT and measured again:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-10.png"
+alt="Table: Run, Start (UTC), Decode tok/s, 16 at once tok/s, Correct" /></p>
+<p>The two bf16 runs agree within 1.21% on every speed figure and give
+identical answers to all 40 questions. The second bf16 instance loaded
+its weights in 82.09 s against 82.75 s the first time.</p>
+<hr />
+<h4 id="compare-to-other-deployments">Compare to Other Deployments</h4>
+<p>The same bf16 model on the same GPU has been measured on two other
+platforms in this series, with <code>vllm bench serve</code> at 128
+output tokens:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-11.png"
+alt="Table: Platform, 1 request tok/s" /></p>
+<p>The three sit within 9% of each other. SageMaker's figure includes
+the aws CLI start-up in every call; its decode rate with that removed is
+51.3.</p>
+<p>On a Tesla T4, QAT decoded 1.79x faster than bf16 for the same model.
+On the L4 the ratio is 2.05x.</p>
+<p>The methods differ: the other runs used <code>vllm bench serve</code>
+with random prompts, other vLLM versions and their own hosts. Read the
+rows as a shape.</p>
+<hr />
+<h4 id="and-priceperformance">And Price/Performance?</h4>
+<p><code>ml.g6.xlarge</code> in <code>us-east-2</code> is $1.1267 an
+hour on demand:</p>
+<pre class="shell"><code>aws pricing get-products --region us-east-1 --service-code AmazonSageMaker \
+  --filters Type=TERM_MATCH,Field=instanceName,Value=ml.g6.xlarge Type=TERM_MATCH,Field=regionCode,Value=us-east-2
+ml.g6.xlarge USE2-Host:ml.g6.xlarge 1.1267000000 Hrs | $1.1267 per Hosting ml.g6.xlarge hour in US East (Ohio)</code></pre>
+<p>The same hourly price buys twice the tokens. Per million output
+tokens (arithmetic):</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-12.png"
+alt="Table: Requests at once, bf16 $/M, QAT $/M" /></p>
+<p>The endpoint bills while it exists, busy or idle, so these figures
+hold only while it is kept busy.</p>
+<hr />
+<h4 id="so-which-one">So, Which One?</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-qat/medium/img/devto-sagemaker-gemma-qat-table-13.png"
+alt="Table: bf16, QAT" /></p>
+<p>On an L4 SageMaker endpoint, the QAT checkpoint is the default choice
+for Gemma 4 E2B: the same instance, one changed environment variable,
+about twice the tokens per dollar, and no measured change in answers.
+Keep bf16 as the reference when a task's accuracy needs a larger
+evaluation than 40 questions.</p>
+<hr />
+<h4 id="what-stops-the-meter">What Stops the Meter</h4>
+<p><code>delete_endpoint</code> removes the endpoint, its config and its
+model:</p>
+<pre class="plaintext"><code>🗑️ `gemma-4-e2b-qat` in `us-east-2`
+- endpoint: deleted
+- endpoint-config: deleted
+- model: deleted</code></pre>
+<p>A <code>Creating</code> endpoint refuses deletion, so a deploy runs
+until it reaches <code>InService</code> or <code>Failed</code> before it
+can be removed.</p>
+<hr />
+<h4 id="summary">Summary</h4>
+<p>The goal of this article was to measure what Gemma 4 E2B's QAT
+checkpoint changes on a SageMaker L4 endpoint. The key to the solution
+was changing only <code>SM_VLLM_MODEL</code> between two deployments on
+the same instance type, and measuring decode speed with the per-call
+client cost removed. The measured results were:</p>
+<ul>
+<li>🟢 QAT decodes at <strong>105.1 tok/s</strong> against bf16's
+<strong>51.3</strong>, 2.05x</li>
+<li>🟢 At 16 requests at once QAT serves <strong>1077.25 tok/s</strong>
+against <strong>619.1</strong>, 1.74x</li>
+<li>🟢 Both score <strong>37 of 40</strong> on checked questions, with
+35 identical answers</li>
+<li>🟢 A second bf16 deployment after QAT reproduced the first within
+1.21%</li>
+<li>⚠️ The 4-bit export saves 18% of weight memory, because the
+embeddings stay at 16-bit</li>
+<li>⚠️ Getting an L4 took three regions: <code>us-east-1</code> and
+<code>us-west-2</code> returned
+<code>InsufficientInstanceCapacity</code> after about 30 minutes
+each</li>
+</ul>
+<p>Scope: one account, SageMaker <code>ml.g6.xlarge</code> with one
+NVIDIA L4 in <code>us-east-2</code>, vLLM 0.30.0 from the AWS container,
+three deployments on 2026-09-25 each on its own instance, measured in
+bf16, QAT, bf16 order. Prompts were short; long-prompt behaviour was not
+measured. Decode used five replies per length, parallel throughput two
+batches per level, and quality 40 questions at temperature 0. Every
+request went through the aws CLI from one client machine.</p>
+<p>The strategy for using MCP for SageMaker deployment and benchmarking
+was validated with an incremental step by step approach.</p>
+<hr />
+<h4 id="references">References</h4>
+<ul>
+<li>Repository: <a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></li>
+<li>Part one, deploying Gemma 4 to SageMaker: <a
+href="https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md">https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-deploy/devto-sagemaker-gemma-deploy.md</a></li>
+<li>Gemma 4 E2B QAT w4a16: <a
+href="https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct">https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct</a></li>
+<li>Gemma 4 E2B: <a
+href="https://huggingface.co/google/gemma-4-E2B-it">https://huggingface.co/google/gemma-4-E2B-it</a></li>
+<li>Gemma 4 on a Tesla T4, QAT vs bf16: <a
+href="https://dev.to/gde/gemma-4-on-a-tesla-t4-qat-weights-decode-179x-faster-than-bf16-2fi4">https://dev.to/gde/gemma-4-on-a-tesla-t4-qat-weights-decode-179x-faster-than-bf16-2fi4</a></li>
+<li>2B Gemma 4 on Cloud Run with an NVIDIA L4: <a
+href="https://dev.to/gde/2b-gemma-4-deployment-with-cloud-run-nvidia-l4-mcp-sdk-2x-and-claude-code-4ml3">https://dev.to/gde/2b-gemma-4-deployment-with-cloud-run-nvidia-l4-mcp-sdk-2x-and-claude-code-4ml3</a></li>
+<li>SageMaker real-time inference: <a
+href="https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html">https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html</a></li>
+<li>AWS Deep Learning Containers: <a
+href="https://github.com/aws/deep-learning-containers">https://github.com/aws/deep-learning-containers</a></li>
+<li>compressed-tensors: <a
+href="https://github.com/neuralmagic/compressed-tensors">https://github.com/neuralmagic/compressed-tensors</a></li>
+</ul>
+</body>
+</html>
