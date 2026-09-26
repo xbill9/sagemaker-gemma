@@ -1,0 +1,14 @@
+This article provides a step by step deployment guide for Gemma 4 E2B to an Amazon SageMaker hosted GPU enabled system. A suite of Python MCP tools is built to simplify management of the vLLM hosted deployment with Claude Code.
+https://github.com/xbill9/sagemaker-gemma
+This project serves Gemma 4 E2B from a SageMaker real-time endpoint on one NVIDIA L4 GPU, using the vLLM container AWS publishes for SageMaker. Every AWS call is a plain aws CLI command, so each step can be run by hand or by the MCP server.
+
+Builder Center Article is here:
+https://builder.aws.com/content/3JpyKyp6D1g16eYgEiB1xwa7CyT/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server
+
+Dev.to is here:
+https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
+
+Linked In is here:
+https://www.linkedin.com/feed/update/urn:li:share:7509373263823675392/
+
+#SageMaker #Gemma4 #vLLM #MCP #L4
