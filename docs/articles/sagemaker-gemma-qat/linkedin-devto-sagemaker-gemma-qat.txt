@@ -9,6 +9,7 @@ What is in it:
 - 🟢 Both score 37 of 40 on checked questions, with 35 identical answers
 - 🟢 A second bf16 deployment after QAT reproduced the first within 1.21%
 
+dev.to (Google Developer Experts): https://dev.to/gde/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-2m9g
 dev.to (AWS Community Builders): https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
 AWS Builder Center: https://builder.aws.com/content/3JpymZFgEcOrxWZFlDVqaeQ17m8/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4
 Companion article: https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
