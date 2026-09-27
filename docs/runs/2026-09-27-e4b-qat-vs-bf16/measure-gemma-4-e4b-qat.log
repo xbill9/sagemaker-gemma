@@ -8,3 +8,72 @@ decode gemma-4-e4b-qat n=16 rep=3: 1.438s
 decode gemma-4-e4b-qat n=512 rep=3: 9.659s
 decode gemma-4-e4b-qat n=16 rep=4: 1.367s
 decode gemma-4-e4b-qat n=512 rep=4: 9.6s
+load gemma-4-e4b-qat c=1 rep=0: 256 tok in 5.48s
+load gemma-4-e4b-qat c=1 rep=1: 256 tok in 5.55s
+load gemma-4-e4b-qat c=4 rep=0: 1024 tok in 5.57s
+load gemma-4-e4b-qat c=4 rep=1: 1024 tok in 5.86s
+load gemma-4-e4b-qat c=16 rep=0: 4096 tok in 6.76s
+load gemma-4-e4b-qat c=16 rep=1: 4096 tok in 6.90s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-27-e4b-qat-vs-bf16/measure-gemma-4-e4b-qat.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "11.04",
+    "load_seconds": "91.062002",
+    "kv_cache_tokens": "200,972",
+    "max_concurrency_at_max_len": "24.53",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 60.7,
+  "per_call_fixed_cost_seconds": 1.174,
+  "load_tokens_per_second": {
+    "1": 46.45,
+    "4": 179.35,
+    "16": 599.5
+  },
+  "server_peak": {
+    "lines": 11,
+    "peak_tokens_per_second": 409.6
+  },
+  "quality": "36/40"
+}

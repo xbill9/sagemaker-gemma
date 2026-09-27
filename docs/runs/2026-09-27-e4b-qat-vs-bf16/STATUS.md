@@ -1,5 +1,8 @@
 # 2026-09-27 — Gemma 4 E4B bf16 vs QAT: run status
 
+**Run complete at 20:58:39 UTC; both endpoints deleted. Results are in NOTES.md.
+The rest of this file is the mid-run snapshot, kept as written.**
+
 Status as of 20:56 UTC. The run continues unattended; this file is not updated
 by it. `run.log` is the live record.
 

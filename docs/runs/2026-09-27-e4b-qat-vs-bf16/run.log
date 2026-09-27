@@ -18,3 +18,16 @@ attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
 attempt-1 us-east-2 20:54:35 InService
 READY attempt-1 us-east-2 (.env AWS_REGION updated)
 20:54:38 measuring gemma-4-e4b-qat@us-east-2
+measured gemma-4-e4b-qat
+20:58:39 deleted gemma-4-e4b-qat
+                               gemma-4-e4b     gemma-4-e4b-qat  ratio
+weights_gib                          15.08               11.04  0.73
+kv_cache_tokens                      94853              200972  2.12
+load_seconds                    125.628951           91.062002  
+decode_tokens_per_second              26.2                60.7  2.32
+load_c1_tokens_per_second            23.15               46.45  2.01
+load_c4_tokens_per_second             88.3              179.35  2.03
+load_c16_tokens_per_second           323.6               599.5  1.85
+quality_correct                         36                  36  
+identical answers: 37/40
+ALL DONE
