@@ -12,3 +12,9 @@ measured gemma-4-e4b
 attempt-1 us-east-2 deploy submitted
 attempt-1 us-east-2 20:43:57 Creating
 attempt-1 log: (EngineCore pid=75) INFO 09-27 20:51:30 [model_runner.py:428] Model loading took 11.04 GiB memory and 91.062002 seconds
+attempt-1 log: (EngineCore pid=75) INFO 09-27 20:53:21 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8726 without CUDA graph memo
+attempt-1 log: (EngineCore pid=75) INFO 09-27 20:53:21 [kv_cache_utils.py:2395] GPU KV cache size: 200,972 tokens, Maximum concurrency for 8,192 tokens per request: 24.53x
+attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
+attempt-1 us-east-2 20:54:35 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+20:54:38 measuring gemma-4-e4b-qat@us-east-2
