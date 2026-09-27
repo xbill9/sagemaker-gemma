@@ -1,0 +1,156 @@
+{
+  "endpoint": {
+    "name": "gemma-4-e4b",
+    "region": "us-east-2",
+    "instance_types": [
+      "ml.g6.xlarge"
+    ],
+    "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+  },
+  "started": "2026-09-27T20:38:11.988360+00:00",
+  "finished": "2026-09-27T20:43:41.530865+00:00",
+  "settings": {
+    "short": 16,
+    "long": 512,
+    "decode_repeats": 5,
+    "load_tokens": 256,
+    "concurrency": [
+      1,
+      4,
+      16
+    ],
+    "load_repeats": 2,
+    "temperature": 0.0
+  },
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "15.08",
+    "load_seconds": "125.628951",
+    "kv_cache_tokens": "94,853",
+    "max_concurrency_at_max_len": "11.58",
+    "quantization": "None"
+  },
+  "decode": {
+    "wall_16_median": 1.843,
+    "wall_512_median": 20.788,
+    "wall_512_min": 20.738,
+    "wall_512_max": 20.975,
+    "decode_tokens_per_second": 26.2,
+    "per_call_fixed_cost_seconds": 1.232,
+    "samples_per_length": 5
+  },
+  "load": {
+    "1": {
+      "aggregate_tokens_per_second_median": 23.15,
+      "batch_wall_seconds_median": 11.061,
+      "batches": [
+        {
+          "wall": 10.931,
+          "tokens": 256,
+          "tokens_per_second": 23.4
+        },
+        {
+          "wall": 11.191,
+          "tokens": 256,
+          "tokens_per_second": 22.9
+        }
+      ]
+    },
+    "4": {
+      "aggregate_tokens_per_second_median": 88.3,
+      "batch_wall_seconds_median": 11.604,
+      "batches": [
+        {
+          "wall": 11.804,
+          "tokens": 1024,
+          "tokens_per_second": 86.8
+        },
+        {
+          "wall": 11.405,
+          "tokens": 1024,
+          "tokens_per_second": 89.8
+        }
+      ]
+    },
+    "16": {
+      "aggregate_tokens_per_second_median": 323.6,
+      "batch_wall_seconds_median": 12.659,
+      "batches": [
+        {
+          "wall": 12.556,
+          "tokens": 4096,
+          "tokens_per_second": 326.2
+        },
+        {
+          "wall": 12.762,
+          "tokens": 4096,
+          "tokens_per_second": 321.0
+        }
+      ]
+    }
+  },
+  "server_throughput_during_load": {
+    "lines": 15,
+    "peak_tokens_per_second": 299.5
+  },
+  "quality": {
+    "correct": 36,
+    "total": 40,
+    "by_kind": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "answers": {
+      "mul-0": "1512",
+      "mul-1": "2079",
+      "mul-2": "5628",
+      "mul-3": "8640",
+      "mul-4": "3528",
+      "mul-5": "4588",
+      "mul-6": "1716",
+      "mul-7": "585",
+      "mul-8": "637",
+      "mul-9": "2310",
+      "mul-10": "7920",
+      "mul-11": "3920",
+      "mul-12": "6020",
+      "mul-13": "312",
+      "mul-14": "2736",
+      "add-0": "357",
+      "add-1": "652",
+      "add-2": "942",
+      "add-3": "1237",
+      "add-4": "926",
+      "add-5": "118",
+      "add-6": "726",
+      "add-7": "355",
+      "add-8": "819",
+      "add-9": "25",
+      "add-10": "597",
+      "add-11": "1271",
+      "add-12": "534",
+      "add-13": "882",
+      "add-14": "958",
+      "cap-Australia": "Canberra",
+      "cap-Canada": "Ottawa",
+      "cap-Brazil": "Bras\u00edlia",
+      "cap-Turkey": "Ankara",
+      "cap-Nigeria": "Abuja",
+      "cap-Switzerland": "Bern",
+      "cap-Pakistan": "Islamabad",
+      "cap-New Zealand": "Wellington",
+      "cap-Morocco": "Rabat",
+      "cap-Vietnam": "Hanoi"
+    }
+  }
+}
