@@ -1,0 +1,63 @@
+decode gemma-4-31b-qat n=16 rep=0: 2.258s
+decode gemma-4-31b-qat n=512 rep=0: 15.121s
+decode gemma-4-31b-qat n=16 rep=1: 0.975s
+decode gemma-4-31b-qat n=512 rep=1: 15.132s
+decode gemma-4-31b-qat n=16 rep=2: 0.981s
+decode gemma-4-31b-qat n=512 rep=2: 15.132s
+decode gemma-4-31b-qat n=16 rep=3: 0.996s
+decode gemma-4-31b-qat n=512 rep=3: 15.127s
+decode gemma-4-31b-qat n=16 rep=4: 1.079s
+decode gemma-4-31b-qat n=512 rep=4: 15.139s
+load gemma-4-31b-qat c=1 rep=0: 256 tok in 7.80s
+load gemma-4-31b-qat c=1 rep=1: 256 tok in 7.77s
+Traceback (most recent call last):
+  File "/home/xbill/sagemaker-gemma/compare.py", line 328, in <module>
+    measure(sys.argv[2], sys.argv[3:])
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xbill/sagemaker-gemma/compare.py", line 228, in measure
+    ld = load(eps)
+  File "/home/xbill/sagemaker-gemma/compare.py", line 116, in load
+    results = list(
+        pool.map(lambda _, ep=ep: invoke(ep, STORY, LOAD_TOKENS, fixed=True), range(c))
+    )
+  File "/home/xbill/.pyenv/versions/3.14.7/lib/python3.14/concurrent/futures/_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/home/xbill/.pyenv/versions/3.14.7/lib/python3.14/concurrent/futures/_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/home/xbill/.pyenv/versions/3.14.7/lib/python3.14/concurrent/futures/_base.py", line 447, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/xbill/.pyenv/versions/3.14.7/lib/python3.14/concurrent/futures/_base.py", line 396, in __get_result
+    raise self._exception
+  File "/home/xbill/.pyenv/versions/3.14.7/lib/python3.14/concurrent/futures/thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "/home/xbill/.pyenv/versions/3.14.7/lib/python3.14/concurrent/futures/thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "/home/xbill/sagemaker-gemma/compare.py", line 117, in <lambda>
+    pool.map(lambda _, ep=ep: invoke(ep, STORY, LOAD_TOKENS, fixed=True), range(c))
+                              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xbill/sagemaker-gemma/compare.py", line 70, in invoke
+    return sm.invoke(
+           ~~~~~~~~~^
+        prompt,
+        ^^^^^^^
+    ...<4 lines>...
+        extra=extra,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/xbill/sagemaker-gemma/sm.py", line 352, in invoke
+    aws(
+    ~~~^
+        "sagemaker-runtime",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+        region=region,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/xbill/sagemaker-gemma/sm.py", line 82, in aws
+    raise AwsError(err)
+sm.AwsError: aws: [ERROR]: An error occurred (429) when calling the CreateOAuth2Token operation: Rate exceeded.

@@ -13,6 +13,7 @@ API behind SageMaker's /invocations route.
 
 import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -45,6 +46,8 @@ ROLE_NAME = os.environ.get("ROLE_NAME", "sagemaker-gemma-execution-role")
 # Empty means "newest SageMaker vLLM image in the region" (see latest_vllm_image).
 IMAGE_URI = os.environ.get("IMAGE_URI", "")
 MAX_MODEL_LEN = os.environ.get("MAX_MODEL_LEN", "8192")
+# GPUs to split the model across; empty means vLLM's default (1).
+TENSOR_PARALLEL_SIZE = os.environ.get("TENSOR_PARALLEL_SIZE", "")
 # Optional comma-separated fallback list, highest priority first. SageMaker tries
 # each type in turn when one has no capacity (InsufficientInstanceCapacity).
 INSTANCE_POOLS = [t.strip() for t in os.environ.get("INSTANCE_POOLS", "").split(",") if t.strip()]
@@ -72,7 +75,18 @@ def aws(*args: str, region: str | None = REGION, parse: bool = True) -> Any:
     # CLI back off and retry instead of failing on the first throttle.
     env.setdefault("AWS_RETRY_MODE", "adaptive")
     env.setdefault("AWS_MAX_ATTEMPTS", "8")
-    proc = subprocess.run(cmd, capture_output=True, text=True, env=env, check=False)
+    # Many parallel calls can all refresh the `aws login` token at once and be
+    # throttled. That fails before the request is sent, so a retry is safe.
+    for attempt in range(6):
+        proc = subprocess.run(cmd, capture_output=True, text=True, env=env, check=False)
+        if (
+            proc.returncode == 0
+            or "CreateOAuth2Token" not in proc.stderr
+            or "Rate exceeded" not in proc.stderr
+        ):
+            break
+        print(f"aws: login token refresh throttled, retry {attempt + 1}", file=sys.stderr, flush=True)
+        time.sleep(1 + attempt + random.random())
     if proc.returncode != 0:
         err = proc.stderr.strip()
         if "aws login" in err or "expired" in err.lower() or "Unable to locate credentials" in err:
@@ -199,6 +213,7 @@ def deploy(
     instance_type: str = INSTANCE_TYPE,
     image_uri: str = IMAGE_URI,
     max_model_len: str = MAX_MODEL_LEN,
+    tensor_parallel_size: str = TENSOR_PARALLEL_SIZE,
     instance_pools: list[str] | None = None,
     region: str = REGION,
 ) -> dict:
@@ -212,6 +227,8 @@ def deploy(
         "SM_VLLM_GPU_MEMORY_UTILIZATION": "0.9",
         "SM_VLLM_SERVED_MODEL_NAME": model_id,
     }
+    if tensor_parallel_size:
+        container_env["SM_VLLM_TENSOR_PARALLEL_SIZE"] = tensor_parallel_size
     aws(
         "sagemaker",
         "create-model",

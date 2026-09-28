@@ -37,6 +37,18 @@ class SmTests(unittest.TestCase):
         self.addCleanup(patcher.stop)
         return f
 
+    def test_aws_retries_throttled_login_refresh_only(self):
+        self.enterContext(mock.patch.object(sm.time, "sleep", lambda s: None))
+        throttled = "aws: [ERROR]: An error occurred (429) when calling the CreateOAuth2Token operation: Rate exceeded."
+        replies = iter([(255, "", throttled), (255, "", throttled), ok({"x": 1})])
+        f = self.fake(lambda cmd: next(replies))
+        self.assertEqual(sm.aws("sts", "get-caller-identity"), {"x": 1})
+        self.assertEqual(len(f.calls), 3)
+        f = self.fake(lambda cmd: (255, "", "An error occurred (ValidationException)"))
+        with self.assertRaises(sm.AwsError):
+            sm.aws("sts", "get-caller-identity")
+        self.assertEqual(len(f.calls), 1)
+
     def test_aws_adds_json_output_and_region_and_drops_static_keys(self):
         self.enterContext(mock.patch.dict(os.environ, {"AWS_SESSION_TOKEN": "stale"}))
         f = self.fake(lambda cmd: ok({"Account": "123"}))
@@ -148,6 +160,14 @@ class SmTests(unittest.TestCase):
         container = json.loads(f.calls[0][0][f.calls[0][0].index("--primary-container") + 1])
         self.assertEqual(container["Environment"]["SM_VLLM_MODEL"], "google/gemma-4-E4B-it")
         self.assertEqual(out["status"], "Creating")
+        self.assertNotIn("SM_VLLM_TENSOR_PARALLEL_SIZE", container["Environment"])
+
+    def test_deploy_passes_tensor_parallel_size(self):
+        self.enterContext(mock.patch.object(sm, "ensure_role", lambda: "arn:aws:iam::1:role/r"))
+        f = self.fake(lambda cmd: ok({}))
+        sm.deploy(endpoint_name="gemma-x", image_uri="img:1", tensor_parallel_size="4")
+        container = json.loads(f.calls[0][0][f.calls[0][0].index("--primary-container") + 1])
+        self.assertEqual(container["Environment"]["SM_VLLM_TENSOR_PARALLEL_SIZE"], "4")
 
     def test_destroy_tolerates_missing_pieces(self):
         def handler(cmd):

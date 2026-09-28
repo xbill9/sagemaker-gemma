@@ -111,6 +111,8 @@ def load(eps: list[dict]) -> dict:
     for c in CONCURRENCY:
         for rep in range(LOAD_REPEATS):
             for ep in eps if rep % 2 == 0 else eps[::-1]:
+                # One call first, so the parallel calls find a fresh login token.
+                sm.aws("sts", "get-caller-identity", region=ep["region"])
                 start = time.perf_counter()
                 with ThreadPoolExecutor(max_workers=c) as pool:
                     results = list(

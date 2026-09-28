@@ -1,0 +1,52 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 14:09:21 Creating
+attempt-1 log: (EngineCore pid=84) INFO 09-28 14:17:11 [model_runner.py:428] Model loading took 15.88 GiB memory and 127.464073 seconds
+attempt-1 log: (EngineCore pid=84) INFO 09-28 14:19:13 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8878 without CUDA graph memo
+attempt-1 log: (EngineCore pid=84) INFO 09-28 14:19:13 [kv_cache_utils.py:2395] GPU KV cache size: 141,961 tokens, Maximum concurrency for 8,192 tokens per request: 17.33x
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 14:21:01 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+14:21:03 measuring gemma-4-26b-w4a16@us-east-2
+measured gemma-4-26b-w4a16
+14:23:42 deleted gemma-4-26b-w4a16
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 14:23:46 Creating
+attempt-1 log: (EngineCore pid=76) INFO 09-28 14:32:12 [model_runner.py:428] Model loading took 19.78 GiB memory and 168.018948 seconds
+attempt-1 log: (EngineCore pid=76) INFO 09-28 14:34:04 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8829 without CUDA graph memo
+attempt-1 log: (EngineCore pid=76) INFO 09-28 14:34:04 [kv_cache_utils.py:2395] GPU KV cache size: 28,846 tokens, Maximum concurrency for 8,192 tokens per request: 3.52x
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 14:35:25 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+14:35:27 measuring gemma-4-31b-qat@us-east-2
+MEASURE FAILED gemma-4-31b-qat:   File "/home/xbill/sagemaker-gemma/sm.py", line 82, in aws
+    raise AwsError(err)
+sm.AwsError: aws: [ERROR]: An error occurred (429) when calling the CreateOAuth2Token operation: Rate exceeded.
+14:37:42 deleted gemma-4-31b-qat
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 14:37:46 Creating
+attempt-1 log: (EngineCore pid=82) INFO 09-28 14:47:16 [model_runner.py:428] Model loading took 31.18 GiB memory and 235.198529 seconds
+attempt-1 log: (EngineCore pid=82) INFO 09-28 14:49:10 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8833 without CUDA graph memo
+attempt-1 log: (EngineCore pid=82) INFO 09-28 14:49:10 [kv_cache_utils.py:2395] GPU KV cache size: 21,870 tokens, Maximum concurrency for 8,192 tokens per request: 2.67x
+attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
+attempt-1 us-east-2 14:50:28 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+14:50:30 measuring gemma-4-31b-nvfp4@us-east-2
+measured gemma-4-31b-nvfp4
+14:55:59 deleted gemma-4-31b-nvfp4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 14:56:03 Creating
+attempt-1 us-east-2 15:27:04 Failed
+attempt-1 us-east-2 ended Failed: Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.
+NO CAPACITY in: us-east-2
+attempt-2 us-west-2 deploy submitted
+attempt-2 us-west-2 15:27:13 Creating
+attempt-2 us-west-2 15:58:33 Failed
+attempt-2 us-west-2 ended Failed: Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.
+NO CAPACITY in: us-west-2
+attempt-3 us-east-1 deploy submitted
+attempt-3 us-east-1 15:58:41 Creating
+attempt-3 us-east-1 16:29:38 Failed
+attempt-3 us-east-1 ended Failed: Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time.
+NO CAPACITY in: us-east-1
+NO CAPACITY for gemma-4-31b
+ALL DONE

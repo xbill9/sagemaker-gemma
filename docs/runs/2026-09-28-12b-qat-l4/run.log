@@ -1,0 +1,24 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 16:30:23 Creating
+attempt-1 log: (EngineCore pid=75) INFO 09-28 16:46:17 [model_runner.py:428] Model loading took 8.28 GiB memory and 75.250344 seconds
+attempt-1 log: (EngineCore pid=75) INFO 09-28 16:48:08 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8715 without CUDA graph memo
+attempt-1 log: (EngineCore pid=75) INFO 09-28 16:48:08 [kv_cache_utils.py:2395] GPU KV cache size: 41,651 tokens, Maximum concurrency for 8,192 tokens per request: 5.08x
+attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
+attempt-1 us-east-2 16:49:22 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+16:49:24 measuring gemma-4-12b-qat-l4@us-east-2
+measured gemma-4-12b-qat-l4
+2026-09-28T16:54:06Z cleanup us-east-2: {  "endpoint": "gemma-4-12b-qat-l4",  "results": {    "endpoint": "deleted",    "endpoint-config": "deleted",    "model": "deleted"  }}
+2026-09-28T16:54:08Z cleanup us-west-2: {  "endpoint": "gemma-4-12b-qat-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T16:54:11Z cleanup us-east-1: {  "endpoint": "gemma-4-12b-qat-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+                            gemma-4-12b-qat  gemma-4-12b-qat-l4  ratio
+weights_gib                           8.28                8.28  1.0
+kv_cache_tokens                     126058               41651  0.33
+load_seconds                     65.361075           75.250344  
+decode_tokens_per_second              77.0                29.3  0.38
+load_c1_tokens_per_second             66.2                27.0  0.41
+load_c4_tokens_per_second           253.55              105.35  0.42
+load_c16_tokens_per_second           853.4              358.05  0.42
+quality_correct                         39                  39  
+identical answers: 40/40
+ALL DONE

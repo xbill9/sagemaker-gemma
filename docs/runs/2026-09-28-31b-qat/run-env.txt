@@ -1,0 +1,5 @@
+ENDPOINT_NAME=gemma-4-31b-qat
+INSTANCE_POOLS=
+INSTANCE_TYPE=ml.g6e.xlarge
+MODEL_ID=google/gemma-4-31B-it-qat-w4a16-ct
+TENSOR_PARALLEL_SIZE=

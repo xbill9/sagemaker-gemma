@@ -1,0 +1,7 @@
+{
+  "endpoint": "gemma-4-31b",
+  "status": "Failed",
+  "created": "2026-09-28T11:27:11.862000-04:00",
+  "last_modified": "2026-09-28T11:58:08.989000-04:00",
+  "failure_reason": "Unable to provision requested ML compute capacity due to InsufficientInstanceCapacity error. Please retry using a different ML instance type or after some time. Consider configuring InstancePools in your EndpointConfig with multiple instance types for priority-based fallback to improve capacity availability."
+}

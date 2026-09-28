@@ -92,6 +92,53 @@ columns with each other, not with the L4 table above.
 One deployment of each:
 [`docs/runs/2026-09-28-12b-qat-vs-bf16/NOTES.md`](docs/runs/2026-09-28-12b-qat-vs-bf16/NOTES.md).
 
+### 26B MoE and 31B, 4-bit, on one L40S
+
+Same `ml.g6e.xlarge`, container, settings and script as 12B, us-east-2,
+2026-09-28. Neither full size fits one L40S (26B ≈ 48 GiB, 31B 62.5 GB).
+26B is [`xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct`](https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct),
+since Google publishes no `-qat-w4a16-ct` for that size. Dollars per million
+output tokens are the on-demand hosting price ($2.6054/h) divided by the
+16-parallel rate.
+
+| Measure | 26B A4B W4A16 | 31B QAT | 31B NVFP4 | 12B QAT |
+| --- | ---: | ---: | ---: | ---: |
+| Weights (GiB) | 15.88 | 19.78 | 31.18 | 8.28 |
+| KV cache (tokens) | 141,961 | 28,846 | 21,870 | 126,058 |
+| Decode, one request (tokens/s) | 164.7 | 35.1 | 22.2 | 77.0 |
+| 16 parallel (tokens/s) | 1090.45 | 441.95 | 307.65 | 853.4 |
+| Questions correct (of 40) | 40 | 40 | 40 | 39 |
+| $ per million tokens | 0.66 | 1.64 | 2.35 | 0.85 |
+
+- The 26B MoE activates about 4B parameters per token and decodes 4.7× faster
+  than the dense 31B QAT, at the lowest cost per token of any L40S run.
+- `nvidia/Gemma-4-31B-IT-NVFP4` runs on the L40S through vLLM's Marlin
+  fallback (4-bit weights, 16-bit arithmetic; FP4 hardware is Blackwell only).
+  It keeps attention in bf16, holds 1.58× QAT's weight memory, and decodes at
+  0.63× the rate. Both 31B builds give the same 40 answers.
+- 31B full size needs four GPUs; `ml.g6e.12xlarge` (4× L40S) had no capacity
+  in us-east-2, us-west-2 or us-east-1 on the day.
+
+Details: [`docs/runs/2026-09-28-31b-26b-l40s/NOTES.md`](docs/runs/2026-09-28-31b-26b-l40s/NOTES.md).
+
+### Same checkpoint, L4 against L40S
+
+12B QAT on `ml.g6.xlarge` (1× L4) against the L40S run above, 2026-09-28:
+
+| Measure | L4 | L40S | L4 / L40S |
+| --- | ---: | ---: | ---: |
+| $ per hour | 1.1267 | 2.6054 | – |
+| KV cache (tokens) | 41,651 | 126,058 | 0.33 |
+| Decode, one request (tokens/s) | 29.3 | 77.0 | 0.38 |
+| 16 parallel (tokens/s) | 358.05 | 853.4 | 0.42 |
+| $ per million tokens | 0.874 | 0.848 | 1.03 |
+
+The L40S costs 2.31× the L4 per hour and returns 2.38× the tokens at 16
+parallel, so a busy endpoint costs about the same per token on either; one
+user's reply arrives 2.6× faster on the L40S. All 40 answers are
+byte-identical across the two GPUs:
+[`docs/runs/2026-09-28-12b-qat-l4/NOTES.md`](docs/runs/2026-09-28-12b-qat-l4/NOTES.md).
+
 ## 12B, 26B MoE and 31B on TPU, full size vs QAT
 
 These sizes run on TPU v6e through vLLM's JAX path, with the int4 support
@@ -163,4 +210,5 @@ Registered as `python3 server.py` in `.mcp.json` (Claude Code) and
 | `INSTANCE_POOLS` | fallback list, e.g. `ml.g6.xlarge,ml.g6.2xlarge,ml.g6.4xlarge` |
 | `ENDPOINT_NAME` | `gemma-4-e2b` |
 | `MAX_MODEL_LEN` | `8192` |
+| `TENSOR_PARALLEL_SIZE` | empty → 1 GPU; e.g. `4` on `ml.g6e.12xlarge` |
 | `IMAGE_URI` | empty → newest SageMaker vLLM image |
