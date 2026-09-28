@@ -1,0 +1,4 @@
+ENDPOINT_NAME=gemma-4-12b
+INSTANCE_POOLS=
+INSTANCE_TYPE=ml.g6e.xlarge
+MODEL_ID=google/gemma-4-12B-it

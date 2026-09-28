@@ -1,0 +1,79 @@
+decode gemma-4-12b n=16 rep=0: 2.554s
+decode gemma-4-12b n=512 rep=0: 17.726s
+decode gemma-4-12b n=16 rep=1: 1.178s
+decode gemma-4-12b n=512 rep=1: 17.712s
+decode gemma-4-12b n=16 rep=2: 1.156s
+decode gemma-4-12b n=512 rep=2: 17.791s
+decode gemma-4-12b n=16 rep=3: 1.219s
+decode gemma-4-12b n=512 rep=3: 17.924s
+decode gemma-4-12b n=16 rep=4: 1.115s
+decode gemma-4-12b n=512 rep=4: 17.69s
+load gemma-4-12b c=1 rep=0: 256 tok in 9.09s
+load gemma-4-12b c=1 rep=1: 256 tok in 9.08s
+load gemma-4-12b c=4 rep=0: 1024 tok in 9.80s
+load gemma-4-12b c=4 rep=1: 1024 tok in 9.59s
+load gemma-4-12b c=16 rep=0: 4096 tok in 10.36s
+load gemma-4-12b c=16 rep=1: 4096 tok in 10.53s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-28-12b-qat-vs-bf16/measure-gemma-4-12b.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "22.83",
+    "load_seconds": "186.990153",
+    "kv_cache_tokens": "65,877",
+    "max_concurrency_at_max_len": "8.04",
+    "quantization": "None"
+  },
+  "decode_tokens_per_second": 30.0,
+  "per_call_fixed_cost_seconds": 0.644,
+  "load_tokens_per_second": {
+    "1": 28.2,
+    "4": 105.6,
+    "16": 392.2
+  },
+  "server_peak": {
+    "lines": 14,
+    "peak_tokens_per_second": 407.5
+  },
+  "quality": "40/40"
+}

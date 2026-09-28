@@ -1,0 +1,33 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 13:25:17 Creating
+attempt-1 log: (EngineCore pid=65) INFO 09-28 13:34:25 [model_runner.py:428] Model loading took 22.83 GiB memory and 186.990153 seconds
+attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=65) INFO 09-28 13:36:28 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8872 without CUDA graph memo
+attempt-1 log: (EngineCore pid=65) INFO 09-28 13:36:28 [kv_cache_utils.py:2395] GPU KV cache size: 65,877 tokens, Maximum concurrency for 8,192 tokens per request: 8.04x
+attempt-1 us-east-2 13:37:27 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+13:37:29 measuring gemma-4-12b@us-east-2
+measured gemma-4-12b
+13:42:06 deleted gemma-4-12b
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 13:42:10 Creating
+attempt-1 log: (EngineCore pid=76) INFO 09-28 13:49:17 [model_runner.py:428] Model loading took 8.28 GiB memory and 65.361075 seconds
+attempt-1 log: (EngineCore pid=76) INFO 09-28 13:51:23 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8867 without CUDA graph memo
+attempt-1 log: (EngineCore pid=76) INFO 09-28 13:51:23 [kv_cache_utils.py:2395] GPU KV cache size: 126,058 tokens, Maximum concurrency for 8,192 tokens per request: 15.39x
+attempt-1 us-east-2 13:52:13 InService
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+13:52:15 measuring gemma-4-12b-qat@us-east-2
+measured gemma-4-12b-qat
+13:55:18 deleted gemma-4-12b-qat
+                               gemma-4-12b     gemma-4-12b-qat  ratio
+weights_gib                          22.83                8.28  0.36
+kv_cache_tokens                      65877              126058  1.91
+load_seconds                    186.990153           65.361075  
+decode_tokens_per_second              30.0                77.0  2.57
+load_c1_tokens_per_second             28.2                66.2  2.35
+load_c4_tokens_per_second            105.6              253.55  2.4
+load_c16_tokens_per_second           392.2               853.4  2.18
+quality_correct                         40                  39  
+identical answers: 39/40
+ALL DONE
