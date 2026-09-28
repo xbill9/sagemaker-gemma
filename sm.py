@@ -229,6 +229,9 @@ def deploy(
     }
     if tensor_parallel_size:
         container_env["SM_VLLM_TENSOR_PARALLEL_SIZE"] = tensor_parallel_size
+    # Any SM_VLLM_* in our environment becomes a vLLM flag in the container and
+    # overrides the defaults above (e.g. SM_VLLM_MAX_NUM_SEQS=4).
+    container_env.update({k: v for k, v in os.environ.items() if k.startswith("SM_VLLM_")})
     aws(
         "sagemaker",
         "create-model",

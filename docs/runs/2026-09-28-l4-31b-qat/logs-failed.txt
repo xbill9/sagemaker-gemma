@@ -1,0 +1,50 @@
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/pydantic/_internal/_dataclasses.py", line 121, in __init__
+(APIServer pid=2251)     s.__pydantic_validator__.validate_python(ArgsKwargs(args, kwargs), self_instance=s)
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/config/model.py", line 656, in __post_init__
+(APIServer pid=2251)     self.runner_type = self._get_runner_type(
+(APIServer pid=2251)                        ^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/config/model.py", line 1192, in _get_runner_type
+(APIServer pid=2251)     runner_type = self._get_default_runner_type(architectures)
+(APIServer pid=2251)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/config/model.py", line 1165, in _get_default_runner_type
+(APIServer pid=2251)     if get_pooling_config(self.model, self.revision):
+(APIServer pid=2251)        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/config.py", line 911, in get_pooling_config
+(APIServer pid=2251)     if file_or_path_exists(
+(APIServer pid=2251)        ^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/repo_utils.py", line 274, in file_or_path_exists
+(APIServer pid=2251)     return file_exists(str(model), config_name, revision=revision)
+(APIServer pid=2251)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/repo_utils.py", line 248, in file_exists
+(APIServer pid=2251)     file_list = list_repo_files(
+(APIServer pid=2251)                 ^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/repo_utils.py", line 164, in list_repo_files
+(APIServer pid=2251)     return with_retry(lookup_files, "Error retrieving file list")
+(APIServer pid=2251)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/repo_utils.py", line 112, in with_retry
+(APIServer pid=2251)     return func()
+(APIServer pid=2251)            ^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/repo_utils.py", line 155, in lookup_files
+(APIServer pid=2251)     return hf_api().list_repo_files(
+(APIServer pid=2251)            ^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_validators.py", line 91, in _inner_fn
+(APIServer pid=2251)     return fn(*args, **kwargs)
+(APIServer pid=2251)            ^^^^^^^^^^^^^^^^^^^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/hf_api.py", line 3963, in list_repo_files
+(APIServer pid=2251)     return [
+(APIServer pid=2251)            ^
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/hf_api.py", line 4100, in list_repo_tree
+(APIServer pid=2251)     for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_pagination.py", line 37, in paginate
+(APIServer pid=2251)     hf_raise_for_status(r)
+(APIServer pid=2251)   File "/usr/local/lib/python3.12/dist-packages/huggingface_hub/utils/_http.py", line 957, in hf_raise_for_status
+(APIServer pid=2251)     raise _format(HfHubHTTPError, message, response) from e
+(APIServer pid=2251) huggingface_hub.errors.HfHubHTTPError: (Request ID: Root=1-6ababdf7-0d537cc52e891e814ed1fd53;4d9a4f3e-f450-4da4-b153-5e278744d622)
+(APIServer pid=2251) 
+(APIServer pid=2251) 429 Too Many Requests: you have reached your 'api' rate limit.
+(APIServer pid=2251) Retry after 17 seconds (0/500 requests remaining in current 300s window).
+(APIServer pid=2251) Url: https://huggingface.co/api/models/google/gemma-4-31B-it-qat-w4a16-ct/tree/main?recursive=true&expand=false.
+(APIServer pid=2251) We had to rate limit your IP (3.18.89.48). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using the API.
+2026-09-28 19:20:26,245 WARN exited: app (exit status 1; not expected)
+2026-09-28 19:20:27,247 INFO spawned: 'app' with pid 2265
+2026-09-28 19:20:28,248 INFO success: app entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

@@ -1,0 +1,10 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 19:59:33 Creating
+attempt-1 us-east-2 20:35:40 Failed
+attempt-1 us-east-2 ended Failed: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+NO CAPACITY in: us-east-2
+STOP: non-capacity failure: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+2026-09-28T20:35:48Z cleanup us-east-2: {  "endpoint": "gemma-4-31b-qat-l4-textonly",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T20:35:50Z cleanup us-west-2: {  "endpoint": "gemma-4-31b-qat-l4-textonly",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T20:35:53Z cleanup us-east-1: {  "endpoint": "gemma-4-31b-qat-l4-textonly",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+ALL DONE

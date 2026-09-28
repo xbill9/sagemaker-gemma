@@ -139,6 +139,35 @@ user's reply arrives 2.6× faster on the L40S. All 40 answers are
 byte-identical across the two GPUs:
 [`docs/runs/2026-09-28-12b-qat-l4/NOTES.md`](docs/runs/2026-09-28-12b-qat-l4/NOTES.md).
 
+### Every 4-bit size on one L4
+
+The E2B, E4B and 12B QAT rows above, plus the 26B A4B repack and 31B QAT on
+the same single L4, 2026-09-28. Dollars per million tokens at 16 parallel use
+each instance's on-demand hosting price.
+
+| Measure | E2B QAT | E4B QAT | 12B QAT | 26B A4B W4A16 | 31B QAT* |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Instance | `ml.g6.xlarge` | `ml.g6.xlarge` | `ml.g6.xlarge` | `ml.g6.xlarge` | `ml.g6.2xlarge` |
+| Weights (GiB) | 8.01 | 11.04 | 8.28 | 15.88 | 18.7 |
+| KV cache (tokens) | 867,999 | 200,972 | 41,651 | 14,623 | 2,555 |
+| Decode, one request (tokens/s) | 105.1 | 60.7 | 29.3 | 64.8 | 12.6 |
+| 16 parallel (tokens/s) | 1077.25 | 599.5 | 358.05 | 515.4 | 39.45 |
+| Questions correct (of 40) | 37 | 36 | 39 | 40 | 40 |
+| $ per million tokens | 0.29 | 0.52 | 0.87 | 0.61 | 8.60 |
+
+\*31B QAT does not start on an L4 with the standard settings: its 19.77 GiB
+of weights exceed vLLM's 0.9 memory cap on the L4's 21.96 GiB. It serves with
+a 0.97 cap, at most 4 requests at once, a 1,024-token context, image input
+off, and 32 GiB of host RAM (`ml.g6.2xlarge`, the same GPU). Its 16-parallel
+rate is set by the 4-request limit.
+
+- The 26B MoE gets all 40 right, decodes faster than E4B QAT and costs less
+  per token than 12B QAT, at a 14,623-token KV cache.
+- 31B QAT on the L4 decodes at 0.36× its L40S rate and costs 5.2× as much per
+  token; it fits, but the L40S is the instance for it.
+
+Details: [`docs/runs/2026-09-28-l4-26b-31b/NOTES.md`](docs/runs/2026-09-28-l4-26b-31b/NOTES.md).
+
 ## 12B, 26B MoE and 31B on TPU, full size vs QAT
 
 These sizes run on TPU v6e through vLLM's JAX path, with the int4 support
@@ -211,4 +240,5 @@ Registered as `python3 server.py` in `.mcp.json` (Claude Code) and
 | `ENDPOINT_NAME` | `gemma-4-e2b` |
 | `MAX_MODEL_LEN` | `8192` |
 | `TENSOR_PARALLEL_SIZE` | empty → 1 GPU; e.g. `4` on `ml.g6e.12xlarge` |
+| `SM_VLLM_*` | passed to the container as vLLM flags, e.g. `SM_VLLM_MAX_NUM_SEQS=4` |
 | `IMAGE_URI` | empty → newest SageMaker vLLM image |

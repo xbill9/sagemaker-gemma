@@ -1,0 +1,7 @@
+2026-09-28T19:21:07Z us-east-2 gemma-4-26b-w4a16-l4: {  "endpoint": "gemma-4-26b-w4a16-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:21:09Z us-east-2 gemma-4-31b-qat-l4: {  "endpoint": "gemma-4-31b-qat-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:21:11Z us-west-2 gemma-4-26b-w4a16-l4: {  "endpoint": "gemma-4-26b-w4a16-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:21:14Z us-west-2 gemma-4-31b-qat-l4: {  "endpoint": "gemma-4-31b-qat-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:21:17Z us-east-1 gemma-4-26b-w4a16-l4: {  "endpoint": "gemma-4-26b-w4a16-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:21:19Z us-east-1 gemma-4-31b-qat-l4: {  "endpoint": "gemma-4-31b-qat-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:21:21Z watchdog done

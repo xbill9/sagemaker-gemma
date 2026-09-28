@@ -1,0 +1,53 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 18:13:08 Creating
+attempt-1 log: (EngineCore pid=84) INFO 09-28 18:21:26 [model_runner.py:428] Model loading took 15.88 GiB memory and 142.050934 seconds
+attempt-1 log: (EngineCore pid=84) INFO 09-28 18:23:01 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8720 without CUDA graph memo
+attempt-1 log: (EngineCore pid=84) INFO 09-28 18:23:02 [kv_cache_utils.py:2395] GPU KV cache size: 14,623 tokens, Maximum concurrency for 8,192 tokens per request: 1.79x
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 18:24:24 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+18:24:26 measuring gemma-4-26b-w4a16-l4@us-east-2 max_model_len=8192
+measured gemma-4-26b-w4a16-l4
+18:27:56 deleted gemma-4-26b-w4a16-l4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 18:28:00 Creating
+attempt-1 log: (APIServer pid=14) Traceback (most recent call last):
+attempt-1 log: (EngineCore pid=76) torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.62 GiB. GPU 0 has a total capacity of 21.96 GiB of which 1.84 GiB is free. Process 12856 has 20.11 GiB memory in use. Of the allocated memory 19.77 GiB is a
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:25 [repo_utils.py:119] #015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:25 [repo_utils.py:119] 429 Too Many Requests: you have reached your 'api' rate limit.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:25 [repo_utils.py:119] Error retrieving file list: (Request ID: Root=1-6ababa75-3cd1a4782f5091557b88d116;f8d2a8e2-4b2d-4335-8591-6de54fd434f9)#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:25 [repo_utils.py:119] Retry after 15 seconds (0/500 requests remaining in current 300s window).#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:25 [repo_utils.py:119] Url: https://huggingface.co/api/models/google/gemma-4-31B-it-qat-w4a16-ct/tree/main?recursive=true&expand=false.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:25 [repo_utils.py:119] We had to rate limit your IP (3.18.89.48). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:117] #015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:117] 429 Too Many Requests: you have reached your 'api' rate limit.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:117] Error retrieving file list: (Request ID: Root=1-6ababa77-22f2f593085cdedb5279234f;e5eb4975-d2c1-44d8-ada8-b382dac3943c)#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:117] Retry after 13 seconds (0/500 requests remaining in current 300s window).#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:117] Url: https://huggingface.co/api/models/google/gemma-4-31B-it-qat-w4a16-ct/tree/main?recursive=true&expand=false.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:117] We had to rate limit your IP (3.18.89.48). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:119] #015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:119] 429 Too Many Requests: you have reached your 'api' rate limit.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:119] Error retrieving file list: (Request ID: Root=1-6ababa77-534d3c5e6dd62bae7dcf57f5;26324cf1-97cc-431f-9e2f-ea2ee879aa21)#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:119] Retry after 13 seconds (0/500 requests remaining in current 300s window).#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:119] Url: https://huggingface.co/api/models/google/gemma-4-31B-it-qat-w4a16-ct/tree/main?recursive=true&expand=false.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:119] We had to rate limit your IP (3.18.89.48). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:27 [repo_utils.py:182] Error retrieving file list. Please ensure your `model_name_or_path``repo_type`, `token` and `revision` arguments are correctly set. Returning an empty list.
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:117] #015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:117] 429 Too Many Requests: you have reached your 'api' rate limit.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:117] Error retrieving file list: (Request ID: Root=1-6ababa79-76cb0adc1904f4ab69012926;eb8c9a43-ca58-41d6-9457-4ad6f835f877)#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:117] Retry after 11 seconds (0/500 requests remaining in current 300s window).#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:117] Url: https://huggingface.co/api/models/google/gemma-4-31B-it-qat-w4a16-ct/tree/main?recursive=true&expand=false.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:117] We had to rate limit your IP (3.18.89.48). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:119] #015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:119] 429 Too Many Requests: you have reached your 'api' rate limit.#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:119] Error retrieving file list: (Request ID: Root=1-6ababa79-19b18b1e6cffca2c78c1e194;0deeffa2-8b6e-4779-a193-7bbd4fe53cfe)#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:119] Retry after 11 seconds (0/500 requests remaining in current 300s window).#015
+attempt-1 log: (APIServer pid=1183) ERROR 09-28 19:05:29 [repo_utils.py:119] Url: https://huggingface.co/api/models/google/gemma-4-31B-it-qat-w4a16-ct/tree/main?recursive=true&expand=false.#015
+attempt-1 log: (APIServer pid=1667) Traceback (most recent call last):
+attempt-1 log: (EngineCore pid=1700) torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.62 GiB. GPU 0 has a total capacity of 21.96 GiB of which 1.84 GiB is free. Process 27895 has 20.11 GiB memory in use. Of the allocated memory 19.77 GiB is
+attempt-1 us-east-2 19:20:39 Failed
+attempt-1 us-east-2 ended Failed: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+NO CAPACITY in: us-east-2
+STOP gemma-4-31b-qat-l4: non-capacity failure: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+31B QAT: does not serve on one L4 (estimated max length: none); see docs/runs/2026-09-28-l4-31b-qat/logs-failed.txt
+ALL DONE

@@ -1,0 +1,79 @@
+decode gemma-4-26b-w4a16-l4 n=16 rep=0: 2.228s
+decode gemma-4-26b-w4a16-l4 n=512 rep=0: 8.554s
+decode gemma-4-26b-w4a16-l4 n=16 rep=1: 0.828s
+decode gemma-4-26b-w4a16-l4 n=512 rep=1: 8.396s
+decode gemma-4-26b-w4a16-l4 n=16 rep=2: 0.818s
+decode gemma-4-26b-w4a16-l4 n=512 rep=2: 8.475s
+decode gemma-4-26b-w4a16-l4 n=16 rep=3: 0.822s
+decode gemma-4-26b-w4a16-l4 n=512 rep=3: 8.396s
+decode gemma-4-26b-w4a16-l4 n=16 rep=4: 0.82s
+decode gemma-4-26b-w4a16-l4 n=512 rep=4: 8.5s
+load gemma-4-26b-w4a16-l4 c=1 rep=0: 256 tok in 4.61s
+load gemma-4-26b-w4a16-l4 c=1 rep=1: 256 tok in 4.54s
+load gemma-4-26b-w4a16-l4 c=4 rep=0: 1024 tok in 5.71s
+load gemma-4-26b-w4a16-l4 c=4 rep=1: 1024 tok in 5.73s
+load gemma-4-26b-w4a16-l4 c=16 rep=0: 4096 tok in 7.84s
+load gemma-4-26b-w4a16-l4 c=16 rep=1: 4096 tok in 8.06s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-28-l4-26b-31b/measure-gemma-4-26b-w4a16-l4.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "15.88",
+    "load_seconds": "142.050934",
+    "kv_cache_tokens": "14,623",
+    "max_concurrency_at_max_len": "1.79",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 64.8,
+  "per_call_fixed_cost_seconds": 0.575,
+  "load_tokens_per_second": {
+    "1": 55.95,
+    "4": 179.1,
+    "16": 515.4
+  },
+  "server_peak": {
+    "lines": 12,
+    "peak_tokens_per_second": 334.0
+  },
+  "quality": "40/40"
+}

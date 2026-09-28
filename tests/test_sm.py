@@ -169,6 +169,19 @@ class SmTests(unittest.TestCase):
         container = json.loads(f.calls[0][0][f.calls[0][0].index("--primary-container") + 1])
         self.assertEqual(container["Environment"]["SM_VLLM_TENSOR_PARALLEL_SIZE"], "4")
 
+    def test_deploy_passes_sm_vllm_environment_through(self):
+        self.enterContext(mock.patch.object(sm, "ensure_role", lambda: "arn:aws:iam::1:role/r"))
+        self.enterContext(
+            mock.patch.dict(
+                os.environ, {"SM_VLLM_MAX_NUM_SEQS": "4", "SM_VLLM_GPU_MEMORY_UTILIZATION": "0.97"}
+            )
+        )
+        f = self.fake(lambda cmd: ok({}))
+        sm.deploy(endpoint_name="gemma-x", image_uri="img:1")
+        env = json.loads(f.calls[0][0][f.calls[0][0].index("--primary-container") + 1])["Environment"]
+        self.assertEqual(env["SM_VLLM_MAX_NUM_SEQS"], "4")
+        self.assertEqual(env["SM_VLLM_GPU_MEMORY_UTILIZATION"], "0.97")
+
     def test_destroy_tolerates_missing_pieces(self):
         def handler(cmd):
             if cmd[2] == "delete-endpoint":

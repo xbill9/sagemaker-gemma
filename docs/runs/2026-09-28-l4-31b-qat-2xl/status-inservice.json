@@ -1,0 +1,9 @@
+{
+  "endpoint": "gemma-4-31b-qat-l4-2xl",
+  "status": "InService",
+  "created": "2026-09-28T16:36:23.253000-04:00",
+  "last_modified": "2026-09-28T16:48:43.904000-04:00",
+  "instances": 1,
+  "instance_types": null,
+  "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+}

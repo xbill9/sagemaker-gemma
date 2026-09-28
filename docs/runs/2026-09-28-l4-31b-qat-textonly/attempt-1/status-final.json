@@ -1,0 +1,7 @@
+{
+  "endpoint": "gemma-4-31b-qat-l4-textonly",
+  "status": "Failed",
+  "created": "2026-09-28T15:59:32.755000-04:00",
+  "last_modified": "2026-09-28T16:35:08.319000-04:00",
+  "failure_reason": "The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint."
+}

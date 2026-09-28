@@ -1,0 +1,17 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 19:21:34 Creating
+attempt-1 log: (APIServer pid=286) Traceback (most recent call last):
+attempt-1 log: (APIServer pid=340) Traceback (most recent call last):
+attempt-1 log: (APIServer pid=367) Traceback (most recent call last):
+attempt-1 log: (APIServer pid=475) Traceback (most recent call last):
+attempt-1 log: (APIServer pid=502) Traceback (most recent call last):
+attempt-1 log: (APIServer pid=529) Traceback (most recent call last):
+attempt-1 log: (APIServer pid=556) Traceback (most recent call last):
+attempt-1 us-east-2 19:59:10 Failed
+attempt-1 us-east-2 ended Failed: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+NO CAPACITY in: us-east-2
+STOP: non-capacity failure: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+2026-09-28T19:59:17Z cleanup us-east-2: {  "endpoint": "gemma-4-31b-qat-l4-squeezed",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:59:19Z cleanup us-west-2: {  "endpoint": "gemma-4-31b-qat-l4-squeezed",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-28T19:59:22Z cleanup us-east-1: {  "endpoint": "gemma-4-31b-qat-l4-squeezed",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+ALL DONE
