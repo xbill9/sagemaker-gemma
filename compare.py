@@ -1,6 +1,7 @@
 """Compare two Gemma endpoints (e.g. full size vs QAT) on the same measurements.
 
     python3 compare.py measure <run-dir> <name>@<region> [<name>@<region>]
+    python3 compare.py measure <run-dir> <name>@http://localhost:8000   (a vLLM server, e.g. on EC2)
     python3 compare.py combine <out.json> <measure-a.json> <measure-b.json>
 
 With two live endpoints, measure alternates between them so drift over time
@@ -13,17 +14,23 @@ statistics are computed here; a write-up quotes the JSON files.
 2. load     C parallel requests of LOAD_TOKENS each; aggregate tokens/s is
             C * LOAD_TOKENS / wall of the whole batch. Cross-checked against
             the "Avg generation throughput" lines vLLM writes to CloudWatch.
+
+An http endpoint is called directly at <url>/v1/chat/completions with the same
+request body, and its start-up facts and throughput lines are read from
+`docker logs $COMPARE_DOCKER_CONTAINER` instead of CloudWatch.
 3. quality  Fixed questions with exact answers, temperature 0, scored by regex;
             plus how often the two endpoints give byte-identical answers.
 """
 
 import json
+import os
 import random
 import re
 import statistics
 import subprocess
 import sys
 import time
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 
@@ -65,8 +72,47 @@ def questions() -> list[tuple[str, str, str]]:
     return qs
 
 
+def http_invoke(url: str, prompt: str, max_tokens: int, temperature: float, extra: dict | None) -> dict:
+    """sm.invoke's request body and return fields, sent straight to a vLLM server."""
+    body = {
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": max_tokens,
+        "temperature": temperature,
+        **(extra or {}),
+    }
+    req = urllib.request.Request(
+        f"{url.rstrip('/')}/v1/chat/completions",
+        data=json.dumps(body).encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    start = time.perf_counter()
+    with urllib.request.urlopen(req, timeout=600) as resp:
+        data = json.load(resp)
+    elapsed = time.perf_counter() - start
+    usage = data.get("usage") or {}
+    completion_tokens = usage.get("completion_tokens")
+    return {
+        "text": data["choices"][0]["message"]["content"],
+        "finish_reason": data["choices"][0].get("finish_reason"),
+        "model": data.get("model"),
+        "prompt_tokens": usage.get("prompt_tokens"),
+        "completion_tokens": completion_tokens,
+        "wall_seconds": round(elapsed, 3),
+        "tokens_per_second": round(completion_tokens / elapsed, 1) if completion_tokens and elapsed else None,
+    }
+
+
+def docker_log(container: str | None) -> str:
+    if not container:
+        return ""
+    proc = subprocess.run(["docker", "logs", container], capture_output=True, text=True, check=False)
+    return proc.stdout + proc.stderr
+
+
 def invoke(ep: dict, prompt: str, max_tokens: int, fixed: bool = False) -> dict:
     extra = {"ignore_eos": True} if fixed else None
+    if "url" in ep:
+        return http_invoke(ep["url"], prompt, max_tokens, 0.0, extra)
     return sm.invoke(
         prompt,
         max_tokens=max_tokens,
@@ -112,7 +158,8 @@ def load(eps: list[dict]) -> dict:
         for rep in range(LOAD_REPEATS):
             for ep in eps if rep % 2 == 0 else eps[::-1]:
                 # One call first, so the parallel calls find a fresh login token.
-                sm.aws("sts", "get-caller-identity", region=ep["region"])
+                if "url" not in ep:
+                    sm.aws("sts", "get-caller-identity", region=ep["region"])
                 start = time.perf_counter()
                 with ThreadPoolExecutor(max_workers=c) as pool:
                     results = list(
@@ -160,6 +207,16 @@ def quality(eps: list[dict]) -> dict:
 
 def server_throughput(ep: dict, start_ms: int, end_ms: int) -> dict:
     """Peak and per-line vLLM 'Avg generation throughput' from the endpoint's CloudWatch logs."""
+    if "url" in ep:
+        year = datetime.now(UTC).year
+        values = []
+        for line in docker_log(ep.get("container")).splitlines():
+            m = re.search(r"(\d\d-\d\d \d\d:\d\d:\d\d).*Avg generation throughput: ([\d.]+)", line)
+            if m:
+                ts = datetime.strptime(f"{year}-{m.group(1)}", "%Y-%m-%d %H:%M:%S").replace(tzinfo=UTC)
+                if start_ms <= ts.timestamp() * 1000 <= end_ms:
+                    values.append(float(m.group(2)))
+        return {"lines": len(values), "peak_tokens_per_second": max(values) if values else None}
     proc = subprocess.run(
         [
             "aws",
@@ -193,7 +250,10 @@ def server_throughput(ep: dict, start_ms: int, end_ms: int) -> dict:
 
 
 def load_facts(ep: dict) -> dict:
-    text = sm.logs(ep["name"], limit=1_000_000, region=ep["region"], since_seconds=12 * 3600)
+    if "url" in ep:
+        text = docker_log(ep.get("container"))
+    else:
+        text = sm.logs(ep["name"], limit=1_000_000, region=ep["region"], since_seconds=12 * 3600)
     patterns = {
         "vllm_version": r"version (\d+\.\d+\.\d+)",
         "weights_gib": r"Model loading took ([\d.]+) GiB",
@@ -211,7 +271,11 @@ def measure(run_dir: str, specs: list[str]) -> None:
     """Measure one or more live endpoints; writes <run-dir>/measure-<name>.json per endpoint."""
     eps = []
     for spec in specs:
-        name, region = spec.split("@")
+        name, target = spec.split("@", 1)
+        if target.startswith("http"):
+            eps.append({"name": name, "url": target, "container": os.getenv("COMPARE_DOCKER_CONTAINER")})
+            continue
+        region = target
         st = sm.status(name, region)
         if st["status"] != "InService":
             raise RuntimeError(f"{name} in {region} is {st['status']}")
