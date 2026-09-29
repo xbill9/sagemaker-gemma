@@ -1,0 +1,138 @@
+{
+  "a": {
+    "name": "gemma-4-e4b-qat",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "11.04",
+      "load_seconds": "91.062002",
+      "kv_cache_tokens": "200,972",
+      "max_concurrency_at_max_len": "24.53",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e4b-qat",
+      "region": "us-east-2",
+      "instance_types": [
+        "ml.g6.xlarge"
+      ],
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-27T20:54:40.334707+00:00"
+  },
+  "b": {
+    "name": "gemma-4-e4b-repack",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "9.79",
+      "load_seconds": "84.421690",
+      "kv_cache_tokens": "234,879",
+      "max_concurrency_at_max_len": "28.67",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e4b-repack",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T18:15:57.960912+00:00"
+  },
+  "columns": [
+    "gemma-4-e4b-qat",
+    "gemma-4-e4b-repack",
+    "gemma-4-e4b-repack / gemma-4-e4b-qat"
+  ],
+  "rows": {
+    "weights_gib": [
+      11.04,
+      9.79,
+      0.89
+    ],
+    "kv_cache_tokens": [
+      200972,
+      234879,
+      1.17
+    ],
+    "load_seconds": [
+      91.062002,
+      84.42169,
+      null
+    ],
+    "decode_tokens_per_second": [
+      60.7,
+      60.4,
+      1.0
+    ],
+    "load_c1_tokens_per_second": [
+      46.45,
+      51.05,
+      1.1
+    ],
+    "load_c4_tokens_per_second": [
+      179.35,
+      198.7,
+      1.11
+    ],
+    "load_c16_tokens_per_second": [
+      599.5,
+      666.9,
+      1.11
+    ],
+    "quality_correct": [
+      36,
+      36,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 37,
+    "total": 40
+  },
+  "disagreements": [
+    {
+      "id": "add-3",
+      "gemma-4-e4b-qat": "1207",
+      "gemma-4-e4b-repack": "1237"
+    },
+    {
+      "id": "add-9",
+      "gemma-4-e4b-qat": "25",
+      "gemma-4-e4b-repack": "205"
+    },
+    {
+      "id": "add-14",
+      "gemma-4-e4b-qat": "1058",
+      "gemma-4-e4b-repack": "958"
+    }
+  ],
+  "quality_by_kind": {
+    "gemma-4-e4b-qat": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-e4b-repack": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

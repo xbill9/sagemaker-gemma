@@ -1,0 +1,133 @@
+{
+  "a": {
+    "name": "gemma-4-e2b-qat",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "8.01",
+      "load_seconds": "66.190265",
+      "kv_cache_tokens": "867,999",
+      "max_concurrency_at_max_len": "105.96",
+      "quantization": "compressed"
+    },
+    "endpoint": {
+      "name": "gemma-4-e2b-qat",
+      "region": "us-east-2",
+      "instance_types": [
+        "ml.g6.xlarge"
+      ],
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-25T18:50:51.432226+00:00"
+  },
+  "b": {
+    "name": "gemma-4-e2b-text",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "6.33",
+      "load_seconds": "46.173320",
+      "kv_cache_tokens": "650,783",
+      "max_concurrency_at_max_len": "79.44",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e2b-text",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T18:54:03.969481+00:00"
+  },
+  "columns": [
+    "gemma-4-e2b-qat",
+    "gemma-4-e2b-text",
+    "gemma-4-e2b-text / gemma-4-e2b-qat"
+  ],
+  "rows": {
+    "weights_gib": [
+      8.01,
+      6.33,
+      0.79
+    ],
+    "kv_cache_tokens": [
+      867999,
+      650783,
+      0.75
+    ],
+    "load_seconds": [
+      66.190265,
+      46.17332,
+      null
+    ],
+    "decode_tokens_per_second": [
+      105.1,
+      103.0,
+      0.98
+    ],
+    "load_c1_tokens_per_second": [
+      85.35,
+      75.65,
+      0.89
+    ],
+    "load_c4_tokens_per_second": [
+      328.7,
+      277.05,
+      0.84
+    ],
+    "load_c16_tokens_per_second": [
+      1077.25,
+      927.0,
+      0.86
+    ],
+    "quality_correct": [
+      37,
+      36,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 38,
+    "total": 40
+  },
+  "disagreements": [
+    {
+      "id": "add-8",
+      "gemma-4-e2b-qat": "819",
+      "gemma-4-e2b-text": "829"
+    },
+    {
+      "id": "add-14",
+      "gemma-4-e2b-qat": "1010",
+      "gemma-4-e2b-text": "1018"
+    }
+  ],
+  "quality_by_kind": {
+    "gemma-4-e2b-qat": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 12,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-e2b-text": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

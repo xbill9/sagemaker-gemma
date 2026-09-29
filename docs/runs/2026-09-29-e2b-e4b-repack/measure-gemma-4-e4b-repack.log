@@ -1,0 +1,79 @@
+decode gemma-4-e4b-repack n=16 rep=0: 2.201s
+decode gemma-4-e4b-repack n=512 rep=0: 9.083s
+decode gemma-4-e4b-repack n=16 rep=1: 0.876s
+decode gemma-4-e4b-repack n=512 rep=1: 9.222s
+decode gemma-4-e4b-repack n=16 rep=2: 1.048s
+decode gemma-4-e4b-repack n=512 rep=2: 9.254s
+decode gemma-4-e4b-repack n=16 rep=3: 1.047s
+decode gemma-4-e4b-repack n=512 rep=3: 9.335s
+decode gemma-4-e4b-repack n=16 rep=4: 0.971s
+decode gemma-4-e4b-repack n=512 rep=4: 9.301s
+load gemma-4-e4b-repack c=1 rep=0: 256 tok in 5.03s
+load gemma-4-e4b-repack c=1 rep=1: 256 tok in 5.00s
+load gemma-4-e4b-repack c=4 rep=0: 1024 tok in 5.15s
+load gemma-4-e4b-repack c=4 rep=1: 1024 tok in 5.15s
+load gemma-4-e4b-repack c=16 rep=0: 4096 tok in 6.17s
+load gemma-4-e4b-repack c=16 rep=1: 4096 tok in 6.12s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-29-e2b-e4b-repack/measure-gemma-4-e4b-repack.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "9.79",
+    "load_seconds": "84.421690",
+    "kv_cache_tokens": "234,879",
+    "max_concurrency_at_max_len": "28.67",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 60.4,
+  "per_call_fixed_cost_seconds": 0.782,
+  "load_tokens_per_second": {
+    "1": 51.05,
+    "4": 198.7,
+    "16": 666.9
+  },
+  "server_peak": {
+    "lines": 12,
+    "peak_tokens_per_second": 409.6
+  },
+  "quality": "36/40"
+}

@@ -219,6 +219,35 @@ token count, top-level text sizes, and a quantization ignore list naming every
 layer kept in bf16):
 [`docs/runs/2026-09-28-12b-repack/NOTES.md`](docs/runs/2026-09-28-12b-repack/NOTES.md).
 
+### E2B and E4B repacks, and a text-only E2B
+
+The same repack at E2B and E4B, plus an E2B build with the vision and audio
+towers removed (`-ct-text`, `Gemma4ForCausalLM`), all on `ml.g6.xlarge` (L4),
+2026-09-29, against Google's `-qat-w4a16-ct` measured on the same instance.
+
+| Measure | E2B Google | E2B repack | E2B text-only | E4B Google | E4B repack |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Weights (GiB) | 8.01 | 7.26 | 6.33 | 11.04 | 9.79 |
+| KV cache (tokens) | 867,999 | 929,454 | 650,783 | 200,972 | 234,879 |
+| Decode, one request (tokens/s) | 105.1 | 107.2 | 103.0 | 60.7 | 60.4 |
+| Questions correct (of 40) | 37 | 37 | 36 | 36 | 36 |
+
+- Google's E2B and E4B builds store `lm_head.weight` although the config ties
+  it to `embed_tokens`; sampled rows are byte-identical. The repacks drop it,
+  which is exactly the 0.75 GiB (E2B) and 1.25 GiB (E4B) difference in file
+  size and GPU memory, and gives 7 % and 17 % more KV cache.
+- Decode speed and scores match Google's builds. Parallel rates are left out of
+  this table: they include each run's `aws` CLI overhead, which varied by up to
+  0.39 s per call between runs and accounts for the E4B repack's apparent 1.11×.
+- The text-only build loads 0.93 GiB less than the full repack, but on a first
+  start vLLM measured 5.13 GiB of peak activation for it (0.79 GiB for the full
+  repack), so its KV cache is smaller. Every SageMaker endpoint is a first start.
+- Both repacks needed the quantization ignore list replaced with Google's (140
+  audio-tower layers were missing); that was caught offline before any deploy.
+
+Details: [`docs/runs/2026-09-29-e2b-e4b-repack/NOTES.md`](docs/runs/2026-09-29-e2b-e4b-repack/NOTES.md),
+[`docs/runs/2026-09-29-e2b-text/NOTES.md`](docs/runs/2026-09-29-e2b-text/NOTES.md).
+
 ## 12B, 26B MoE and 31B on TPU, full size vs QAT
 
 These sizes run on TPU v6e through vLLM's JAX path, with the int4 support
