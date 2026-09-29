@@ -1,0 +1,7 @@
+2026-09-29T00:39:48Z us-east-2 gemma-4-12b-repack-l4: {  "endpoint": "gemma-4-12b-repack-l4",  "results": {    "endpoint": "deleted",    "endpoint-config": "deleted",    "model": "deleted"  }}
+2026-09-29T00:39:50Z us-east-2 gemma-4-12b-repack: {  "endpoint": "gemma-4-12b-repack",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T00:39:52Z us-west-2 gemma-4-12b-repack-l4: {  "endpoint": "gemma-4-12b-repack-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T00:39:55Z us-west-2 gemma-4-12b-repack: {  "endpoint": "gemma-4-12b-repack",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T00:39:58Z us-east-1 gemma-4-12b-repack-l4: {  "endpoint": "gemma-4-12b-repack-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T00:40:00Z us-east-1 gemma-4-12b-repack: {  "endpoint": "gemma-4-12b-repack",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+REAPED

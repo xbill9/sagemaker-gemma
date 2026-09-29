@@ -1,0 +1,79 @@
+decode gemma-4-12b-repack n=16 rep=0: 2.121s
+decode gemma-4-12b-repack n=512 rep=0: 7.16s
+decode gemma-4-12b-repack n=16 rep=1: 0.824s
+decode gemma-4-12b-repack n=512 rep=1: 7.164s
+decode gemma-4-12b-repack n=16 rep=2: 0.824s
+decode gemma-4-12b-repack n=512 rep=2: 7.126s
+decode gemma-4-12b-repack n=16 rep=3: 0.766s
+decode gemma-4-12b-repack n=512 rep=3: 7.225s
+decode gemma-4-12b-repack n=16 rep=4: 0.737s
+decode gemma-4-12b-repack n=512 rep=4: 7.145s
+load gemma-4-12b-repack c=1 rep=0: 256 tok in 3.83s
+load gemma-4-12b-repack c=1 rep=1: 256 tok in 3.82s
+load gemma-4-12b-repack c=4 rep=0: 1024 tok in 4.08s
+load gemma-4-12b-repack c=4 rep=1: 1024 tok in 4.07s
+load gemma-4-12b-repack c=16 rep=0: 4096 tok in 4.76s
+load gemma-4-12b-repack c=16 rep=1: 4096 tok in 4.76s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-28-12b-repack/measure-gemma-4-12b-repack.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "8.28",
+    "load_seconds": "52.366913",
+    "kv_cache_tokens": "126,058",
+    "max_concurrency_at_max_len": "15.39",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 78.3,
+  "per_call_fixed_cost_seconds": 0.62,
+  "load_tokens_per_second": {
+    "1": 66.9,
+    "4": 251.25,
+    "16": 860.8
+  },
+  "server_peak": {
+    "lines": 11,
+    "peak_tokens_per_second": 406.9
+  },
+  "quality": "40/40"
+}

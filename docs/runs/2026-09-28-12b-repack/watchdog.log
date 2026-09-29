@@ -1,0 +1,7 @@
+2026-09-29T01:11:03Z us-east-2 gemma-4-12b-repack-l4: {  "endpoint": "gemma-4-12b-repack-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T01:11:05Z us-east-2 gemma-4-12b-repack: {  "endpoint": "gemma-4-12b-repack",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T01:11:07Z us-west-2 gemma-4-12b-repack-l4: {  "endpoint": "gemma-4-12b-repack-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T01:11:10Z us-west-2 gemma-4-12b-repack: {  "endpoint": "gemma-4-12b-repack",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T01:11:13Z us-east-1 gemma-4-12b-repack-l4: {  "endpoint": "gemma-4-12b-repack-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T01:11:15Z us-east-1 gemma-4-12b-repack: {  "endpoint": "gemma-4-12b-repack",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T01:11:17Z watchdog done

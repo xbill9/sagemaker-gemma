@@ -1,0 +1,45 @@
+00:40:03 xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct is public
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 00:40:07 Creating
+attempt-1 log: (APIServer pid=1340) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=84) INFO 09-29 00:49:01 [model_runner.py:428] Model loading took 8.28 GiB memory and 69.634379 seconds
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=84) INFO 09-29 00:50:54 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8715 without CUDA graph memo
+attempt-1 log: (EngineCore pid=84) INFO 09-29 00:50:54 [kv_cache_utils.py:2395] GPU KV cache size: 41,651 tokens, Maximum concurrency for 8,192 tokens per request: 5.08x
+attempt-1 us-east-2 00:52:28 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+00:52:30 measuring gemma-4-12b-repack-l4@us-east-2
+measured gemma-4-12b-repack-l4
+00:57:17 deleted gemma-4-12b-repack-l4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 00:57:21 Creating
+attempt-1 log: (EngineCore pid=83) INFO 09-29 01:04:20 [model_runner.py:428] Model loading took 8.28 GiB memory and 52.366913 seconds
+attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=83) INFO 09-29 01:06:29 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8867 without CUDA graph memo
+attempt-1 log: (EngineCore pid=83) INFO 09-29 01:06:29 [kv_cache_utils.py:2395] GPU KV cache size: 126,058 tokens, Maximum concurrency for 8,192 tokens per request: 15.39x
+attempt-1 us-east-2 01:07:23 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+01:07:25 measuring gemma-4-12b-repack@us-east-2
+measured gemma-4-12b-repack
+01:10:33 deleted gemma-4-12b-repack
+                            gemma-4-12b-qat-l4  gemma-4-12b-repack-l4  ratio
+weights_gib                           8.28                8.28  1.0
+kv_cache_tokens                      41651               41651  1.0
+load_seconds                     75.250344           69.634379  
+decode_tokens_per_second              29.3                29.2  1.0
+load_c1_tokens_per_second             27.0                27.3  1.01
+load_c4_tokens_per_second           105.35               104.7  0.99
+load_c16_tokens_per_second          358.05               357.7  1.0
+quality_correct                         39                  40  
+identical answers: 39/40
+                            gemma-4-12b-qat  gemma-4-12b-repack  ratio
+weights_gib                           8.28                8.28  1.0
+kv_cache_tokens                     126058              126058  1.0
+load_seconds                     65.361075           52.366913  
+decode_tokens_per_second              77.0                78.3  1.02
+load_c1_tokens_per_second             66.2                66.9  1.01
+load_c4_tokens_per_second           253.55              251.25  0.99
+load_c16_tokens_per_second           853.4               860.8  1.01
+quality_correct                         39                  40  
+identical answers: 39/40
+ALL DONE

@@ -1,0 +1,9 @@
+{
+  "endpoint": "gemma-4-12b-repack",
+  "model_id": "xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct",
+  "instance_type": "ml.g6e.xlarge",
+  "instance_pools": null,
+  "image": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1",
+  "role": "arn:aws:iam::106059658660:role/sagemaker-gemma-execution-role",
+  "status": "Creating"
+}

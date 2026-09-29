@@ -168,6 +168,57 @@ rate is set by the 4-request limit.
 
 Details: [`docs/runs/2026-09-28-l4-26b-31b/NOTES.md`](docs/runs/2026-09-28-l4-26b-31b/NOTES.md).
 
+### Recommendation: the biggest responsive model on one L4
+
+Serve the **26B A4B W4A16 repack**
+([`xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct`](https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct))
+on `ml.g6.xlarge` ($1.1267/h) with the default settings. "512-token reply" is
+the measured median wall time of one request for 512 tokens, aws CLI call
+included.
+
+| On one L4 | 512-token reply | Decode (tokens/s) | KV cache (tokens) | Correct (of 40) | $ per million tokens |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| E2B QAT | 5.4 s | 105.1 | 867,999 | 37 | 0.29 |
+| E4B QAT | 9.6 s | 60.7 | 200,972 | 36 | 0.52 |
+| 12B QAT | 18.2 s | 29.3 | 41,651 | 39 | 0.87 |
+| **26B A4B W4A16** | **8.5 s** | **64.8** | 14,623 | **40** | 0.61 |
+| 31B QAT* | 41.2 s | 12.6 | 2,555 | 40 | 8.60 |
+
+- It is the largest model that starts on an L4 with the standard settings. Only
+  about 4B of its 26B parameters run per token, so it replies faster than E4B
+  QAT and more than twice as fast as 12B QAT, costs less per token than 12B,
+  and answered all 40 questions.
+- Its limit is the 14,623-token KV cache: 1.79 requests at the full 8,192-token
+  context. It suits short prompts and a few users at once; for long documents
+  or many concurrent users on one L4, 12B QAT holds 2.85× the cache at 0.45× the
+  speed.
+- 31B QAT starts only with the reduced settings marked above and replies
+  4.9× slower than the 26B, at 14× the cost per token.
+
+### A W4A16 repack against Google's own build: 12B
+
+The 26B repack exists because Google publishes no `-qat-w4a16-ct` for that
+size. 12B has both, so the same repack of `-qat-q4_0-unquantized`,
+[`xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct`](https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct),
+was set against `google/gemma-4-12B-it-qat-w4a16-ct` on each GPU, standard
+settings, 2026-09-29.
+
+| Measure | L4 Google | L4 repack | L40S Google | L40S repack |
+| --- | ---: | ---: | ---: | ---: |
+| Weights (GiB) | 8.28 | 8.28 | 8.28 | 8.28 |
+| KV cache (tokens) | 41,651 | 41,651 | 126,058 | 126,058 |
+| Decode, one request (tokens/s) | 29.3 | 29.2 | 77.0 | 78.3 |
+| 16 parallel (tokens/s) | 358.05 | 357.7 | 853.4 | 860.8 |
+| Questions correct (of 40) | 39 | 40 | 39 | 40 |
+
+Every rate is within 0.99–1.02× of Google's build, and memory and KV cache are
+identical. 39 of 40 answers match on both GPUs; on the 40th the repack gives
+the answer 12B gives at full size. The repack serves on vLLM 0.30.0 once its
+`config.json` carries the fields of Google's `-qat-w4a16-ct` config (vision
+token count, top-level text sizes, and a quantization ignore list naming every
+layer kept in bf16):
+[`docs/runs/2026-09-28-12b-repack/NOTES.md`](docs/runs/2026-09-28-12b-repack/NOTES.md).
+
 ## 12B, 26B MoE and 31B on TPU, full size vs QAT
 
 These sizes run on TPU v6e through vLLM's JAX path, with the int4 support
