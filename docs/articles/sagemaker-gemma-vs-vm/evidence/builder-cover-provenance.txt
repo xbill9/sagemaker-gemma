@@ -1,0 +1,3 @@
+# builder-cover.jpg: gemini-3.1-flash-lite-image, aspect 16:9, raw (1376, 768) -> 1200x675 JPEG q90
+# prompt:
+# Wide banner illustration, dark charcoal background with a faint blueprint grid. A polished isometric 3D scene centered in the frame: on the left, a glowing orange cloud-shaped managed service platform with a small server inside it; on the right, a single bare server box holding a small low-profile single-slot NVIDIA GPU card with a green edge; a bright blue light trail flows from the cloud platform to the bare server. Minimal, modern, high contrast, blue and orange accents. Absolutely no text, no letters, no numbers, no logos, no labels, no letterboxing.
