@@ -1,0 +1,46 @@
+{
+ "derivation": "USD per million output tokens = price_per_hour / (tokens_per_second_at_16_parallel * 3600) * 1e6, ml.g6.xlarge us-east-2 on demand $1.1267/h (AWS Pricing API 2026-09-29). Arithmetic, not a measurement.",
+ "price_per_hour": 1.1267,
+ "rows": {
+  "E2B text-only": {
+   "tokens_per_second_16_parallel": 927.0,
+   "usd_per_million": 0.338
+  },
+  "E2B emb4": {
+   "tokens_per_second_16_parallel": 1259.15,
+   "usd_per_million": 0.249
+  },
+  "E2B FP8": {
+   "tokens_per_second_16_parallel": 810.95,
+   "usd_per_million": 0.386
+  },
+  "E2B int8": {
+   "tokens_per_second_16_parallel": 825.05,
+   "usd_per_million": 0.379
+  },
+  "E4B text-only": {
+   "tokens_per_second_16_parallel": 447.7,
+   "usd_per_million": 0.699
+  },
+  "E4B emb4": {
+   "tokens_per_second_16_parallel": 848.95,
+   "usd_per_million": 0.369
+  },
+  "12B text-only": {
+   "tokens_per_second_16_parallel": 358.5,
+   "usd_per_million": 0.873
+  },
+  "12B emb4": {
+   "tokens_per_second_16_parallel": 411.8,
+   "usd_per_million": 0.76
+  },
+  "26B A4B text-only": {
+   "tokens_per_second_16_parallel": 441.25,
+   "usd_per_million": 0.709
+  },
+  "26B A4B emb4": {
+   "tokens_per_second_16_parallel": 596.6,
+   "usd_per_million": 0.525
+  }
+ }
+}

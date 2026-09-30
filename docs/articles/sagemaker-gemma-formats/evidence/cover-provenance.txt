@@ -1,0 +1,6 @@
+# cover provenance -- devto-cover.f2df1820.jpg
+# generated with gemini-3.1-flash-lite-image via google-genai models.generate_content, aspect 16:9
+# raw 1376x768 -> 1376x768 -> crop box (0, 95, 1376, 673) -> 1376x578 (2.381:1) -> JPEG q90
+# name = sha256(bytes)[:8]
+# prompt:
+# Wide banner illustration for a technical blog cover, dark charcoal background with a faint blueprint grid. Bold clean white sans-serif headline centered near the top: "Gemma 4: 4-Bit Embeddings". Below it, a polished isometric 3D scene in the middle of the frame: a sleek fanless single-slot NVIDIA L4 GPU card, with a tall stack of glowing blue memory blocks on its left being compressed by a bright orange light beam into a short thin stack on its right, and soft orange and blue light trails flowing into the card. Minimal, modern, high contrast, blue and orange accents, no clutter, no gauges, no numbers, no other text, no letterboxing. Keep all important content inside the central horizontal band, with generous empty margin at the top and bottom edges.
