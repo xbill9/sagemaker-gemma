@@ -1,0 +1,136 @@
+{
+  "a": {
+    "name": "gemma-4-e2b-text",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "6.33",
+      "load_seconds": "46.173320",
+      "kv_cache_tokens": "650,783",
+      "max_concurrency_at_max_len": "79.44",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e2b-text",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T18:54:03.969481+00:00"
+  },
+  "b": {
+    "name": "gemma-4-e2b-fp8-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "7.07",
+      "load_seconds": "52.741454",
+      "kv_cache_tokens": "589,433",
+      "max_concurrency_at_max_len": "71.95",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e2b-fp8-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T21:51:51.116247+00:00"
+  },
+  "columns": [
+    "gemma-4-e2b-text",
+    "gemma-4-e2b-fp8-l4",
+    "gemma-4-e2b-fp8-l4 / gemma-4-e2b-text"
+  ],
+  "rows": {
+    "weights_gib": [
+      6.33,
+      7.07,
+      1.12
+    ],
+    "kv_cache_tokens": [
+      650783,
+      589433,
+      0.91
+    ],
+    "load_seconds": [
+      46.17332,
+      52.741454,
+      null
+    ],
+    "decode_tokens_per_second": [
+      103.0,
+      73.0,
+      0.71
+    ],
+    "load_c1_tokens_per_second": [
+      75.65,
+      61.5,
+      0.81
+    ],
+    "load_c4_tokens_per_second": [
+      277.05,
+      234.65,
+      0.85
+    ],
+    "load_c16_tokens_per_second": [
+      927.0,
+      810.95,
+      0.87
+    ],
+    "quality_correct": [
+      36,
+      35,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 37,
+    "total": 40
+  },
+  "disagreements": [
+    {
+      "id": "add-0",
+      "gemma-4-e2b-text": "547",
+      "gemma-4-e2b-fp8-l4": "447"
+    },
+    {
+      "id": "add-8",
+      "gemma-4-e2b-text": "829",
+      "gemma-4-e2b-fp8-l4": "819"
+    },
+    {
+      "id": "add-10",
+      "gemma-4-e2b-text": "597",
+      "gemma-4-e2b-fp8-l4": "60"
+    }
+  ],
+  "quality_by_kind": {
+    "gemma-4-e2b-text": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-e2b-fp8-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 10,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

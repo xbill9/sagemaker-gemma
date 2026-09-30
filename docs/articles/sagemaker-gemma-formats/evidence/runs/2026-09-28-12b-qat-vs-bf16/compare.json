@@ -1,0 +1,126 @@
+{
+  "a": {
+    "name": "gemma-4-12b",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "22.83",
+      "load_seconds": "186.990153",
+      "kv_cache_tokens": "65,877",
+      "max_concurrency_at_max_len": "8.04",
+      "quantization": "None"
+    },
+    "endpoint": {
+      "name": "gemma-4-12b",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-28T13:37:29.950622+00:00"
+  },
+  "b": {
+    "name": "gemma-4-12b-qat",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "8.28",
+      "load_seconds": "65.361075",
+      "kv_cache_tokens": "126,058",
+      "max_concurrency_at_max_len": "15.39",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-12b-qat",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-28T13:52:15.797021+00:00"
+  },
+  "columns": [
+    "gemma-4-12b",
+    "gemma-4-12b-qat",
+    "gemma-4-12b-qat / gemma-4-12b"
+  ],
+  "rows": {
+    "weights_gib": [
+      22.83,
+      8.28,
+      0.36
+    ],
+    "kv_cache_tokens": [
+      65877,
+      126058,
+      1.91
+    ],
+    "load_seconds": [
+      186.990153,
+      65.361075,
+      null
+    ],
+    "decode_tokens_per_second": [
+      30.0,
+      77.0,
+      2.57
+    ],
+    "load_c1_tokens_per_second": [
+      28.2,
+      66.2,
+      2.35
+    ],
+    "load_c4_tokens_per_second": [
+      105.6,
+      253.55,
+      2.4
+    ],
+    "load_c16_tokens_per_second": [
+      392.2,
+      853.4,
+      2.18
+    ],
+    "quality_correct": [
+      40,
+      39,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 39,
+    "total": 40
+  },
+  "disagreements": [
+    {
+      "id": "add-14",
+      "gemma-4-12b": "948",
+      "gemma-4-12b-qat": "1048"
+    }
+  ],
+  "quality_by_kind": {
+    "gemma-4-12b": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-12b-qat": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 14,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

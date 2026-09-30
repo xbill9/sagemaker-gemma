@@ -1,0 +1,2 @@
+model.language_model.embed_tokens_per_layer.weight: 4.375 GiB bf16 -> 1.230 GiB int4 + f16 scales; 0 off-grid groups; 74.26% of values bit-identical, worst error 6.58e-03 of the group max; scales 0.00301..0.91
+total 2.96 GiB

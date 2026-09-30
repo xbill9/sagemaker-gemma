@@ -1,0 +1,126 @@
+{
+  "a": {
+    "name": "gemma-4-e4b-text-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "8.84",
+      "load_seconds": "74.526104",
+      "kv_cache_tokens": "119,416",
+      "max_concurrency_at_max_len": "14.58",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e4b-text-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T20:36:29.738406+00:00"
+  },
+  "b": {
+    "name": "gemma-4-e4b-fp8-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "10.46",
+      "load_seconds": "74.323138",
+      "kv_cache_tokens": "77,376",
+      "max_concurrency_at_max_len": "9.45",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e4b-fp8-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T23:05:03.077314+00:00"
+  },
+  "columns": [
+    "gemma-4-e4b-text-l4",
+    "gemma-4-e4b-fp8-l4",
+    "gemma-4-e4b-fp8-l4 / gemma-4-e4b-text-l4"
+  ],
+  "rows": {
+    "weights_gib": [
+      8.84,
+      10.46,
+      1.18
+    ],
+    "kv_cache_tokens": [
+      119416,
+      77376,
+      0.65
+    ],
+    "load_seconds": [
+      74.526104,
+      74.323138,
+      null
+    ],
+    "decode_tokens_per_second": [
+      62.1,
+      39.4,
+      0.63
+    ],
+    "load_c1_tokens_per_second": [
+      53.3,
+      35.5,
+      0.67
+    ],
+    "load_c4_tokens_per_second": [
+      165.25,
+      140.6,
+      0.85
+    ],
+    "load_c16_tokens_per_second": [
+      447.7,
+      508.2,
+      1.14
+    ],
+    "quality_correct": [
+      36,
+      36,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 39,
+    "total": 40
+  },
+  "disagreements": [
+    {
+      "id": "add-9",
+      "gemma-4-e4b-text-l4": "205",
+      "gemma-4-e4b-fp8-l4": "-175"
+    }
+  ],
+  "quality_by_kind": {
+    "gemma-4-e4b-text-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-e4b-fp8-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

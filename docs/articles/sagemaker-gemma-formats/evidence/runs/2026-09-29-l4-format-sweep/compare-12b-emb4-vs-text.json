@@ -1,0 +1,120 @@
+{
+  "a": {
+    "name": "gemma-4-12b-text-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "8.18",
+      "load_seconds": "65.648686",
+      "kv_cache_tokens": "41,654",
+      "max_concurrency_at_max_len": "5.08",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-12b-text-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T21:25:24.100946+00:00"
+  },
+  "b": {
+    "name": "gemma-4-12b-emb4-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "7.36",
+      "load_seconds": "56.412771",
+      "kv_cache_tokens": "52,541",
+      "max_concurrency_at_max_len": "6.41",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-12b-emb4-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T23:31:52.595075+00:00"
+  },
+  "columns": [
+    "gemma-4-12b-text-l4",
+    "gemma-4-12b-emb4-l4",
+    "gemma-4-12b-emb4-l4 / gemma-4-12b-text-l4"
+  ],
+  "rows": {
+    "weights_gib": [
+      8.18,
+      7.36,
+      0.9
+    ],
+    "kv_cache_tokens": [
+      41654,
+      52541,
+      1.26
+    ],
+    "load_seconds": [
+      65.648686,
+      56.412771,
+      null
+    ],
+    "decode_tokens_per_second": [
+      29.0,
+      35.0,
+      1.21
+    ],
+    "load_c1_tokens_per_second": [
+      27.2,
+      32.9,
+      1.21
+    ],
+    "load_c4_tokens_per_second": [
+      105.3,
+      124.75,
+      1.18
+    ],
+    "load_c16_tokens_per_second": [
+      358.5,
+      411.8,
+      1.15
+    ],
+    "quality_correct": [
+      40,
+      40,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 40,
+    "total": 40
+  },
+  "disagreements": [],
+  "quality_by_kind": {
+    "gemma-4-12b-text-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-12b-emb4-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

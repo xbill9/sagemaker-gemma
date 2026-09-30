@@ -1,0 +1,131 @@
+{
+  "a": {
+    "name": "gemma-4-e2b-fp8-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "7.07",
+      "load_seconds": "52.741454",
+      "kv_cache_tokens": "589,433",
+      "max_concurrency_at_max_len": "71.95",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e2b-fp8-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T21:51:51.116247+00:00"
+  },
+  "b": {
+    "name": "gemma-4-e2b-fp8emb4-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "3.6",
+      "load_seconds": "25.706304",
+      "kv_cache_tokens": "1,144,044",
+      "max_concurrency_at_max_len": "139.65",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-e2b-fp8emb4-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T22:40:37.151443+00:00"
+  },
+  "columns": [
+    "gemma-4-e2b-fp8-l4",
+    "gemma-4-e2b-fp8emb4-l4",
+    "gemma-4-e2b-fp8emb4-l4 / gemma-4-e2b-fp8-l4"
+  ],
+  "rows": {
+    "weights_gib": [
+      7.07,
+      3.6,
+      0.51
+    ],
+    "kv_cache_tokens": [
+      589433,
+      1144044,
+      1.94
+    ],
+    "load_seconds": [
+      52.741454,
+      25.706304,
+      null
+    ],
+    "decode_tokens_per_second": [
+      73.0,
+      89.7,
+      1.23
+    ],
+    "load_c1_tokens_per_second": [
+      61.5,
+      72.45,
+      1.18
+    ],
+    "load_c4_tokens_per_second": [
+      234.65,
+      283.7,
+      1.21
+    ],
+    "load_c16_tokens_per_second": [
+      810.95,
+      939.45,
+      1.16
+    ],
+    "quality_correct": [
+      35,
+      36,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 38,
+    "total": 40
+  },
+  "disagreements": [
+    {
+      "id": "add-7",
+      "gemma-4-e2b-fp8-l4": "655",
+      "gemma-4-e2b-fp8emb4-l4": "355"
+    },
+    {
+      "id": "add-14",
+      "gemma-4-e2b-fp8-l4": "1018",
+      "gemma-4-e2b-fp8emb4-l4": "918"
+    }
+  ],
+  "quality_by_kind": {
+    "gemma-4-e2b-fp8-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 10,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-e2b-fp8emb4-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 11,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}
