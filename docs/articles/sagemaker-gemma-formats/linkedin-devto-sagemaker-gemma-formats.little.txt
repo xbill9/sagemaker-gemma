@@ -1,0 +1,16 @@
+Gemma 4 on Amazon SageMaker: 4-Bit Embeddings Decode up to 1.39x Faster on One L4
+
+Repacking Gemma 4's QAT weights five ways and serving each on the same SageMaker NVIDIA L4 endpoint: int4 linears, int4 embeddings and lm\_head, FP8 and int8, across E2B, E4B, 12B, 26B A4B and 31B.
+
+What is in it:
+
+- 🟢 4-bit embeddings and lm\_head decode 1.12x to 1.39x faster than 16-bit embeddings, E2B to 31B, with identical answers
+- 🟢 The speed comes from lm\_head: packing only the per-layer table saves 3.14 GiB at E2B and leaves decode unchanged
+- 🟢 Google's E2B and E4B QAT files store lm\_head twice; dropping the copy frees 0.75 GiB and 1.25 GiB
+- 🟢 A W4A16 build of the 26B serves at 91.5 tok/s with 4-bit embeddings, where Google publishes none
+
+dev.to \(AWS Community Builders\): https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf
+AWS Builder Center: https://builder.aws.com/content/3K32TxVtMGXZPyMP3g8MH1FJeU0/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4
+Medium: https://xbill999.medium.com/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-1-39x-faster-on-one-l4-113c434d82f9
+Companion article: https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
+Source: https://github.com/xbill9/sagemaker-gemma
