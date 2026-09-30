@@ -1,0 +1,5 @@
+devto-aws = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf
+companion = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
+repo = https://github.com/xbill9/sagemaker-gemma
+builder = PENDING
+medium = PENDING
