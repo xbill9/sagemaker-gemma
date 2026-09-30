@@ -1,0 +1,3 @@
+# model.language_model.layers.0.self_attn.q_proj: source google/gemma-4-26B-A4B-it-qat-q4_0-unquantized BF16 shape [4096, 2816], 360448 groups of 32
+xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct: scale dtype BF16; groups bit-identical 149003/360448 (41.34%); values bit-identical 89.51%; weights a full level or more off the source 0/11534336 (0.00%); max |dequant - source| 0.000977, mean 1.18e-05
+cyankiwi/gemma-4-26B-A4B-it-qat-AWQ-INT4: scale dtype F16; groups bit-identical 23/360448 (0.01%); values bit-identical 12.27%; weights a full level or more off the source 3495050/11534336 (30.30%); max |dequant - source| 0.186, mean 0.00189

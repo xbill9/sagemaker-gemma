@@ -217,6 +217,12 @@ open vLLM issue, #38918, "Gemma4 on Turing GPUs (SM 7.5): all attention
 backends hit shared memory limits", reported again on vLLM 0.29.0 in
 September. The builds served here, with 4-bit embeddings, are the
 author's repacks of Google's QAT weights on Hugging Face.</p>
+<p>The 26B A4B build is the first W4A16 checkpoint of that model to keep
+Google's QAT weights on their 4-bit grid. In layer 0's query projection,
+0 of its 11,534,336 weights change level, where an AWQ build of the same
+QAT export, published in June, moves 30.3% of them by a full level or
+more. <code>grid_check.py</code> reads that one tensor from each
+checkpoint over HTTP and compares them.</p>
 <hr />
 <h4 id="at-this-point-you-should-have">At This Point You Should
 Have…</h4>
@@ -440,6 +446,8 @@ href="https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4">
 href="https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
 <li>26B A4B emb4: <a
 href="https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>26B A4B W4A16 repack: <a
+href="https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct">https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct</a></li>
 <li>vLLM issue 38918, Gemma 4 on Turing: <a
 href="https://github.com/vllm-project/vllm/issues/38918">https://github.com/vllm-project/vllm/issues/38918</a></li>
 <li>SageMaker ProductionVariant: <a

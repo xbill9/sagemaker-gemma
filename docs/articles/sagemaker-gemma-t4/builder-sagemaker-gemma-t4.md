@@ -30,6 +30,8 @@ This article takes part three's builds down one GPU generation.
 
 SageMaker JumpStart lists Gemma 4 from `ml.g6e.xlarge`, one NVIDIA L40S, for E2B, and 12B only on `ml.g6e.16xlarge`; none of its Gemma 4 entries lists a T4. Gemma 4 on Turing GPUs is an open vLLM issue, #38918, "Gemma4 on Turing GPUs (SM 7.5): all attention backends hit shared memory limits", reported again on vLLM 0.29.0 in September. The builds served here, with 4-bit embeddings, are the author's repacks of Google's QAT weights on Hugging Face.
 
+The 26B A4B build is the first W4A16 checkpoint of that model to keep Google's QAT weights on their 4-bit grid. In layer 0's query projection, 0 of its 11,534,336 weights change level, where an AWQ build of the same QAT export, published in June, moves 30.3% of them by a full level or more. `grid_check.py` reads that one tensor from each checkpoint over HTTP and compares them.
+
 ---
 
 #### At This Point You Should Have…
@@ -268,6 +270,7 @@ The strategy for using MCP for SageMaker deployment and benchmarking was validat
 - E4B emb4: https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4
 - 12B emb4: https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4
 - 26B A4B emb4: https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4
+- 26B A4B W4A16 repack: https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct
 - vLLM issue 38918, Gemma 4 on Turing: https://github.com/vllm-project/vllm/issues/38918
 - SageMaker ProductionVariant: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html
 - SageMaker real-time inference: https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html
