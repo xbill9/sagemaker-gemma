@@ -1,0 +1,4 @@
+devto-aws = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-or-a-vm-the-same-model-server-at-140x-the-price-pfl
+builder = PENDING
+repo = https://github.com/xbill9/sagemaker-gemma
+companion = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-the-nvidia-t4-decodes-at-08x-of-the-l4-with-the-same-answers-hm7
