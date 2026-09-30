@@ -10,3 +10,70 @@ decode gemma-4-31b-emb4-l4 n=16 rep=4: 1.745s
 decode gemma-4-31b-emb4-l4 n=512 rep=4: 36.939s
 load gemma-4-31b-emb4-l4 c=1 rep=0: 256 tok in 18.61s
 load gemma-4-31b-emb4-l4 c=1 rep=1: 256 tok in 18.69s
+load gemma-4-31b-emb4-l4 c=4 rep=0: 1024 tok in 19.47s
+load gemma-4-31b-emb4-l4 c=4 rep=1: 1024 tok in 19.48s
+load gemma-4-31b-emb4-l4 c=16 rep=0: 4096 tok in 80.90s
+load gemma-4-31b-emb4-l4 c=16 rep=1: 4096 tok in 80.59s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-29-l4-format-sweep/measure-gemma-4-31b-emb4-l4.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "17.55",
+    "load_seconds": "131.752537",
+    "kv_cache_tokens": "3,241",
+    "max_concurrency_at_max_len": "3.17",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 14.1,
+  "per_call_fixed_cost_seconds": 0.575,
+  "load_tokens_per_second": {
+    "1": 13.75,
+    "4": 52.6,
+    "16": 50.7
+  },
+  "server_peak": {
+    "lines": 32,
+    "peak_tokens_per_second": 55.2
+  },
+  "quality": "40/40"
+}

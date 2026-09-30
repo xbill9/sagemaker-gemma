@@ -1,0 +1,120 @@
+{
+  "a": {
+    "name": "gemma-4-26b-text-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "14.8",
+      "load_seconds": "126.864823",
+      "kv_cache_tokens": "19,183",
+      "max_concurrency_at_max_len": "2.34",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-26b-text-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-29T20:50:17.823042+00:00"
+  },
+  "b": {
+    "name": "gemma-4-26b-emb4-l4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "14.2",
+      "load_seconds": "125.172854",
+      "kv_cache_tokens": "30,456",
+      "max_concurrency_at_max_len": "3.72",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-26b-emb4-l4",
+      "region": "us-east-2",
+      "instance_types": null,
+      "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+    },
+    "window": "2026-09-30T03:36:02.852027+00:00"
+  },
+  "columns": [
+    "gemma-4-26b-text-l4",
+    "gemma-4-26b-emb4-l4",
+    "gemma-4-26b-emb4-l4 / gemma-4-26b-text-l4"
+  ],
+  "rows": {
+    "weights_gib": [
+      14.8,
+      14.2,
+      0.96
+    ],
+    "kv_cache_tokens": [
+      19183,
+      30456,
+      1.59
+    ],
+    "load_seconds": [
+      126.864823,
+      125.172854,
+      null
+    ],
+    "decode_tokens_per_second": [
+      65.8,
+      91.5,
+      1.39
+    ],
+    "load_c1_tokens_per_second": [
+      52.15,
+      74.05,
+      1.42
+    ],
+    "load_c4_tokens_per_second": [
+      159.6,
+      214.8,
+      1.35
+    ],
+    "load_c16_tokens_per_second": [
+      441.25,
+      596.6,
+      1.35
+    ],
+    "quality_correct": [
+      40,
+      40,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 40,
+    "total": 40
+  },
+  "disagreements": [],
+  "quality_by_kind": {
+    "gemma-4-26b-text-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-26b-emb4-l4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

@@ -259,8 +259,9 @@ Text-only builds of the QAT weights on `ml.g6.xlarge`, 2026-09-29, same containe
 | E4B | 62.1 | **79.9** | 39.4 | 40.1 |
 | 12B | 29.0 | **35.0** | 16.8 | 17.0 |
 | 26B A4B | 65.8 | **91.5** | – (does not fit) | – |
+| 31B (reduced settings) | 12.6 | **14.1** | – (does not fit) | – |
 
-- int4 embeddings and `lm_head` are 1.21–1.39× faster than text-only at every size, with
+- int4 embeddings and `lm_head` are 1.12–1.39× faster than text-only at every size, with
   identical answers; packing only the per-layer table (E2B ple4) leaves decode unchanged, so the
   gain is the int4 `lm_head`.
 - 8-bit linears run natively on the L4 but decode at 0.58–0.71× of int4: the L4 is bound by memory

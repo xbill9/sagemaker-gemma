@@ -37,18 +37,18 @@ go() {  # <endpoint> <repo-name> <run-dir> [published]
 }
 while pgrep -f "2026-09-29-e2b-w8a8-emb4/run.sh" >/dev/null; do sleep 30; done
 date -u +%FT%TZ > $C/start.txt; aws --version > $C/meta.txt 2>&1
-R=docs/runs/2026-09-29-l4
-go gemma-4-e2b-ple4-l4    gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4        $R-e2b-ple4
-go gemma-4-e2b-fp8emb4-l4 gemma-4-E2B-it-qat-q4_0-fp8-text-emb4             $R-e2b-fp8emb4
-go gemma-4-e4b-emb4-l4    gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4        $R-e4b-emb4 published
-go gemma-4-e4b-fp8-l4     gemma-4-E4B-it-qat-q4_0-fp8-text                  $R-e4b-fp8 published
-go gemma-4-e4b-int8-l4    gemma-4-E4B-it-qat-w8a8-int8                      $R-e4b-int8
-go gemma-4-12b-emb4-l4    gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4        $R-12b-emb4
-go gemma-4-12b-fp8-l4     gemma-4-12B-it-qat-q4_0-fp8-text                  $R-12b-fp8
-go gemma-4-12b-int8-l4    gemma-4-12B-it-qat-w8a8-int8                      $R-12b-int8
-go gemma-4-26b-emb4-l4    gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4    $R-26b-emb4
+RD=docs/runs/2026-09-29-l4  # not R: run_one assigns R
+go gemma-4-e2b-ple4-l4    gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4        $RD-e2b-ple4
+go gemma-4-e2b-fp8emb4-l4 gemma-4-E2B-it-qat-q4_0-fp8-text-emb4             $RD-e2b-fp8emb4
+go gemma-4-e4b-emb4-l4    gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4        $RD-e4b-emb4 published
+go gemma-4-e4b-fp8-l4     gemma-4-E4B-it-qat-q4_0-fp8-text                  $RD-e4b-fp8 published
+go gemma-4-e4b-int8-l4    gemma-4-E4B-it-qat-w8a8-int8                      $RD-e4b-int8
+go gemma-4-12b-emb4-l4    gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4        $RD-12b-emb4
+go gemma-4-12b-fp8-l4     gemma-4-12B-it-qat-q4_0-fp8-text                  $RD-12b-fp8
+go gemma-4-12b-int8-l4    gemma-4-12B-it-qat-w8a8-int8                      $RD-12b-int8
+go gemma-4-26b-emb4-l4    gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4    $RD-26b-emb4
 ( export INSTANCE_TYPE=ml.g6.2xlarge MAX_MODEL_LEN=1024 SM_VLLM_GPU_MEMORY_UTILIZATION=0.97 SM_VLLM_MAX_NUM_SEQS=4 SM_VLLM_MAX_NUM_BATCHED_TOKENS=1024
-  go gemma-4-31b-emb4-l4  gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4        $R-31b-emb4 )
+  go gemma-4-31b-emb4-l4  gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4        $RD-31b-emb4 )
 M() { echo $C/measure-$1.json; }
 cmb() { [ -f "$2" ] && [ -f "$3" ] && python3 compare.py combine $C/compare-$1.json "$2" "$3"; }
 TS=docs/runs/2026-09-29-l4-text-sweep

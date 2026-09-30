@@ -28,6 +28,7 @@ container (vLLM 0.30.0), standard settings (`max_model_len` 8192, memory 0.9, te
 | 26B A4B | text-only | int4 | bf16 | 14.8 | 19,183 | 65.8 | 441.25 | 40 |
 | 26B A4B | emb4 | int4 | int4 | 14.2 | 30,456 | 91.5 | 596.6 | 40 |
 | 31B* | text-only | int4 | bf16 | 18.7 | 2,555 | 12.6 | 39.4 | 40 |
+| 31B* | emb4 | int4 | int4 | 17.55 | 3,241 | 14.1 | 50.7 | 40 |
 - **emb4** packs `embed_tokens` and an untied `lm_head` (and, at E2B/E4B, the per-layer
   embeddings) to int4 on the QAT grid. **ple4** packs only the per-layer table.
 - FP8 and int8 are W8A8 with per-channel weight scales and per-token dynamic activations. The L4
@@ -38,11 +39,11 @@ container (vLLM 0.30.0), standard settings (`max_model_len` 8192, memory 0.9, te
 ## Findings
 
 - **int4 embeddings and `lm_head` speed up decode at every size**: emb4 against text-only is
-  1.38× (E2B), 1.29× (E4B), 1.21× (12B) and 1.39× (26B A4B), with identical answers at every
-  size. ple4 (per-layer table only) decodes at text-only speed (104.1 against 103.0) while saving
+  1.38× (E2B), 1.29× (E4B), 1.21× (12B), 1.39× (26B A4B) and 1.12× (31B, reduced settings),
+  with identical answers at every size. ple4 (per-layer table only) decodes at text-only speed (104.1 against 103.0) while saving
   3.1 GiB, so the speed comes from the int4 `lm_head`, read in full for every generated token.
   The gain is largest where the output layer is a large share of each token's reads: the small
-  dense sizes and the 4B-active MoE.
+  dense sizes and the 4B-active MoE; smallest at 31B dense.
 - **8-bit linears are slower than 4-bit on the L4**: FP8 against text-only is 0.71× (E2B), 0.63×
   (E4B) and 0.58× (12B); int8 is within 3 % of FP8 at every size. Decode here is bound by memory
   bandwidth, and 8-bit weights are twice the bytes of int4, so native FP8/int8 tensor cores do not
@@ -62,6 +63,6 @@ today took 11.3 minutes at most. The run folders hold the container log.
 ## Files
 
 - `run.sh`, `run.log`, `watchdog.sh`, `watchdog.log`, `measure-*.json`, `.log`, `compare-*.json`
-- `../2026-09-29-l4-<size>-<format>/` — deploy attempt, timeline, run environment, container log
+- `../2026-09-29-l4-<size>-<format>/` (including `l4-31b-emb4`) — deploy attempt, timeline, run environment, container log
 - Builds: `../2026-09-29-e4b-8bit-emb4-build/`, `../2026-09-29-big-8bit-emb4-build/`,
   `../_emb4logs/`; publishing: `../2026-09-29-publish/`

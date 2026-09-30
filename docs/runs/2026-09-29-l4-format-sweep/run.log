@@ -102,3 +102,116 @@ attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
 attempt-1 us-east-2 03:49:22 InService
 READY attempt-1 us-east-2 (.env AWS_REGION updated)
 03:49:24 measuring gemma-4-31b-emb4-l4@us-east-2
+measured gemma-4-31b-emb4-l4
+03:58:47 deleted gemma-4-31b-emb4-l4
+                            gemma-4-e2b-text  gemma-4-e2b-ple4-l4  ratio
+weights_gib                           6.33                3.19  0.5
+kv_cache_tokens                     650783             1180383  1.81
+load_seconds                      46.17332           21.461022  
+decode_tokens_per_second             103.0               104.1  1.01
+load_c1_tokens_per_second            75.65               83.65  1.11
+load_c4_tokens_per_second           277.05               314.8  1.14
+load_c16_tokens_per_second           927.0             1088.35  1.17
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-e2b-emb4-l4  gemma-4-e2b-ple4-l4  ratio
+weights_gib                           2.86                3.19  1.12
+kv_cache_tokens                    1209977             1180383  0.98
+load_seconds                     20.157062           21.461022  
+decode_tokens_per_second             141.7               104.1  0.73
+load_c1_tokens_per_second           107.55               83.65  0.78
+load_c4_tokens_per_second            386.6               314.8  0.81
+load_c16_tokens_per_second         1259.15             1088.35  0.86
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-e2b-fp8-l4  gemma-4-e2b-fp8emb4-l4  ratio
+weights_gib                           7.07                 3.6  0.51
+kv_cache_tokens                     589433             1144044  1.94
+load_seconds                     52.741454           25.706304  
+decode_tokens_per_second              73.0                89.7  1.23
+load_c1_tokens_per_second             61.5               72.45  1.18
+load_c4_tokens_per_second           234.65               283.7  1.21
+load_c16_tokens_per_second          810.95              939.45  1.16
+quality_correct                         35                  36  
+identical answers: 38/40
+                            gemma-4-e4b-text-l4  gemma-4-e4b-emb4-l4  ratio
+weights_gib                           8.84                4.52  0.51
+kv_cache_tokens                     119416              376156  3.15
+load_seconds                     74.526104           31.357483  
+decode_tokens_per_second              62.1                79.9  1.29
+load_c1_tokens_per_second             53.3               67.85  1.27
+load_c4_tokens_per_second           165.25              259.45  1.57
+load_c16_tokens_per_second           447.7              848.95  1.9
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-e4b-text-l4  gemma-4-e4b-fp8-l4  ratio
+weights_gib                           8.84               10.46  1.18
+kv_cache_tokens                     119416               77376  0.65
+load_seconds                     74.526104           74.323138  
+decode_tokens_per_second              62.1                39.4  0.63
+load_c1_tokens_per_second             53.3                35.5  0.67
+load_c4_tokens_per_second           165.25               140.6  0.85
+load_c16_tokens_per_second           447.7               508.2  1.14
+quality_correct                         36                  36  
+identical answers: 39/40
+                            gemma-4-e4b-text-l4  gemma-4-e4b-int8-l4  ratio
+weights_gib                           8.84               10.46  1.18
+kv_cache_tokens                     119416               74463  0.62
+load_seconds                     74.526104           77.197235  
+decode_tokens_per_second              62.1                40.1  0.65
+load_c1_tokens_per_second             53.3                36.9  0.69
+load_c4_tokens_per_second           165.25               143.3  0.87
+load_c16_tokens_per_second           447.7              517.55  1.16
+quality_correct                         36                  38  
+identical answers: 37/40
+                            gemma-4-12b-text-l4  gemma-4-12b-emb4-l4  ratio
+weights_gib                           8.18                7.36  0.9
+kv_cache_tokens                      41654               52541  1.26
+load_seconds                     65.648686           56.412771  
+decode_tokens_per_second              29.0                35.0  1.21
+load_c1_tokens_per_second             27.2                32.9  1.21
+load_c4_tokens_per_second            105.3              124.75  1.18
+load_c16_tokens_per_second           358.5               411.8  1.15
+quality_correct                         40                  40  
+identical answers: 40/40
+                            gemma-4-12b-text-l4  gemma-4-12b-fp8-l4  ratio
+weights_gib                           8.18               12.65  1.55
+kv_cache_tokens                      41654               20383  0.49
+load_seconds                     65.648686            99.59306  
+decode_tokens_per_second              29.0                16.8  0.58
+load_c1_tokens_per_second             27.2               16.15  0.59
+load_c4_tokens_per_second            105.3                63.0  0.6
+load_c16_tokens_per_second           358.5              229.65  0.64
+quality_correct                         40                  40  
+identical answers: 40/40
+                            gemma-4-12b-text-l4  gemma-4-12b-int8-l4  ratio
+weights_gib                           8.18               12.65  1.55
+kv_cache_tokens                      41654               19929  0.48
+load_seconds                     65.648686           89.079756  
+decode_tokens_per_second              29.0                17.0  0.59
+load_c1_tokens_per_second             27.2               16.25  0.6
+load_c4_tokens_per_second            105.3               63.65  0.6
+load_c16_tokens_per_second           358.5               230.9  0.64
+quality_correct                         40                  40  
+identical answers: 40/40
+                            gemma-4-26b-text-l4  gemma-4-26b-emb4-l4  ratio
+weights_gib                           14.8                14.2  0.96
+kv_cache_tokens                      19183               30456  1.59
+load_seconds                    126.864823          125.172854  
+decode_tokens_per_second              65.8                91.5  1.39
+load_c1_tokens_per_second            52.15               74.05  1.42
+load_c4_tokens_per_second            159.6               214.8  1.35
+load_c16_tokens_per_second          441.25               596.6  1.35
+quality_correct                         40                  40  
+identical answers: 40/40
+                            gemma-4-31b-text-l4  gemma-4-31b-emb4-l4  ratio
+weights_gib                           18.7               17.55  0.94
+kv_cache_tokens                       2555                3241  1.27
+load_seconds                      7.551111          131.752537  
+decode_tokens_per_second              12.6                14.1  1.12
+load_c1_tokens_per_second            12.25               13.75  1.12
+load_c4_tokens_per_second             47.0                52.6  1.12
+load_c16_tokens_per_second            39.4                50.7  1.29
+quality_correct                         40                  40  
+identical answers: 40/40
+ALL DONE
