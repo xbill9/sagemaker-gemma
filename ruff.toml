@@ -3,6 +3,7 @@ target-version = "py311"
 line-length = 110
 # A verbatim copy of ~/gemma4-dev/gpu-vllm-t4-2b-w4a16/patch_triton_turing.py; its
 # sha256 is recorded with the image it built, so formatting must not touch it.
+# turing/pr39018 holds verbatim upstream vLLM files (original and with #39018 applied).
 extend-exclude = ["turing/patch_triton_turing.py", "turing/pr39018"]
 
 [lint]
