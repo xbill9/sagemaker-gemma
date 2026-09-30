@@ -1,0 +1,17 @@
+This article repacks Gemma 4's QAT weights five ways and serves each on the same Amazon SageMaker endpoint with one NVIDIA L4 GPU: int4 linears, int4 embeddings and lm_head, FP8 and int8, across E2B, E4B, 12B, 26B A4B and 31B.
+https://github.com/xbill9/sagemaker-gemma
+4-bit embeddings and lm_head decode 1.12x to 1.39x faster than 16-bit embeddings, with identical answers. The 8-bit builds decode slower than the 4-bit ones on the L4.
+
+Builder Center Article is here:
+https://builder.aws.com/content/3K32TxVtMGXZPyMP3g8MH1FJeU0/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4
+
+Medium is here:
+https://xbill999.medium.com/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-1-39x-faster-on-one-l4-113c434d82f9
+
+Dev.to is here:
+https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf
+
+Linked In is here:
+https://www.linkedin.com/feed/update/urn:li:share:7511045021299564544/
+
+#SageMaker #Gemma4 #vLLM #Quantization #L4

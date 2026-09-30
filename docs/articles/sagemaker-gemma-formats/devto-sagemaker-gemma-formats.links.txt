@@ -3,3 +3,4 @@ companion = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-
 repo = https://github.com/xbill9/sagemaker-gemma
 builder = https://builder.aws.com/content/3K32TxVtMGXZPyMP3g8MH1FJeU0/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4
 medium = https://xbill999.medium.com/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-1-39x-faster-on-one-l4-113c434d82f9
+linkedin = https://www.linkedin.com/feed/update/urn:li:share:7511045021299564544/
