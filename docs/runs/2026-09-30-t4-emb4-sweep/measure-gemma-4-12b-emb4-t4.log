@@ -1,0 +1,79 @@
+decode gemma-4-12b-emb4-t4 n=16 rep=0: 4.843s
+decode gemma-4-12b-emb4-t4 n=512 rep=0: 18.54s
+decode gemma-4-12b-emb4-t4 n=16 rep=1: 1.243s
+decode gemma-4-12b-emb4-t4 n=512 rep=1: 18.673s
+decode gemma-4-12b-emb4-t4 n=16 rep=2: 1.283s
+decode gemma-4-12b-emb4-t4 n=512 rep=2: 18.621s
+decode gemma-4-12b-emb4-t4 n=16 rep=3: 1.151s
+decode gemma-4-12b-emb4-t4 n=512 rep=3: 18.827s
+decode gemma-4-12b-emb4-t4 n=16 rep=4: 1.16s
+decode gemma-4-12b-emb4-t4 n=512 rep=4: 18.725s
+load gemma-4-12b-emb4-t4 c=1 rep=0: 256 tok in 9.23s
+load gemma-4-12b-emb4-t4 c=1 rep=1: 256 tok in 9.29s
+load gemma-4-12b-emb4-t4 c=4 rep=0: 1024 tok in 10.92s
+load gemma-4-12b-emb4-t4 c=4 rep=1: 1024 tok in 10.97s
+load gemma-4-12b-emb4-t4 c=16 rep=0: 4096 tok in 18.94s
+load gemma-4-12b-emb4-t4 c=16 rep=1: 4096 tok in 18.91s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-30-t4-emb4-sweep/measure-gemma-4-12b-emb4-t4.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "7.36",
+    "load_seconds": "75.851768",
+    "kv_cache_tokens": "20,354",
+    "max_concurrency_at_max_len": "2.48",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 28.5,
+  "per_call_fixed_cost_seconds": 0.681,
+  "load_tokens_per_second": {
+    "1": 27.6,
+    "4": 93.55,
+    "16": 216.45
+  },
+  "server_peak": {
+    "lines": 17,
+    "peak_tokens_per_second": 228.7
+  },
+  "quality": "40/40"
+}

@@ -1,0 +1,10 @@
+image:   106059658660.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm:0.30.0-sagemaker-v1.3-sm75
+digest:  sha256:2086d56bedffc49906b3e6bc4e29e812b7dd93f02aed1dd90811c1a1f48ec4cd (8.34 GiB compressed)
+base:    763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.3
+         @sha256:48e605e33446c56afbcd1dd178c56f37691a9ad05e21dde76c13a6b283e9250b
+build:   CodeBuild sagemaker-gemma-turing-image:95ca8472-bf1b-4446-b19a-7484b7c479cf, 2026-09-30,
+         SUCCEEDED; build 191 s, push 565 s
+patch:   turing/patch_triton_turing.py sha256 3619c2684707dfbb1cce75169c2744aa75358f81f4159d83b3d869118377ee89
+         target /usr/local/lib/python3.12/dist-packages/vllm/v1/attention/ops/triton_unified_attention.py
+         inserted before line 1002; smem budget 60000 B of 65536; --check passed
+torch arch: sm_75 sm_80 sm_86 sm_90 sm_100 sm_120

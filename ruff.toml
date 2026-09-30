@@ -1,6 +1,9 @@
 # Pin the lint rule set so `make lint` is stable across ruff releases.
 target-version = "py311"
 line-length = 110
+# A verbatim copy of ~/gemma4-dev/gpu-vllm-t4-2b-w4a16/patch_triton_turing.py; its
+# sha256 is recorded with the image it built, so formatting must not touch it.
+extend-exclude = ["turing/patch_triton_turing.py"]
 
 [lint]
 select = [

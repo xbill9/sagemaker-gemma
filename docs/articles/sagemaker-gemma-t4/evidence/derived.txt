@@ -1,0 +1,17 @@
+# derived by derive.py from evidence/runs/*.json and evidence/prices.md
+SageMaker/EC2 hourly: T4 1.40x  L4 1.40x
+T4/L4 hourly: SageMaker 0.65x  EC2 0.65x
+EC2 T4 / SageMaker L4 hourly: 0.47x
+EC2 T4 / SageMaker T4 hourly: 0.71x  EC2 L4 / SageMaker L4: 0.71x
+Cloud Run L4 / g2-standard-8: 1.67x; break-even uptime 60% = 14.4 h/day
+e2b: decode T4 108.5 L4 141.7 ratio 0.77x; 16-par T4 787.05 L4 1259.15 ratio 0.63x; answers identical 40/40
+  $/Mtok at 16-par: SageMaker L4 $0.249  SageMaker T4 $0.260  EC2 L4 $0.178  EC2 T4 $0.186
+e4b: decode T4 65.6 L4 79.9 ratio 0.82x; 16-par T4 488.05 L4 848.95 ratio 0.57x; answers identical 40/40
+  $/Mtok at 16-par: SageMaker L4 $0.369  SageMaker T4 $0.419  EC2 L4 $0.263  EC2 T4 $0.299
+12b: decode T4 28.5 L4 35.0 ratio 0.81x; 16-par T4 216.45 L4 411.8 ratio 0.53x; answers identical 40/40
+  $/Mtok at 16-par: SageMaker L4 $0.760  SageMaker T4 $0.945  EC2 L4 $0.543  EC2 T4 $0.675
+# part four
+e2b: SageMaker $/Mtok T4/L4 1.05x (+5%); KV L4/T4 1.83x
+e4b: SageMaker $/Mtok T4/L4 1.14x (+14%); KV L4/T4 1.94x
+12b: SageMaker $/Mtok T4/L4 1.24x (+24%); KV L4/T4 2.58x
+26b Creating -> Failed: 36.5 min

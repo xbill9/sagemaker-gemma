@@ -1,0 +1,16 @@
+# derived by derive.py from evidence/ (measure JSONs, timelines) and evidence/prices.md
+T4: decode SM 108.5 EC2 111.2 ratio 1.02x; per-call SM 0.561 EC2 0.006; answers identical 40/40
+  1-par SM 91.1 EC2 113.85 ratio 1.25x
+  4-par SM 308.25 EC2 394.9 ratio 1.28x
+  16-par SM 787.05 EC2 1005.1 ratio 1.28x
+  hourly SM/EC2 1.40x, EC2/SM 0.71x
+  $/Mtok at 16-par, each on its own rate: SM $0.260 EC2 $0.145 EC2/SM 0.56x; EC2 at SageMaker's rate $0.186 (0.71x)
+L4: decode SM 105.1 EC2 105.1 ratio 1.00x; per-call SM 0.562 EC2 0.008; answers identical 40/40
+  1-par SM 85.35 EC2 104.85 ratio 1.23x
+  4-par SM 328.7 EC2 410.85 ratio 1.25x
+  16-par SM 1077.25 EC2 1485.9 ratio 1.38x
+  hourly SM/EC2 1.40x, EC2/SM 0.71x
+  $/Mtok at 16-par, each on its own rate: SM $0.291 EC2 $0.150 EC2/SM 0.52x; EC2 at SageMaker's rate $0.208 (0.71x)
+EC2 T4 launch -> serving: 9.7 min
+GCE T4 / EC2 T4 hourly 0.996x; g2-standard-4 / EC2 g6 0.875x
+Cloud Run L4 / g2-standard-8: 1.67x; break-even uptime 60% = 14.4 h/day

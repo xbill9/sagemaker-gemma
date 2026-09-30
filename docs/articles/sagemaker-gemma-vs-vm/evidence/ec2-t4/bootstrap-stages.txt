@@ -1,0 +1,10 @@
+[stage] image-pull-start +0s
+[stage] image-pull-done +170s
+[stage] patch-resolve +191s
+patch_triton_turing: patched /opt/vllm-g4dn/triton_unified_attention.py
+  stages var    : launch_num_stages (auto-detected as an assignment target)
+[stage] patch-applied +191s
+[stage] image-build-done +194s
+[stage] patch-verified-in-image +209s
+[stage] serving-started +211s
+[stage] INSTALL_COMPLETE +211s

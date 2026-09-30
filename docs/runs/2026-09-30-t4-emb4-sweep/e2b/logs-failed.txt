@@ -1,0 +1,2 @@
+
+aws: [ERROR]: An error occurred (ResourceNotFoundException) when calling the FilterLogEvents operation: The specified log group does not exist.

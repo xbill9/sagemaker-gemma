@@ -1,0 +1,6 @@
+# cover provenance -- devto-cover.0adb9f63.jpg
+# generated with gemini-3.1-flash-lite-image via google-genai models.generate_content, aspect 16:9
+# raw 1376x768 -> 1376x768 -> crop box (0, 95, 1376, 673) -> 1376x578 (2.381:1) -> JPEG q90
+# name = sha256(bytes)[:8]
+# prompt:
+# Wide banner illustration for a technical blog cover, dark charcoal background with a faint blueprint grid. Bold clean white sans-serif headline centered near the top: "Gemma 4 on a T4". Below it, a polished isometric 3D scene in the middle of the frame: a small low-profile single-slot passively cooled NVIDIA T4 GPU card with a green edge, standing beside a larger fanless single-slot NVIDIA L4 card, both glowing softly, with orange and blue light trails flowing into them from a floating orange cloud shape on the left. Minimal, modern, high contrast, blue and orange accents, no clutter, no gauges, no numbers, no other text, no logos, no letterboxing. Keep all important content inside the central horizontal band, with generous empty margin at the top and bottom edges.

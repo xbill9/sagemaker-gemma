@@ -1,0 +1,36 @@
+15:17:42 measuring gemma-4-12b-emb4-t4@us-east-2
+measured gemma-4-12b-emb4-t4
+15:22:50 deleted gemma-4-12b-emb4-t4
+NO CAPACITY in: us-east-2
+STOP gemma-4-26b-emb4-t4: non-capacity failure: The primary container for production variant AllTraffic did not pass the ping health check. Please check CloudWatch logs for this endpoint.
+                            gemma-4-e2b-emb4-l4  gemma-4-e2b-emb4-t4  ratio
+weights_gib                           2.86                2.86  1.0
+kv_cache_tokens                    1209977              660033  0.55
+load_seconds                     20.157062           30.890975  
+decode_tokens_per_second             141.7               108.5  0.77
+load_c1_tokens_per_second           107.55                91.1  0.85
+load_c4_tokens_per_second            386.6              308.25  0.8
+load_c16_tokens_per_second         1259.15              787.05  0.63
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-e4b-emb4-l4  gemma-4-e4b-emb4-t4  ratio
+weights_gib                           4.52                4.52  1.0
+kv_cache_tokens                     376156              194336  0.52
+load_seconds                     31.357483           42.013895  
+decode_tokens_per_second              79.9                65.6  0.82
+load_c1_tokens_per_second            67.85                57.7  0.85
+load_c4_tokens_per_second           259.45              199.35  0.77
+load_c16_tokens_per_second          848.95              488.05  0.57
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-12b-emb4-l4  gemma-4-12b-emb4-t4  ratio
+weights_gib                           7.36                7.36  1.0
+kv_cache_tokens                      52541               20354  0.39
+load_seconds                     56.412771           75.851768  
+decode_tokens_per_second              35.0                28.5  0.81
+load_c1_tokens_per_second             32.9                27.6  0.84
+load_c4_tokens_per_second           124.75               93.55  0.75
+load_c16_tokens_per_second           411.8              216.45  0.53
+quality_correct                         40                  40  
+identical answers: 40/40
+ALL DONE

@@ -1,0 +1,13 @@
+# SageMaker ProductionVariant.InferenceAmiVersion values (AWS SDK reference, fetched 2026-09-30):
+al2-ami-sagemaker-inference-gpu-2      NVIDIA driver 535, CUDA 12.2
+al2-ami-sagemaker-inference-gpu-2-1    NVIDIA driver 535, CUDA 12.2, CUDA-compat mounting disabled
+al2-ami-sagemaker-inference-gpu-3-1    NVIDIA driver 550, CUDA 12.4, CUDA-compat mounting disabled
+al2023-ami-sagemaker-inference-gpu-4-1 NVIDIA driver 580, CUDA 13.0, CUDA-compat mounting disabled
+# gemma-4-e2b-emb4-t4, ml.g4dn.xlarge, us-east-2, InferenceAmiVersion unset:
+2026-09-30T13:59:11Z Creating
+2026-09-30T14:05:30Z Failed
+FailureReason: CannotStartContainerError. Please ensure the model container for variant AllTraffic starts correctly when invoked with 'docker run <image> serve'
+CloudWatch: "The specified log group does not exist." (/aws/sagemaker/Endpoints/gemma-4-e2b-emb4-t4)
+# Same model, image and instance type with INFERENCE_AMI_VERSION=al2023-ami-sagemaker-inference-gpu-4-1:
+2026-09-30T14:31:14Z Creating
+2026-09-30T14:44:27Z InService

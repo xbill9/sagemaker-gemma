@@ -51,6 +51,11 @@ TENSOR_PARALLEL_SIZE = os.environ.get("TENSOR_PARALLEL_SIZE", "")
 # Optional comma-separated fallback list, highest priority first. SageMaker tries
 # each type in turn when one has no capacity (InsufficientInstanceCapacity).
 INSTANCE_POOLS = [t.strip() for t in os.environ.get("INSTANCE_POOLS", "").split(",") if t.strip()]
+# Host image (NVIDIA driver + CUDA) for the variant; empty means SageMaker's default.
+# The cu130 vLLM image needs driver 580, i.e. al2023-ami-sagemaker-inference-gpu-4-1,
+# which ml.g4dn needs set explicitly: without it the container never starts
+# (CannotStartContainerError, no log group).
+INFERENCE_AMI_VERSION = os.environ.get("INFERENCE_AMI_VERSION", "")
 
 # AWS Deep Learning Containers registry (same account id in most commercial regions).
 DLC_ACCOUNT = "763104351884"
@@ -252,6 +257,8 @@ def deploy(
         "ContainerStartupHealthCheckTimeoutInSeconds": 1800,
         "ModelDataDownloadTimeoutInSeconds": 1800,
     }
+    if INFERENCE_AMI_VERSION:
+        variant["InferenceAmiVersion"] = INFERENCE_AMI_VERSION
     if pools:
         variant["InstancePools"] = [{"InstanceType": t, "Priority": i + 1} for i, t in enumerate(pools)]
     else:

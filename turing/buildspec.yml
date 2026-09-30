@@ -1,0 +1,19 @@
+# CodeBuild: build turing/Dockerfile FROM the SageMaker vLLM image and push it.
+# Environment variables set on the project: BASE_IMAGE, TARGET_REPO, TARGET_TAG.
+version: 0.2
+phases:
+  pre_build:
+    on-failure: ABORT
+    commands:
+      - BASE_REGISTRY="${BASE_IMAGE%%/*}"
+      - TARGET_REGISTRY="${TARGET_REPO%%/*}"
+      - aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$BASE_REGISTRY"
+      - aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$TARGET_REGISTRY"
+  build:
+    on-failure: ABORT
+    commands:
+      - docker build --build-arg BASE_IMAGE="$BASE_IMAGE" -t "$TARGET_REPO:$TARGET_TAG" .
+  post_build:
+    commands:
+      - docker push "$TARGET_REPO:$TARGET_TAG"
+      - docker inspect --format '{{index .RepoDigests 0}}' "$TARGET_REPO:$TARGET_TAG"

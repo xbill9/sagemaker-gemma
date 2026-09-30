@@ -1,0 +1,9 @@
+ENDPOINT_NAME=gemma-4-12b-emb4-t4
+IMAGE_URI=106059658660.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm:0.30.0-sagemaker-v1.3-sm75
+INFERENCE_AMI_VERSION=al2023-ami-sagemaker-inference-gpu-4-1
+INSTANCE_POOLS=ml.g4dn.xlarge,ml.g4dn.2xlarge
+INSTANCE_TYPE=ml.g4dn.xlarge
+MAX_MODEL_LEN=8192
+MODEL_ID=xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4
+SM_VLLM_DTYPE=float16
+TENSOR_PARALLEL_SIZE=

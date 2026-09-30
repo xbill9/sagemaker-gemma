@@ -1,0 +1,7 @@
+{
+  "endpoint": "gemma-4-e2b-emb4-t4",
+  "status": "Failed",
+  "created": "2026-09-30T09:59:10.899000-04:00",
+  "last_modified": "2026-09-30T10:05:00.393000-04:00",
+  "failure_reason": "CannotStartContainerError. Please ensure the model container for variant AllTraffic starts correctly when invoked with 'docker run <image> serve'"
+}

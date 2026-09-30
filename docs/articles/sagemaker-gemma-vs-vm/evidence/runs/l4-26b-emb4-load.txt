@@ -1,0 +1,2 @@
+(EngineCore pid=76) INFO 09-30 00:16:59 [model_runner.py:428] Model loading took 14.2 GiB memory and 125.172854 seconds
+(EngineCore pid=76) INFO 09-30 00:18:13 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8774 without CUDA graph memory profiling. To maintain the same effective KV cache size as before, increase --gpu-memory-utilization to 0.9226. To disable, set VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0.

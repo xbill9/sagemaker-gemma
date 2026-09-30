@@ -1,0 +1,8 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 13:59:11 Creating
+attempt-1 us-east-2 14:05:30 Failed
+attempt-1 us-east-2 ended Failed: CannotStartContainerError. Please ensure the model container for variant AllTraffic starts correctly when invoked with 'docker run <image> serve'
+NO CAPACITY in: us-east-2
+STOP gemma-4-e2b-emb4-t4: non-capacity failure: CannotStartContainerError. Please ensure the model container for variant AllTraffic starts correctly when invoked with 'docker run <image> serve'
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 14:05:40 Creating
