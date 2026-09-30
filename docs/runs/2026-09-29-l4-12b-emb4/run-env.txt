@@ -1,0 +1,6 @@
+ENDPOINT_NAME=gemma-4-12b-emb4-l4
+INSTANCE_POOLS=
+INSTANCE_TYPE=ml.g6.xlarge
+MAX_MODEL_LEN=8192
+MODEL_ID=xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4
+TENSOR_PARALLEL_SIZE=

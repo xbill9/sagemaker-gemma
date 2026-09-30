@@ -1,0 +1,9 @@
+wrote /home/xbill/models/gemma-4-12B-it-qat-q4_0-fp8-text: 328 FP8 Linear modules, 338 tensors copied
+{
+ "modules": 328,
+ "values": 10899947520,
+ "max_rel_err": 0.03571433946490288,
+ "copied": 338,
+ "copied_identical": 338,
+ "relative_rms_error": 0.026419454221137402
+}

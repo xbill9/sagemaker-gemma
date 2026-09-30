@@ -1,0 +1,13 @@
+2026-09-29T21:30:25Z us-east-2 gemma-4-e4b-text-l4: {  "endpoint": "gemma-4-e4b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:27Z us-east-2 gemma-4-26b-text-l4: {  "endpoint": "gemma-4-26b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:29Z us-east-2 gemma-4-31b-text-l4: {  "endpoint": "gemma-4-31b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:31Z us-east-2 gemma-4-12b-text-l4: {  "endpoint": "gemma-4-12b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:33Z us-west-2 gemma-4-e4b-text-l4: {  "endpoint": "gemma-4-e4b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:36Z us-west-2 gemma-4-26b-text-l4: {  "endpoint": "gemma-4-26b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:38Z us-west-2 gemma-4-31b-text-l4: {  "endpoint": "gemma-4-31b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:41Z us-west-2 gemma-4-12b-text-l4: {  "endpoint": "gemma-4-12b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:44Z us-east-1 gemma-4-e4b-text-l4: {  "endpoint": "gemma-4-e4b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:46Z us-east-1 gemma-4-26b-text-l4: {  "endpoint": "gemma-4-26b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:48Z us-east-1 gemma-4-31b-text-l4: {  "endpoint": "gemma-4-31b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:50Z us-east-1 gemma-4-12b-text-l4: {  "endpoint": "gemma-4-12b-text-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:30:52Z watchdog done

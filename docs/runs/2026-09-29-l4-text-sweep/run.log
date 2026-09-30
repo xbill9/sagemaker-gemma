@@ -1,0 +1,84 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 20:26:55 Creating
+attempt-1 log: (EngineCore pid=84) INFO 09-29 20:33:41 [model_runner.py:428] Model loading took 8.84 GiB memory and 74.526104 seconds
+attempt-1 log: (EngineCore pid=84) INFO 09-29 20:35:10 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8733 without CUDA graph memo
+attempt-1 log: (EngineCore pid=84) INFO 09-29 20:35:10 [kv_cache_utils.py:2395] GPU KV cache size: 119,416 tokens, Maximum concurrency for 8,192 tokens per request: 14.58x
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 20:36:27 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+20:36:28 measuring gemma-4-e4b-text-l4@us-east-2
+measured gemma-4-e4b-text-l4
+20:40:04 deleted gemma-4-e4b-text-l4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 20:40:09 Creating
+attempt-1 log: (EngineCore pid=84) INFO 09-29 20:47:45 [model_runner.py:428] Model loading took 14.8 GiB memory and 126.864823 seconds
+attempt-1 log: (EngineCore pid=84) INFO 09-29 20:48:59 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8772 without CUDA graph memo
+attempt-1 log: (EngineCore pid=84) INFO 09-29 20:48:59 [kv_cache_utils.py:2395] GPU KV cache size: 19,183 tokens, Maximum concurrency for 8,192 tokens per request: 2.34x
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 20:50:14 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+20:50:16 measuring gemma-4-26b-text-l4@us-east-2
+measured gemma-4-26b-text-l4
+20:54:09 deleted gemma-4-26b-text-l4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 20:54:15 Creating
+attempt-1 log: (EngineCore pid=123) INFO 09-29 21:02:13 [model_runner.py:428] Model loading took 18.7 GiB memory and 147.233448 seconds
+attempt-1 log: (APIServer pid=1447) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=1513) INFO 09-29 21:04:36 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9700 is equivalent to --gpu-memory-utilization=0.9674 without CUDA graph me
+attempt-1 log: (EngineCore pid=1513) INFO 09-29 21:04:36 [kv_cache_utils.py:2395] GPU KV cache size: 2,555 tokens, Maximum concurrency for 1,024 tokens per request: 2.50x
+attempt-1 us-east-2 21:05:30 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+21:05:33 measuring gemma-4-31b-text-l4@us-east-2
+measured gemma-4-31b-text-l4
+21:16:17 deleted gemma-4-31b-text-l4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 21:16:21 Creating
+attempt-1 log: (EngineCore pid=84) INFO 09-29 21:22:53 [model_runner.py:428] Model loading took 8.18 GiB memory and 65.648686 seconds
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=84) INFO 09-29 21:24:15 [kv_cache_utils.py:2395] GPU KV cache size: 41,654 tokens, Maximum concurrency for 8,192 tokens per request: 5.08x
+attempt-1 us-east-2 21:25:21 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+21:25:23 measuring gemma-4-12b-text-l4@us-east-2
+measured gemma-4-12b-text-l4
+21:30:07 deleted gemma-4-12b-text-l4
+                            gemma-4-e4b-repack  gemma-4-e4b-text-l4  ratio
+weights_gib                           9.79                8.84  0.9
+kv_cache_tokens                     234879              119416  0.51
+load_seconds                      84.42169           74.526104  
+decode_tokens_per_second              60.4                62.1  1.03
+load_c1_tokens_per_second            51.05                53.3  1.04
+load_c4_tokens_per_second            198.7              165.25  0.83
+load_c16_tokens_per_second           666.9               447.7  0.67
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-26b-w4a16-l4  gemma-4-26b-text-l4  ratio
+weights_gib                          15.88                14.8  0.93
+kv_cache_tokens                      14623               19183  1.31
+load_seconds                    142.050934          126.864823  
+decode_tokens_per_second              64.8                65.8  1.02
+load_c1_tokens_per_second            55.95               52.15  0.93
+load_c4_tokens_per_second            179.1               159.6  0.89
+load_c16_tokens_per_second           515.4              441.25  0.86
+quality_correct                         40                  40  
+identical answers: 40/40
+                            gemma-4-31b-qat-l4-2xl  gemma-4-31b-text-l4  ratio
+weights_gib                           18.7                18.7  1.0
+kv_cache_tokens                       2555                2555  1.0
+load_seconds                     19.894394            7.551111  
+decode_tokens_per_second              12.6                12.6  1.0
+load_c1_tokens_per_second             12.3               12.25  1.0
+load_c4_tokens_per_second             47.4                47.0  0.99
+load_c16_tokens_per_second           39.45                39.4  1.0
+quality_correct                         40                  40  
+identical answers: 40/40
+                            gemma-4-12b-repack-l4  gemma-4-12b-text-l4  ratio
+weights_gib                           8.28                8.18  0.99
+kv_cache_tokens                      41651               41654  1.0
+load_seconds                     69.634379           65.648686  
+decode_tokens_per_second              29.2                29.0  0.99
+load_c1_tokens_per_second             27.3                27.2  1.0
+load_c4_tokens_per_second            104.7               105.3  1.01
+load_c16_tokens_per_second           357.7               358.5  1.0
+quality_correct                         40                  40  
+identical answers: 40/40
+ALL DONE

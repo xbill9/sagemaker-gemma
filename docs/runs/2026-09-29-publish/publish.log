@@ -1,0 +1,25 @@
+2026-09-29T22:11:01Z xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4 create: repo_id=xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4 url=https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4
+2026-09-29T22:11:02Z xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4 upload: url=https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4/commit/1a23ccaafb775b69edfad344fe0f68682135241f
+2026-09-29T22:12:30Z xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-ple4 anonymous HTTP 200
+2026-09-29T22:12:30Z xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text-emb4 create: repo_id=xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text-emb4 url=https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text-emb4
+2026-09-29T22:12:31Z xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text-emb4 upload: url=https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text-emb4/commit/98c231f8db8c33f5ff5599f906be06a2e613a09c
+2026-09-29T22:13:26Z xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text-emb4 anonymous HTTP 200
+2026-09-29T22:13:26Z xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4 create: repo_id=xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4 url=https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4
+2026-09-29T22:13:28Z xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4 upload: url=https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4/commit/94ff29ef414913164633c2c3e691ac1a44b5e842
+2026-09-29T22:14:33Z xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4 anonymous HTTP 200
+2026-09-29T22:14:33Z xbill9/gemma-4-E4B-it-qat-w8a8-int8 create: repo_id=xbill9/gemma-4-E4B-it-qat-w8a8-int8 url=https://huggingface.co/xbill9/gemma-4-E4B-it-qat-w8a8-int8
+2026-09-29T22:14:34Z xbill9/gemma-4-E4B-it-qat-w8a8-int8 upload: url=https://huggingface.co/xbill9/gemma-4-E4B-it-qat-w8a8-int8/commit/15311c4685f4b85f7c4a766eade29880bced0a52
+2026-09-29T22:24:12Z xbill9/gemma-4-E4B-it-qat-w8a8-int8 anonymous HTTP 200
+2026-09-29T22:24:12Z xbill9/gemma-4-12B-it-qat-w8a8-int8 create: repo_id=xbill9/gemma-4-12B-it-qat-w8a8-int8 url=https://huggingface.co/xbill9/gemma-4-12B-it-qat-w8a8-int8
+2026-09-29T22:24:13Z xbill9/gemma-4-12B-it-qat-w8a8-int8 upload: url=https://huggingface.co/xbill9/gemma-4-12B-it-qat-w8a8-int8/commit/72e0cb1b2b9a69024f1458b4312ab9439ad353b9
+2026-09-29T22:34:07Z xbill9/gemma-4-12B-it-qat-w8a8-int8 anonymous HTTP 200
+2026-09-29T22:34:07Z xbill9/gemma-4-12B-it-qat-q4_0-fp8-text create: repo_id=xbill9/gemma-4-12B-it-qat-q4_0-fp8-text url=https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-fp8-text
+2026-09-29T22:34:08Z xbill9/gemma-4-12B-it-qat-q4_0-fp8-text upload: url=https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-fp8-text/commit/18d46aa837d35bd558943c45662982945f7d8ab4
+2026-09-29T22:38:25Z xbill9/gemma-4-12B-it-qat-q4_0-fp8-text anonymous HTTP 200
+2026-09-29T22:38:25Z xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4 create: repo_id=xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4 url=https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4
+2026-09-29T22:38:26Z xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4 upload: url=https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4/commit/38971d333228e1a018e54a74fae2260d104b08af
+2026-09-29T22:38:50Z xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4 anonymous HTTP 200
+2026-09-29T22:38:50Z xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4 create: repo_id=xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4 url=https://huggingface.co/xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4
+2026-09-29T22:38:51Z xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4 upload: url=https://huggingface.co/xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4/commit/c8e1d829a071b6e9186bf83aeb79440252c5a0ec
+2026-09-29T22:39:07Z xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4 anonymous HTTP 200
+PUBLISH DONE

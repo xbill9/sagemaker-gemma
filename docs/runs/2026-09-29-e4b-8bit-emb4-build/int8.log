@@ -1,0 +1,11 @@
+mlp.down_proj                  42 tensors, int8 vs QAT rel err 0.0086-0.0124 (mean 0.0100)
+mlp.gate_proj                  42 tensors, int8 vs QAT rel err 0.0077-0.0105 (mean 0.0087)
+mlp.up_proj                    42 tensors, int8 vs QAT rel err 0.0076-0.0105 (mean 0.0086)
+per_layer_input_gate           42 tensors, int8 vs QAT rel err 0.0076-0.0170 (mean 0.0114)
+per_layer_model_projection      1 tensors, int8 vs QAT rel err 0.0099-0.0099 (mean 0.0099)
+per_layer_projection           42 tensors, int8 vs QAT rel err 0.0060-0.0100 (mean 0.0068)
+self_attn.k_proj               24 tensors, int8 vs QAT rel err 0.0077-0.0129 (mean 0.0102)
+self_attn.o_proj               42 tensors, int8 vs QAT rel err 0.0074-0.0099 (mean 0.0082)
+self_attn.q_proj               42 tensors, int8 vs QAT rel err 0.0078-0.0115 (mean 0.0090)
+self_attn.v_proj               24 tensors, int8 vs QAT rel err 0.0079-0.0139 (mean 0.0093)
+total 10.20 GiB in 4 shards

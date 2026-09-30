@@ -1,0 +1,9 @@
+{
+  "endpoint": "gemma-4-e2b-w8a8emb4-l4",
+  "status": "InService",
+  "created": "2026-09-29T18:08:00.326000-04:00",
+  "last_modified": "2026-09-29T18:16:29.077000-04:00",
+  "instances": 1,
+  "instance_types": null,
+  "image_digest": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm@sha256:cc456bd79ed75d757d888015486da47520d297e63266faa450253dc3bcd54ef7"
+}

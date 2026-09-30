@@ -1,0 +1,12 @@
+decode gemma-4-31b-emb4-l4 n=16 rep=0: 2.989s
+decode gemma-4-31b-emb4-l4 n=512 rep=0: 36.823s
+decode gemma-4-31b-emb4-l4 n=16 rep=1: 1.645s
+decode gemma-4-31b-emb4-l4 n=512 rep=1: 36.853s
+decode gemma-4-31b-emb4-l4 n=16 rep=2: 1.71s
+decode gemma-4-31b-emb4-l4 n=512 rep=2: 36.883s
+decode gemma-4-31b-emb4-l4 n=16 rep=3: 1.66s
+decode gemma-4-31b-emb4-l4 n=512 rep=3: 36.999s
+decode gemma-4-31b-emb4-l4 n=16 rep=4: 1.745s
+decode gemma-4-31b-emb4-l4 n=512 rep=4: 36.939s
+load gemma-4-31b-emb4-l4 c=1 rep=0: 256 tok in 18.61s
+load gemma-4-31b-emb4-l4 c=1 rep=1: 256 tok in 18.69s

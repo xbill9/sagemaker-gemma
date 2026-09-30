@@ -1,0 +1,6 @@
+ENDPOINT_NAME=gemma-4-e2b-qat-l40s
+INSTANCE_POOLS=
+INSTANCE_TYPE=ml.g6e.xlarge
+MAX_MODEL_LEN=8192
+MODEL_ID=google/gemma-4-E2B-it-qat-w4a16-ct
+TENSOR_PARALLEL_SIZE=

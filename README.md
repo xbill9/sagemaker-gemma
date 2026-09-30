@@ -248,6 +248,28 @@ towers removed (`-ct-text`, `Gemma4ForCausalLM`), all on `ml.g6.xlarge` (L4),
 Details: [`docs/runs/2026-09-29-e2b-e4b-repack/NOTES.md`](docs/runs/2026-09-29-e2b-e4b-repack/NOTES.md),
 [`docs/runs/2026-09-29-e2b-text/NOTES.md`](docs/runs/2026-09-29-e2b-text/NOTES.md).
 
+### Weight formats on one L4: int4 embeddings, FP8, int8
+
+Text-only builds of the QAT weights on `ml.g6.xlarge`, 2026-09-29, same container and settings
+(31B with its reduced settings on `ml.g6.2xlarge`). Decode in tokens/s, one request:
+
+| Size | text-only (int4) | **emb4** (int4 + int4 embeddings, `lm_head`) | FP8 | int8 |
+| --- | ---: | ---: | ---: | ---: |
+| E2B | 103.0 | **141.7** | 73.0 | 75.5 |
+| E4B | 62.1 | **79.9** | 39.4 | 40.1 |
+| 12B | 29.0 | **35.0** | 16.8 | 17.0 |
+| 26B A4B | 65.8 | **91.5** | – (does not fit) | – |
+
+- int4 embeddings and `lm_head` are 1.21–1.39× faster than text-only at every size, with
+  identical answers; packing only the per-layer table (E2B ple4) leaves decode unchanged, so the
+  gain is the int4 `lm_head`.
+- 8-bit linears run natively on the L4 but decode at 0.58–0.71× of int4: the L4 is bound by memory
+  bandwidth, and 8-bit weights are twice the bytes.
+- Every build scores 34–40 of 40.
+
+Full table and the SageMaker start-up delay seen on one run:
+[`docs/runs/2026-09-29-l4-format-sweep/NOTES.md`](docs/runs/2026-09-29-l4-format-sweep/NOTES.md).
+
 ## 12B, 26B MoE and 31B on TPU, full size vs QAT
 
 These sizes run on TPU v6e through vLLM's JAX path, with the int4 support

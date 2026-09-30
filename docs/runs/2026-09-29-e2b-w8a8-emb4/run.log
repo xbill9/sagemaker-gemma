@@ -1,0 +1,35 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 22:08:01 Creating
+attempt-1 log: (EngineCore pid=76) INFO 09-29 22:13:55 [model_runner.py:428] Model loading took 3.6 GiB memory and 24.431355 seconds
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=76) INFO 09-29 22:15:42 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9000 is equivalent to --gpu-memory-utilization=0.8747 without CUDA graph memo
+attempt-1 log: (EngineCore pid=76) INFO 09-29 22:15:42 [kv_cache_utils.py:2395] GPU KV cache size: 1,138,763 tokens, Maximum concurrency for 8,192 tokens per request: 139.01x
+attempt-1 us-east-2 22:16:30 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+22:16:32 measuring gemma-4-e2b-w8a8emb4-l4@us-east-2
+measured gemma-4-e2b-w8a8emb4-l4
+22:19:32 deleted gemma-4-e2b-w8a8emb4-l4
+                            gemma-4-e2b-emb4-l4  gemma-4-e2b-w8a8emb4-l4  ratio
+weights_gib                           2.86                 3.6  1.26
+kv_cache_tokens                    1209977             1138763  0.94
+load_seconds                     20.157062           24.431355  
+decode_tokens_per_second             141.7                92.1  0.65
+load_c1_tokens_per_second           107.55               75.35  0.7
+load_c4_tokens_per_second            386.6               288.8  0.75
+load_c16_tokens_per_second         1259.15              980.45  0.78
+quality_correct                         36                  34  
+identical answers: 37/40
+                            gemma-4-e2b-int8-l4  gemma-4-e2b-w8a8emb4-l4  ratio
+weights_gib                           7.07                 3.6  0.51
+kv_cache_tokens                     582397             1138763  1.96
+load_seconds                     49.664624           24.431355  
+decode_tokens_per_second              75.5                92.1  1.22
+load_c1_tokens_per_second            62.05               75.35  1.21
+load_c4_tokens_per_second            241.5               288.8  1.2
+load_c16_tokens_per_second          825.05              980.45  1.19
+quality_correct                         37                  34  
+identical answers: 36/40
+2026-09-29T22:19:33Z cleanup us-east-2: {  "endpoint": "gemma-4-e2b-w8a8emb4-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:19:35Z cleanup us-west-2: {  "endpoint": "gemma-4-e2b-w8a8emb4-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:19:37Z cleanup us-east-1: {  "endpoint": "gemma-4-e2b-w8a8emb4-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+ALL DONE

@@ -1,0 +1,79 @@
+decode gemma-4-12b-fp8-l4 n=16 rep=0: 2.82s
+decode gemma-4-12b-fp8-l4 n=512 rep=0: 30.921s
+decode gemma-4-12b-fp8-l4 n=16 rep=1: 1.495s
+decode gemma-4-12b-fp8-l4 n=512 rep=1: 31.015s
+decode gemma-4-12b-fp8-l4 n=16 rep=2: 1.516s
+decode gemma-4-12b-fp8-l4 n=512 rep=2: 31.159s
+decode gemma-4-12b-fp8-l4 n=16 rep=3: 1.471s
+decode gemma-4-12b-fp8-l4 n=512 rep=3: 31.144s
+decode gemma-4-12b-fp8-l4 n=16 rep=4: 1.557s
+decode gemma-4-12b-fp8-l4 n=512 rep=4: 31.072s
+load gemma-4-12b-fp8-l4 c=1 rep=0: 256 tok in 15.77s
+load gemma-4-12b-fp8-l4 c=1 rep=1: 256 tok in 15.87s
+load gemma-4-12b-fp8-l4 c=4 rep=0: 1024 tok in 16.30s
+load gemma-4-12b-fp8-l4 c=4 rep=1: 1024 tok in 16.19s
+load gemma-4-12b-fp8-l4 c=16 rep=0: 4096 tok in 17.83s
+load gemma-4-12b-fp8-l4 c=16 rep=1: 4096 tok in 17.84s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-29-l4-format-sweep/measure-gemma-4-12b-fp8-l4.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "12.65",
+    "load_seconds": "99.593060",
+    "kv_cache_tokens": "20,383",
+    "max_concurrency_at_max_len": "2.49",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 16.8,
+  "per_call_fixed_cost_seconds": 0.563,
+  "load_tokens_per_second": {
+    "1": 16.15,
+    "4": 63.0,
+    "16": 229.65
+  },
+  "server_peak": {
+    "lines": 18,
+    "peak_tokens_per_second": 246.4
+  },
+  "quality": "40/40"
+}

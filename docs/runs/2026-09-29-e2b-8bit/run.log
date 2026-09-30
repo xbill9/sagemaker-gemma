@@ -1,0 +1,56 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 21:42:13 Creating
+attempt-1 log: (EngineCore pid=76) INFO 09-29 21:48:36 [model_runner.py:428] Model loading took 7.07 GiB memory and 52.741454 seconds
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 21:51:48 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+21:51:50 measuring gemma-4-e2b-fp8-l4@us-east-2
+measured gemma-4-e2b-fp8-l4
+21:55:06 deleted gemma-4-e2b-fp8-l4
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 21:55:12 Creating
+attempt-1 log: (EngineCore pid=78) INFO 09-29 22:01:38 [model_runner.py:428] Model loading took 7.07 GiB memory and 49.664624 seconds
+attempt-1 log: (APIServer pid=13) INFO:     Application startup complete.
+attempt-1 log: (EngineCore pid=78) INFO 09-29 22:03:20 [kv_cache_utils.py:2395] GPU KV cache size: 582,397 tokens, Maximum concurrency for 8,192 tokens per request: 71.09x
+attempt-1 us-east-2 22:04:19 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+22:04:21 measuring gemma-4-e2b-int8-l4@us-east-2
+measured gemma-4-e2b-int8-l4
+22:07:35 deleted gemma-4-e2b-int8-l4
+                            gemma-4-e2b-text  gemma-4-e2b-fp8-l4  ratio
+weights_gib                           6.33                7.07  1.12
+kv_cache_tokens                     650783              589433  0.91
+load_seconds                      46.17332           52.741454  
+decode_tokens_per_second             103.0                73.0  0.71
+load_c1_tokens_per_second            75.65                61.5  0.81
+load_c4_tokens_per_second           277.05              234.65  0.85
+load_c16_tokens_per_second           927.0              810.95  0.87
+quality_correct                         36                  35  
+identical answers: 37/40
+                            gemma-4-e2b-text  gemma-4-e2b-int8-l4  ratio
+weights_gib                           6.33                7.07  1.12
+kv_cache_tokens                     650783              582397  0.89
+load_seconds                      46.17332           49.664624  
+decode_tokens_per_second             103.0                75.5  0.73
+load_c1_tokens_per_second            75.65               62.05  0.82
+load_c4_tokens_per_second           277.05               241.5  0.87
+load_c16_tokens_per_second           927.0              825.05  0.89
+quality_correct                         36                  37  
+identical answers: 38/40
+                            gemma-4-e2b-fp8-l4  gemma-4-e2b-int8-l4  ratio
+weights_gib                           7.07                7.07  1.0
+kv_cache_tokens                     589433              582397  0.99
+load_seconds                     52.741454           49.664624  
+decode_tokens_per_second              73.0                75.5  1.03
+load_c1_tokens_per_second             61.5               62.05  1.01
+load_c4_tokens_per_second           234.65               241.5  1.03
+load_c16_tokens_per_second          810.95              825.05  1.02
+quality_correct                         35                  37  
+identical answers: 35/40
+2026-09-29T22:07:35Z cleanup us-east-2 gemma-4-e2b-fp8-l4: {  "endpoint": "gemma-4-e2b-fp8-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:07:38Z cleanup us-east-2 gemma-4-e2b-int8-l4: {  "endpoint": "gemma-4-e2b-int8-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:07:40Z cleanup us-west-2 gemma-4-e2b-fp8-l4: {  "endpoint": "gemma-4-e2b-fp8-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:07:43Z cleanup us-west-2 gemma-4-e2b-int8-l4: {  "endpoint": "gemma-4-e2b-int8-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:07:46Z cleanup us-east-1 gemma-4-e2b-fp8-l4: {  "endpoint": "gemma-4-e2b-fp8-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T22:07:49Z cleanup us-east-1 gemma-4-e2b-int8-l4: {  "endpoint": "gemma-4-e2b-int8-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+ALL DONE

@@ -1,0 +1,28 @@
+2026-09-29T20:30:18Z us-east-2 gemma-4-e2b-qat-l40s: {  "endpoint": "gemma-4-e2b-qat-l40s",  "results": {    "endpoint": "deleted",    "endpoint-config": "deleted",    "model": "deleted"  }}
+2026-09-29T20:30:20Z us-east-2 gemma-4-e2b-rep-l40s: {  "endpoint": "gemma-4-e2b-rep-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:22Z us-east-2 gemma-4-e2b-text-l40s: {  "endpoint": "gemma-4-e2b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:24Z us-east-2 gemma-4-e4b-qat-l40s: {  "endpoint": "gemma-4-e4b-qat-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:26Z us-east-2 gemma-4-e4b-rep-l40s: {  "endpoint": "gemma-4-e4b-rep-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:29Z us-east-2 gemma-4-e4b-text-l40s: {  "endpoint": "gemma-4-e4b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:31Z us-east-2 gemma-4-26b-text-l40s: {  "endpoint": "gemma-4-26b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:33Z us-east-2 gemma-4-31b-text-l40s: {  "endpoint": "gemma-4-31b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:35Z us-east-2 gemma-4-12b-text-l40s: {  "endpoint": "gemma-4-12b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:37Z us-west-2 gemma-4-e2b-qat-l40s: {  "endpoint": "gemma-4-e2b-qat-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:40Z us-west-2 gemma-4-e2b-rep-l40s: {  "endpoint": "gemma-4-e2b-rep-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:42Z us-west-2 gemma-4-e2b-text-l40s: {  "endpoint": "gemma-4-e2b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:45Z us-west-2 gemma-4-e4b-qat-l40s: {  "endpoint": "gemma-4-e4b-qat-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:47Z us-west-2 gemma-4-e4b-rep-l40s: {  "endpoint": "gemma-4-e4b-rep-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:50Z us-west-2 gemma-4-e4b-text-l40s: {  "endpoint": "gemma-4-e4b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:53Z us-west-2 gemma-4-26b-text-l40s: {  "endpoint": "gemma-4-26b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:55Z us-west-2 gemma-4-31b-text-l40s: {  "endpoint": "gemma-4-31b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:30:58Z us-west-2 gemma-4-12b-text-l40s: {  "endpoint": "gemma-4-12b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:00Z us-east-1 gemma-4-e2b-qat-l40s: {  "endpoint": "gemma-4-e2b-qat-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:02Z us-east-1 gemma-4-e2b-rep-l40s: {  "endpoint": "gemma-4-e2b-rep-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:05Z us-east-1 gemma-4-e2b-text-l40s: {  "endpoint": "gemma-4-e2b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:07Z us-east-1 gemma-4-e4b-qat-l40s: {  "endpoint": "gemma-4-e4b-qat-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:09Z us-east-1 gemma-4-e4b-rep-l40s: {  "endpoint": "gemma-4-e4b-rep-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:11Z us-east-1 gemma-4-e4b-text-l40s: {  "endpoint": "gemma-4-e4b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:13Z us-east-1 gemma-4-26b-text-l40s: {  "endpoint": "gemma-4-26b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:15Z us-east-1 gemma-4-31b-text-l40s: {  "endpoint": "gemma-4-31b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T20:31:17Z us-east-1 gemma-4-12b-text-l40s: {  "endpoint": "gemma-4-12b-text-l40s",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+REAPED

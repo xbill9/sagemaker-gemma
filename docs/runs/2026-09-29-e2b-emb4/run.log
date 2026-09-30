@@ -1,0 +1,33 @@
+attempt-1 us-east-2 deploy submitted
+attempt-1 us-east-2 21:30:17 Creating
+attempt-1 log: (EngineCore pid=76) INFO 09-29 21:36:03 [model_runner.py:428] Model loading took 2.86 GiB memory and 20.157062 seconds
+attempt-1 log: (APIServer pid=14) INFO:     Application startup complete.
+attempt-1 us-east-2 21:38:44 InService
+READY attempt-1 us-east-2 (.env AWS_REGION updated)
+21:38:46 measuring gemma-4-e2b-emb4-l4@us-east-2
+measured gemma-4-e2b-emb4-l4
+21:41:33 deleted gemma-4-e2b-emb4-l4
+                            gemma-4-e2b-text  gemma-4-e2b-emb4-l4  ratio
+weights_gib                           6.33                2.86  0.45
+kv_cache_tokens                     650783             1209977  1.86
+load_seconds                      46.17332           20.157062  
+decode_tokens_per_second             103.0               141.7  1.38
+load_c1_tokens_per_second            75.65              107.55  1.42
+load_c4_tokens_per_second           277.05               386.6  1.4
+load_c16_tokens_per_second           927.0             1259.15  1.36
+quality_correct                         36                  36  
+identical answers: 40/40
+                            gemma-4-e2b-repack  gemma-4-e2b-emb4-l4  ratio
+weights_gib                           7.26                2.86  0.39
+kv_cache_tokens                     929454             1209977  1.3
+load_seconds                     51.958433           20.157062  
+decode_tokens_per_second             107.2               141.7  1.32
+load_c1_tokens_per_second            82.35              107.55  1.31
+load_c4_tokens_per_second            322.0               386.6  1.2
+load_c16_tokens_per_second         1059.25             1259.15  1.19
+quality_correct                         37                  36  
+identical answers: 39/40
+2026-09-29T21:41:33Z cleanup us-east-2: {  "endpoint": "gemma-4-e2b-emb4-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:41:35Z cleanup us-west-2: {  "endpoint": "gemma-4-e2b-emb4-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+2026-09-29T21:41:38Z cleanup us-east-1: {  "endpoint": "gemma-4-e2b-emb4-l4",  "results": {    "endpoint": "not found",    "endpoint-config": "not found",    "model": "not found"  }}
+ALL DONE

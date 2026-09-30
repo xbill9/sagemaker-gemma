@@ -1,0 +1,9 @@
+{
+  "endpoint": "gemma-4-e2b-fp8-l4",
+  "model_id": "xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text",
+  "instance_type": "ml.g6.xlarge",
+  "instance_pools": null,
+  "image": "763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.1",
+  "role": "arn:aws:iam::106059658660:role/sagemaker-gemma-execution-role",
+  "status": "Creating"
+}
