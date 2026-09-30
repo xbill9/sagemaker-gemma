@@ -28,7 +28,7 @@ Part two measures Google's QAT checkpoint against the full-size bf16 release: ht
 
 Part three repacks the QAT weights with 4-bit embeddings: https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf
 
-Part four serves those builds on SageMaker's smallest GPU, the T4: PART4
+Part four serves those builds on SageMaker's smallest GPU, the T4: https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-t4/devto-sagemaker-gemma-t4.md
 
 This article asks what the managed endpoint adds over the same GPU without it.
 
@@ -227,6 +227,7 @@ The strategy for using MCP for SageMaker deployment and benchmarking was validat
 - Part one, deploying Gemma 4 to SageMaker: https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d
 - Part two, QAT against bf16: https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m
 - Part three, 4-bit embeddings: https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf
+- Part four, the NVIDIA T4: https://github.com/xbill9/sagemaker-gemma/blob/main/docs/articles/sagemaker-gemma-t4/devto-sagemaker-gemma-t4.md
 - E2B emb4: https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-emb4
 - Google Gemma 4 E2B QAT: https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct
 - vLLM OpenAI server image: https://hub.docker.com/r/vllm/vllm-openai
