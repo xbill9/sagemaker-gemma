@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Gemma 4 on Amazon SageMaker: The NVIDIA T4 Decodes at 0.8x of the L4 With the Same Answers</title>
+  <meta name="description" content="Gemma 4&#x27;s 4-bit builds on SageMaker&#x27;s smallest GPU, an NVIDIA T4, against the L4: a Turing patch for vLLM, the host image the CUDA 13 container needs, speed, memory, answers and cost per token." />
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+    body{font-family:-apple-system,'Segoe UI',Roboto,'Liberation Sans',Arial,sans-serif;
+         font-size:18px;line-height:1.58;max-width:42em;color:#242424;}
+    h1,h2,h3,h4{font-weight:700;line-height:1.25;margin-top:1.8em;}
+    h4{font-size:1.25em;}
+    img{max-width:100%;height:auto;display:block;margin:1.6em 0;}
+    pre{background:#f7f7f7;border:1px solid #e6e6e6;border-radius:4px;
+        padding:12px 14px;overflow-x:auto;font-size:14px;line-height:1.45;}
+    code{font-family:'Liberation Mono',Menlo,Consolas,monospace;}
+    :not(pre)>code{background:#f2f2f2;padding:1px 5px;border-radius:3px;font-size:.9em;}
+    blockquote{border-left:3px solid #ddd;margin-left:0;padding-left:1em;color:#555;}
+    hr{border:0;border-top:1px solid #e6e6e6;margin:2.4em 0;}
+  </style>
+</head>
+<body>
+<p>This article deploys Gemma 4 to the smallest GPU Amazon SageMaker
+offers, an NVIDIA T4, and measures it against the L4 from the earlier
+parts. A suite of Python MCP tools is built to simplify management of
+the vLLM hosted deployment.</p>
+<figure><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-t4/medium/img/devto-cover.0adb9f63.jpg" alt="Gemma 4 on Amazon SageMaker: The NVIDIA T4 Decodes at 0.8x of the L4 With the Same Answers" /></figure>
+<p><a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-t4/medium/img/devto-sagemaker-gemma-t4-table-1.png"
+alt="Table: Models, Hardware, Region, Software" /></p>
+<hr />
+<h4 id="where-do-i-start">Where Do I Start?</h4>
+<p>This is part four of a series. Part one deploys Gemma 4 to a
+SageMaker endpoint with the aws CLI and an MCP server: <a
+href="https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d">https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d</a></p>
+<p>Part two measures Google's QAT checkpoint against the full-size bf16
+release: <a
+href="https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m">https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m</a></p>
+<p>Part three repacks the QAT weights with 4-bit embeddings: <a
+href="https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf">https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf</a></p>
+<p>This article takes part three's builds down one GPU generation.</p>
+<hr />
+<h4 id="where-does-this-fit">Where Does This Fit?</h4>
+<p>SageMaker JumpStart lists Gemma 4 from <code>ml.g6e.xlarge</code>,
+one NVIDIA L40S, for E2B, and 12B only on <code>ml.g6e.16xlarge</code>;
+none of its Gemma 4 entries lists a T4. Gemma 4 on Turing GPUs is an
+open vLLM issue, #38918, "Gemma4 on Turing GPUs (SM 7.5): all attention
+backends hit shared memory limits", reported again on vLLM 0.29.0 in
+September. The builds served here, with 4-bit embeddings, are the
+author's repacks of Google's QAT weights on Hugging Face.</p>
+<hr />
+<h4 id="at-this-point-you-should-have">At This Point You Should
+Have…</h4>
+<ul>
+<li>The repository cloned and <code>make test</code> passing</li>
+<li>An <code>aws login</code> session in an account with SageMaker
+endpoint quota for <code>ml.g4dn.xlarge</code></li>
+<li>Part three's measurements on the L4, which this article compares
+against</li>
+</ul>
+<hr />
+<h4 id="what-is-the-smallest-gpu-on-sagemaker">What Is the Smallest GPU
+on SageMaker?</h4>
+<p>The project's MCP server has a <code>check_quotas</code> tool that
+reads the account's endpoint quota for each instance type in every US
+region:</p>
+<pre><code>| Instance | us-east-1 | us-east-2 | us-west-1 | us-west-2 |
+| `ml.g4dn.xlarge` | 2 | 2 | 2 | 2 |
+| `ml.g5g.xlarge` | - | - | - | - |
+| `ml.g5.xlarge` | 2 | 2 | - | 2 |
+| `ml.g6.xlarge` | 1 | 1 | - | 1 |
+| `ml.inf2.xlarge` | 0 | 2 | - | 0 |</code></pre>
+<p>A dash means SageMaker has no quota entry for the type.
+<code>ml.g4dn.xlarge</code>, one T4 with 16 GB, is the smallest GPU on
+offer. The Graviton T4G (<code>g5g</code>) exists on EC2 only.
+Inferentia2 is listed, but it runs the Neuron SDK and needs a different
+container and a compiled model.</p>
+<hr />
+<h4 id="step-1--patch-the-container-for-turing">Step 1 — Patch the
+Container for Turing</h4>
+<p>Gemma 4's full-attention layers are 512 wide. vLLM serves them with
+its Triton attention kernel, whose tile asks for 98,304 bytes of shared
+memory per block. A T4 is a Turing GPU and allows 65,536, so the engine
+stops at start-up:</p>
+<pre><code>triton.runtime.errors.OutOfResources: shared memory,
+Required: 98304, Hardware limit: 65536</code></pre>
+<p>vLLM 0.30.0, the version in the SageMaker container, has no fix for
+it. The author's Compute Engine T4 serves Gemma 4 with a script that
+halves the tiles on pre-Ampere GPUs, and the SageMaker image gets the
+same script, in a Dockerfile built <code>FROM</code> the stock
+container:</p>
+<pre class="dockerfile"><code>ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+COPY patch_triton_turing.py /opt/turing/patch_triton_turing.py
+RUN set -eu; \
+    target=&quot;$(python3 -c &#39;import importlib.util, os; print(os.path.join(importlib.util.find_spec(&quot;vllm&quot;).submodule_search_locations[0], &quot;v1/attention/ops/triton_unified_attention.py&quot;))&#39;)&quot;; \
+    python3 /opt/turing/patch_triton_turing.py &quot;$target&quot;; \
+    python3 /opt/turing/patch_triton_turing.py --check &quot;$target&quot;; \
+    python3 -c &#39;import torch, sys; a = torch._C._cuda_getArchFlags(); print(&quot;torch arch:&quot;, a); sys.exit(0 if &quot;sm_75&quot; in a else 1)&#39;</code></pre>
+<p>The last line refuses the build if PyTorch in the image has no Turing
+kernels. CodeBuild builds the image and pushes it to a private ECR
+repository, so the 8 GB base image never touches the local disk:</p>
+<pre><code>#8 1.092 patch_triton_turing: patched /usr/local/lib/python3.12/dist-packages/vllm/v1/attention/ops/triton_unified_attention.py
+#8 1.092   smem budget   : 60000 B of Turing&#39;s 65536 hard limit
+#8 5.652 torch arch: sm_75 sm_80 sm_86 sm_90 sm_100 sm_120</code></pre>
+<p>The patch is a no-op on an L4 or newer, and the image keeps the stock
+entrypoint, so every <code>SM_VLLM_*</code> setting works as before. The
+Dockerfile and <code>buildspec.yml</code> are in the repository, in the
+<code>turing</code> directory.</p>
+<hr />
+<h4 id="step-2--pick-the-host-image">Step 2 — Pick the Host Image</h4>
+<p>A SageMaker production variant runs on one of several host images,
+each with its own NVIDIA driver, chosen by
+<code>InferenceAmiVersion</code>:</p>
+<pre><code>al2-ami-sagemaker-inference-gpu-2      NVIDIA driver 535, CUDA 12.2
+al2-ami-sagemaker-inference-gpu-3-1    NVIDIA driver 550, CUDA 12.4
+al2023-ami-sagemaker-inference-gpu-4-1 NVIDIA driver 580, CUDA 13.0</code></pre>
+<p>The vLLM 0.30.0 container is built on CUDA 13:</p>
+<pre><code>NVIDIA_REQUIRE_CUDA=cuda&gt;=13.0 ...
+CUDA_VERSION=13.0.2</code></pre>
+<p><code>sm.py</code> passes the host image through from
+<code>.env</code>:</p>
+<pre><code>INFERENCE_AMI_VERSION=al2023-ami-sagemaker-inference-gpu-4-1</code></pre>
+<hr />
+<h4 id="mag_right-tip-no-log-group-means-the-container-never-started">🔎
+Tip: No Log Group Means the Container Never Started</h4>
+<p>Without <code>InferenceAmiVersion</code>, an
+<code>ml.g4dn.xlarge</code> endpoint with this image ends about six
+minutes after <code>Creating</code> with:</p>
+<pre><code>CannotStartContainerError. Please ensure the model container for variant AllTraffic starts correctly when invoked with &#39;docker run &lt;image&gt; serve&#39;</code></pre>
+<p>and no CloudWatch log group at all. A missing log group points at the
+host, before any code in the image runs: compare the container's
+<code>NVIDIA_REQUIRE_CUDA</code> with the driver of the host image. With
+the setting above, the same image on the same instance type reached
+<code>InService</code> in 13.2 minutes.</p>
+<hr />
+<h4 id="step-3--run-the-sweep">Step 3 — Run the Sweep</h4>
+<p>The sweep serves part three's text-only builds with 4-bit embeddings,
+one endpoint at a time: deploy, measure, tear down. Settings match the
+L4 runs except for the data type, since Turing has no bf16:</p>
+<pre><code>IMAGE_URI=&lt;account&gt;.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm:0.30.0-sagemaker-v1.3-sm75
+INFERENCE_AMI_VERSION=al2023-ami-sagemaker-inference-gpu-4-1
+INSTANCE_POOLS=ml.g4dn.xlarge,ml.g4dn.2xlarge
+MAX_MODEL_LEN=8192
+SM_VLLM_DTYPE=float16</code></pre>
+<p>Each endpoint went from the deploy call to <code>InService</code> in
+13.3 minutes. <code>compare.py</code> then measures single-request
+decode, 1 to 16 parallel requests and 40 questions at temperature 0, as
+in parts two and three, and <code>compare.py combine</code> sets each T4
+run beside its L4 run:</p>
+<pre><code>decode_tokens_per_second              35.0                28.5  0.81
+load_c16_tokens_per_second           411.8              216.45  0.53
+quality_correct                         40                  40
+identical answers: 40/40</code></pre>
+<hr />
+<h4 id="t4-against-l4-speed">T4 Against L4: Speed</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-t4/medium/img/devto-sagemaker-gemma-t4-table-2.png"
+alt="Table: Model, Decode, T4 (tok/s), Decode, L4 (tok/s), T4 / L4, 16 parallel, T4 / L4" /></p>
+<p>One user at a time, the T4 runs at about 0.8x of the L4. Under load
+the gap widens with model size: at 16 parallel requests the T4 delivers
+0.63x of the L4 at E2B and 0.53x at 12B.</p>
+<p>The Compute Engine T4 serving the same E2B build with the same patch
+decodes at 109.7 tok/s, against 108.5 here. That rig runs vLLM 0.29.0
+from pip with a 16,384-token context, so the agreement is a cross-check
+and not a controlled comparison.</p>
+<hr />
+<h4 id="does-it-still-answer-correctly">Does It Still Answer
+Correctly?</h4>
+<p>All three models give the same 40 answers on the T4 as on the L4,
+byte for byte: 36 of 40 correct for E2B and E4B, 40 of 40 for 12B. The
+T4 computes in fp16 and runs the clamped attention tiles, and neither
+changed an answer.</p>
+<hr />
+<h4 id="what-the-engine-allocates">What the Engine Allocates</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-t4/medium/img/devto-sagemaker-gemma-t4-table-3.png"
+alt="Table: Model, Weights (GiB), KV cache, T4 (tokens), KV cache, L4 (tokens)" /></p>
+<p>The weights take the same memory on both GPUs. The T4 has less left
+for the KV cache: 12B keeps 20,354 tokens, which is 2.48 requests at the
+full 8,192-token context.</p>
+<hr />
+<h4 id="26b-does-not-fit">26B Does Not Fit</h4>
+<p>The 26B A4B build holds 14.2 GiB of weights on the L4. On the T4 it
+ran with the reduced settings 31B needed in part three: memory 0.97, a
+1,024-token context and four sequences. The weights loaded and the
+engine then ran out of memory:</p>
+<pre><code>memory allocation failed with OOM on device 0 while trying to allocate 253755392 bytes (free: 191627264, total: 15636037632).</code></pre>
+<p>The T4 reports 14.56 GiB in total. Of the builds tested, 12B is the
+largest that serves on one T4.</p>
+<hr />
+<h4 id="and-priceperformance">And Price/Performance?</h4>
+<p>SageMaker's on-demand hosting price in <code>us-east-2</code>, from
+the AWS Price List API on 2026-09-30, is $0.736 an hour for
+<code>ml.g4dn.xlarge</code> and $1.1267 for <code>ml.g6.xlarge</code>.
+Per million output tokens at 16 parallel requests:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-t4/medium/img/devto-sagemaker-gemma-t4-table-4.png"
+alt="Table: Model, T4, L4, T4 / L4" /></p>
+<p>The T4 costs 0.65x the L4 per hour and delivers 0.53x to 0.63x of its
+throughput under load, so a busy T4 costs more per token, by 5% at E2B
+and 24% at 12B. A mostly idle endpoint is billed by the hour, and there
+the T4 costs 0.65x.</p>
+<hr />
+<h4
+id="mag_right-tip-lower-the-health-check-timeout-while-prototyping">🔎
+Tip: Lower the Health-Check Timeout While Prototyping</h4>
+<p><code>sm.py</code> sets
+<code>ContainerStartupHealthCheckTimeoutInSeconds</code> to 1800, which
+leaves room for a large model to download and load. A container that
+crashes at start holds the endpoint in <code>Creating</code> for that
+whole window: the 26B endpoint ran out of memory at 15:33 and was marked
+<code>Failed</code> at 15:59, 36.5 minutes after <code>Creating</code>.
+For a small model that loads in under two minutes, a few hundred seconds
+is enough, and a failed start comes back that much sooner.</p>
+<hr />
+<h4 id="so-which-one">So, Which One?</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-t4/medium/img/devto-sagemaker-gemma-t4-table-5.png"
+alt="Table: Workload, GPU, Why" /></p>
+<hr />
+<h4 id="what-stops-the-meter">What Stops the Meter</h4>
+<p>Every endpoint was deleted after its measurement, and a watchdog
+deleted anything left behind when the sweep exited:</p>
+<pre><code>2026-09-30T15:59:45Z gemma-4-e2b-emb4-t4: gone
+2026-09-30T15:59:46Z gemma-4-e4b-emb4-t4: gone
+2026-09-30T15:59:46Z gemma-4-12b-emb4-t4: gone
+2026-09-30T15:59:47Z gemma-4-26b-emb4-t4: gone</code></pre>
+<p>The build resources cost nothing while idle: an ECR repository, a
+CodeBuild project, its role and a source bucket in
+<code>us-east-2</code>.</p>
+<hr />
+<h4 id="summary">Summary</h4>
+<p>The goal of this article was to serve Gemma 4 on the smallest GPU
+SageMaker offers and measure what it gives up against the L4. The key to
+the solution was a Turing patch for vLLM in a derived container, on the
+host image with driver 580. The T4 results were:</p>
+<ul>
+<li>🟢 E2B, E4B and 12B serve on one T4 and give the same 40 answers as
+the L4</li>
+<li>🟢 Single-request decode runs at <strong>0.77x to 0.82x</strong> of
+the L4</li>
+<li>🟢 E2B decodes at <strong>108.5 tok/s</strong>, in line with a
+Compute Engine T4 at 109.7</li>
+<li>⚠️ At 16 parallel requests the T4 delivers <strong>0.53x to
+0.63x</strong> of the L4, and costs 5% to 24% more per token</li>
+<li>⚠️ The CUDA 13 container needs <code>InferenceAmiVersion</code> set
+to the driver 580 host on <code>ml.g4dn</code></li>
+<li>❌ 26B A4B does not fit one T4</li>
+</ul>
+<p>Scope: one account, SageMaker <code>ml.g4dn.xlarge</code> in
+<code>us-east-2</code>, vLLM 0.30.0 from the AWS container with the
+Turing patch, fp16, one deployment per model on 2026-09-30. The L4
+figures are part three's, measured on 2026-09-29 in bf16 with the stock
+container. Throughput was measured through the aws CLI from one client
+machine, and prices are on-demand list prices.</p>
+<p>The strategy for using MCP for SageMaker deployment and benchmarking
+was validated with an incremental step by step approach.</p>
+<hr />
+<h4 id="references">References</h4>
+<ul>
+<li>Repository: <a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></li>
+<li>Part one, deploying Gemma 4 to SageMaker: <a
+href="https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d">https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d</a></li>
+<li>Part two, QAT against bf16: <a
+href="https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m">https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m</a></li>
+<li>Part three, 4-bit embeddings: <a
+href="https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf">https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-4-bit-embeddings-decode-up-to-139x-faster-on-one-l4-36mf</a></li>
+<li>E2B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>E4B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>12B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>26B A4B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>vLLM issue 38918, Gemma 4 on Turing: <a
+href="https://github.com/vllm-project/vllm/issues/38918">https://github.com/vllm-project/vllm/issues/38918</a></li>
+<li>SageMaker ProductionVariant: <a
+href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html">https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html</a></li>
+<li>SageMaker real-time inference: <a
+href="https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html">https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html</a></li>
+</ul>
+</body>
+</html>
