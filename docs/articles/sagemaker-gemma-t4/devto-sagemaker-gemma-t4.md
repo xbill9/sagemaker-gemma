@@ -32,6 +32,12 @@ This article takes part three's builds down one GPU generation.
 
 ---
 
+#### Where Does This Fit?
+
+SageMaker JumpStart lists Gemma 4 from `ml.g6e.xlarge`, one NVIDIA L40S, for E2B, and 12B only on `ml.g6e.16xlarge`; none of its Gemma 4 entries lists a T4. Gemma 4 on Turing GPUs is an open vLLM issue, #38918, "Gemma4 on Turing GPUs (SM 7.5): all attention backends hit shared memory limits", reported again on vLLM 0.29.0 in September. The builds served here, with 4-bit embeddings, are the author's repacks of Google's QAT weights on Hugging Face.
+
+---
+
 #### At This Point You Should Have…
 
 - The repository cloned and `make test` passing
@@ -268,5 +274,6 @@ The strategy for using MCP for SageMaker deployment and benchmarking was validat
 - E4B emb4: https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4
 - 12B emb4: https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4
 - 26B A4B emb4: https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4
+- vLLM issue 38918, Gemma 4 on Turing: https://github.com/vllm-project/vllm/issues/38918
 - SageMaker ProductionVariant: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html
 - SageMaker real-time inference: https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html

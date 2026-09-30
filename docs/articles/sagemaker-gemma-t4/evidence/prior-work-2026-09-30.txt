@@ -1,0 +1,14 @@
+# Literature and catalog check, 2026-09-30.
+# SageMaker JumpStart, DescribeHubContent (SageMakerPublicHub, us-east-2):
+huggingface-vlm-gemma-4-e2b-instruct  default ml.g6e.xlarge   supported ml.g6.12xlarge ml.g6e.2xlarge ml.g6e.4xlarge ml.g6e.8xlarge ml.g6e.xlarge ml.g7e.4xlarge
+huggingface-vlm-gemma-4-e4b-it        default ml.g6e.2xlarge  supported ml.g6.12xlarge ml.g6e.2xlarge ml.g6e.4xlarge ml.g6e.xlarge ml.p5.48xlarge ml.p5en.48xlarge
+huggingface-vlm-gemma-4-12b-it        default ml.g6e.16xlarge supported ml.g6e.16xlarge
+huggingface-vlm-gemma-4-26b-a4b-it    default ml.g6.12xlarge  supported ml.g6.12xlarge ml.g6.24xlarge ml.g6e.12xlarge ml.g6e.24xlarge ml.p5.48xlarge ml.p5en.48xlarge
+huggingface-vlm-gemma-4-31b-it        default ml.g7e.2xlarge  supported ml.g6.24xlarge ml.g7e.2xlarge
+# No ml.g4dn type in any Gemma 4 entry.
+# vLLM issues (GitHub API):
+38918 open, created 2026-04-03, 22 comments: [Usage]: Gemma4 on Turing GPUs (SM 7.5): all attention backends hit shared memory limits
+  2026-09-18 comment: "Still present on 0.29.0 with 2x RTX  Quadro 8000s."
+  2026-09-22 comment: "triton.runtime.errors.OutOfResources: out of resource: shared memory, Required: 98304"
+# Hugging Face: no Gemma 4 build with int4 embeddings found outside xbill9 (search gemma-4 + compressed-tensors, 100 results).
+# Other 4-bit 26B A4B builds from the QAT weights: cyankiwi/gemma-4-26B-A4B-it-qat-AWQ-INT4 (created 2026-06-08, compressed-tensors AWQ).
