@@ -1,0 +1,124 @@
+{
+  "a": {
+    "name": "gemma-4-12b-emb4-t4",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "7.36",
+      "load_seconds": "75.851768",
+      "kv_cache_tokens": "20,354",
+      "max_concurrency_at_max_len": "2.48",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-12b-emb4-t4",
+      "region": "us-east-2",
+      "instance_types": [
+        "ml.g4dn.xlarge"
+      ],
+      "image_digest": "106059658660.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm@sha256:2086d56bedffc49906b3e6bc4e29e812b7dd93f02aed1dd90811c1a1f48ec4cd"
+    },
+    "window": "2026-09-30T15:17:42.919821+00:00"
+  },
+  "b": {
+    "name": "gemma-4-12b-emb4-t4-pr",
+    "model": {
+      "vllm_version": "0.30.0",
+      "weights_gib": "7.36",
+      "load_seconds": "72.818755",
+      "kv_cache_tokens": "20,354",
+      "max_concurrency_at_max_len": "2.48",
+      "quantization": "compressed-tensors"
+    },
+    "endpoint": {
+      "name": "gemma-4-12b-emb4-t4-pr",
+      "region": "us-east-2",
+      "instance_types": [
+        "ml.g4dn.xlarge"
+      ],
+      "image_digest": "106059658660.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm@sha256:494dfd9af057616601f47cc6d54bbb126f3c371216ada8c254f23a34416c0a35"
+    },
+    "window": "2026-09-30T19:04:54.979095+00:00"
+  },
+  "columns": [
+    "gemma-4-12b-emb4-t4",
+    "gemma-4-12b-emb4-t4-pr",
+    "gemma-4-12b-emb4-t4-pr / gemma-4-12b-emb4-t4"
+  ],
+  "rows": {
+    "weights_gib": [
+      7.36,
+      7.36,
+      1.0
+    ],
+    "kv_cache_tokens": [
+      20354,
+      20354,
+      1.0
+    ],
+    "load_seconds": [
+      75.851768,
+      72.818755,
+      null
+    ],
+    "decode_tokens_per_second": [
+      28.5,
+      28.2,
+      0.99
+    ],
+    "load_c1_tokens_per_second": [
+      27.6,
+      27.35,
+      0.99
+    ],
+    "load_c4_tokens_per_second": [
+      93.55,
+      93.8,
+      1.0
+    ],
+    "load_c16_tokens_per_second": [
+      216.45,
+      215.9,
+      1.0
+    ],
+    "quality_correct": [
+      40,
+      40,
+      null
+    ]
+  },
+  "identical_answers": {
+    "count": 40,
+    "total": 40
+  },
+  "disagreements": [],
+  "quality_by_kind": {
+    "gemma-4-12b-emb4-t4": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    "gemma-4-12b-emb4-t4-pr": {
+      "mul": {
+        "correct": 15,
+        "total": 15
+      },
+      "add": {
+        "correct": 15,
+        "total": 15
+      },
+      "cap": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  }
+}

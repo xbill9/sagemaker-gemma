@@ -1,0 +1,11 @@
+{
+  "endpoint": "gemma-4-e2b-emb4-t4-pr",
+  "status": "InService",
+  "created": "2026-09-30T14:37:14.599000-04:00",
+  "last_modified": "2026-09-30T14:49:23.830000-04:00",
+  "instances": 1,
+  "instance_types": [
+    "ml.g4dn.xlarge"
+  ],
+  "image_digest": "106059658660.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm@sha256:494dfd9af057616601f47cc6d54bbb126f3c371216ada8c254f23a34416c0a35"
+}

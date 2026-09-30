@@ -1,0 +1,79 @@
+decode gemma-4-12b-emb4-t4-pr n=16 rep=0: 5.023s
+decode gemma-4-12b-emb4-t4-pr n=512 rep=0: 18.597s
+decode gemma-4-12b-emb4-t4-pr n=16 rep=1: 1.153s
+decode gemma-4-12b-emb4-t4-pr n=512 rep=1: 18.737s
+decode gemma-4-12b-emb4-t4-pr n=16 rep=2: 1.071s
+decode gemma-4-12b-emb4-t4-pr n=512 rep=2: 18.693s
+decode gemma-4-12b-emb4-t4-pr n=16 rep=3: 1.144s
+decode gemma-4-12b-emb4-t4-pr n=512 rep=3: 18.761s
+decode gemma-4-12b-emb4-t4-pr n=16 rep=4: 1.11s
+decode gemma-4-12b-emb4-t4-pr n=512 rep=4: 18.839s
+load gemma-4-12b-emb4-t4-pr c=1 rep=0: 256 tok in 9.44s
+load gemma-4-12b-emb4-t4-pr c=1 rep=1: 256 tok in 9.29s
+load gemma-4-12b-emb4-t4-pr c=4 rep=0: 1024 tok in 10.90s
+load gemma-4-12b-emb4-t4-pr c=4 rep=1: 1024 tok in 10.93s
+load gemma-4-12b-emb4-t4-pr c=16 rep=0: 4096 tok in 18.94s
+load gemma-4-12b-emb4-t4-pr c=16 rep=1: 4096 tok in 19.01s
+quality mul-0
+quality mul-1
+quality mul-2
+quality mul-3
+quality mul-4
+quality mul-5
+quality mul-6
+quality mul-7
+quality mul-8
+quality mul-9
+quality mul-10
+quality mul-11
+quality mul-12
+quality mul-13
+quality mul-14
+quality add-0
+quality add-1
+quality add-2
+quality add-3
+quality add-4
+quality add-5
+quality add-6
+quality add-7
+quality add-8
+quality add-9
+quality add-10
+quality add-11
+quality add-12
+quality add-13
+quality add-14
+quality cap-Australia
+quality cap-Canada
+quality cap-Brazil
+quality cap-Turkey
+quality cap-Nigeria
+quality cap-Switzerland
+quality cap-Pakistan
+quality cap-New Zealand
+quality cap-Morocco
+quality cap-Vietnam
+wrote docs/runs/2026-09-30-t4-pr39018/measure-gemma-4-12b-emb4-t4-pr.json
+{
+  "load_facts": {
+    "vllm_version": "0.30.0",
+    "weights_gib": "7.36",
+    "load_seconds": "72.818755",
+    "kv_cache_tokens": "20,354",
+    "max_concurrency_at_max_len": "2.48",
+    "quantization": "compressed-tensors"
+  },
+  "decode_tokens_per_second": 28.2,
+  "per_call_fixed_cost_seconds": 0.576,
+  "load_tokens_per_second": {
+    "1": 27.35,
+    "4": 93.8,
+    "16": 215.9
+  },
+  "server_peak": {
+    "lines": 16,
+    "peak_tokens_per_second": 244.8
+  },
+  "quality": "40/40"
+}

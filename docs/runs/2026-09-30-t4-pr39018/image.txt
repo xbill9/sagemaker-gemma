@@ -1,0 +1,7 @@
+image:   106059658660.dkr.ecr.us-east-2.amazonaws.com/sagemaker-gemma-vllm:0.30.0-sagemaker-v1.3-pr39018
+digest:  sha256:494dfd9af057...
+base:    763104351884.dkr.ecr.us-east-2.amazonaws.com/vllm:0.30.0-gpu-py312-cu130-ubuntu24.04-sagemaker-v1.3
+change:  vllm-project/vllm#39018 head f7b6f5062242984d09dbcfe250d1778e77eb6296 (turing/pr39018/pr39018.diff),
+         applied to upstream v0.30.0 triton_unified_attention.py and flex_attention.py;
+         build log "image files match upstream v0.30.0" (cmp before copy); no patch_triton_turing.py
+build:   CodeBuild sagemaker-gemma-turing-image:5d046548-b4d9-47b3-8aef-e4f92d062859, SUCCEEDED
