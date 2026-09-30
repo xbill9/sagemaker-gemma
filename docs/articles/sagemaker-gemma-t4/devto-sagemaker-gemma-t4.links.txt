@@ -1,0 +1,5 @@
+devto-aws = https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-the-nvidia-t4-decodes-at-08x-of-the-l4-with-the-same-answers-hm7
+devto-gde = https://dev.to/gde/gemma-4-on-amazon-sagemaker-the-nvidia-t4-decodes-at-08x-of-the-l4-with-the-same-answers-19m4
+builder = https://builder.aws.com/content/3K3ZnLrNaDhh6xnnUAsP2LbJZVQ/gemma-4-on-amazon-sagemaker-the-nvidia-t4-decodes-at-08x-of-the-l4-with-the-same-answers
+repo = https://github.com/xbill9/sagemaker-gemma
+medium = PENDING
