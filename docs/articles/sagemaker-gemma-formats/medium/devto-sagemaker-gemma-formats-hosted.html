@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Gemma 4 on Amazon SageMaker: 4-Bit Embeddings Decode up to 1.39x Faster on One L4</title>
+  <meta name="description" content="Repacking Gemma 4&#x27;s QAT weights five ways and serving each on the same SageMaker NVIDIA L4 endpoint: int4 linears, int4 embeddings and lm_head, FP8 and int8, across E2B, E4B, 12B, 26B A4B and 31B." />
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+    body{font-family:-apple-system,'Segoe UI',Roboto,'Liberation Sans',Arial,sans-serif;
+         font-size:18px;line-height:1.58;max-width:42em;color:#242424;}
+    h1,h2,h3,h4{font-weight:700;line-height:1.25;margin-top:1.8em;}
+    h4{font-size:1.25em;}
+    img{max-width:100%;height:auto;display:block;margin:1.6em 0;}
+    pre{background:#f7f7f7;border:1px solid #e6e6e6;border-radius:4px;
+        padding:12px 14px;overflow-x:auto;font-size:14px;line-height:1.45;}
+    code{font-family:'Liberation Mono',Menlo,Consolas,monospace;}
+    :not(pre)>code{background:#f2f2f2;padding:1px 5px;border-radius:3px;font-size:.9em;}
+    blockquote{border-left:3px solid #ddd;margin-left:0;padding-left:1em;color:#555;}
+    hr{border:0;border-top:1px solid #e6e6e6;margin:2.4em 0;}
+  </style>
+</head>
+<body>
+<p>This article repacks Gemma 4's quantization-aware trained (QAT)
+weights into several 4-bit and 8-bit formats and measures each one on
+the same Amazon SageMaker NVIDIA L4 endpoint. A suite of Python MCP
+tools is built to simplify management of the vLLM hosted deployment.</p>
+<figure><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-cover.f2df1820.jpg" alt="Gemma 4 on Amazon SageMaker: 4-Bit Embeddings Decode up to 1.39x Faster on One L4" /></figure>
+<p><a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-1.png"
+alt="Table: Models, Hardware, Region, Software" /></p>
+<hr />
+<h4 id="where-do-i-start">Where Do I Start?</h4>
+<p>This is part three of a series. Part one deploys Gemma 4 to a
+SageMaker endpoint with the aws CLI and an MCP server: <a
+href="https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d">https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d</a></p>
+<p>Part two measures Google's QAT checkpoint against the full-size bf16
+release on the same L4: <a
+href="https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m">https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m</a></p>
+<p>This article keeps the endpoint and the measurement from part two and
+changes how the QAT weights are stored.</p>
+<hr />
+<h4 id="at-this-point-you-should-have">At This Point You Should
+Have…</h4>
+<ul>
+<li>The repository above, with <code>aws login</code> done and
+<code>mcp</code> 2.x installed</li>
+<li>A SageMaker quota of at least 1 for <code>ml.g6.xlarge</code> in a
+region with L4 capacity</li>
+<li>The deploy and measure steps from parts one and two working</li>
+</ul>
+<hr />
+<h4 id="why-repack-the-qat-weights">Why Repack the QAT Weights?</h4>
+<p>Google publishes each Gemma 4 QAT model in several forms. The one
+vLLM loads as 4-bit is <code>-qat-w4a16-ct</code>, and it exists for
+four of the five sizes:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-2.png"
+alt="Table: Size, -qat-w4a16-ct, -qat-q4_0-unquantized" /></p>
+<p><code>-qat-q4_0-unquantized</code> stores the QAT weights at 16-bit,
+but the values already sit on a 4-bit grid: every group of 32 is a scale
+times an integer from −8 to 7. A repack recovers those integers and
+writes them as compressed-tensors W4A16, the format vLLM reads. The
+repack tool verifies every group:</p>
+<pre class="plaintext"><code>model.language_model.embed_tokens_per_layer.weight: 4.375 GiB bf16 -&gt; 1.230 GiB int4 + f16 scales; 0 off-grid groups; 74.26% of values bit-identical, worst error 6.58e-03 of the group max</code></pre>
+<p>That opens two things Google's exports leave closed: a W4A16 build of
+the 26B, and 4-bit <strong>embeddings</strong>. Google's
+<code>-w4a16-ct</code> files keep the embedding tables at 16-bit, and at
+E2B those tables are three quarters of the file.</p>
+<hr />
+<h4 id="googles-e2b-and-e4b-store-the-output-layer-twice">Google's E2B
+and E4B Store the Output Layer Twice</h4>
+<p>The config of both models sets
+<code>tie_word_embeddings: true</code>, which means the output layer
+(<code>lm_head</code>) reuses the input embedding table. Google's
+<code>-w4a16-ct</code> files ship a separate <code>lm_head.weight</code>
+anyway. Reading the safetensors headers and seven rows of each table
+from the Hub:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-3.png"
+alt="Table: E2B, E4B" /></p>
+<p>vLLM loads the copy, so the repack frees 0.75 GiB and 1.25 GiB of GPU
+memory at the same decode speed: 107.2 tok/s against 105.1 for E2B, 60.4
+against 60.7 for E4B.</p>
+<hr />
+<h4 id="five-ways-to-store-the-same-weights">Five Ways to Store the Same
+Weights</h4>
+<p>Each build below starts from the same QAT weights and drops the
+vision and audio towers (text only). They differ in how the linear
+layers and the embedding tables are stored:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-4.png"
+alt="Table: Build, Linear layers, Embeddings and lm_head" /></p>
+<p>The L4 runs both 8-bit formats on its tensor cores natively.
+<code>emb4</code> stores <code>lm_head</code> as its own 4-bit table
+because vLLM ties the output layer by copying the embedding's 16-bit
+weight, which a packed table does not have. Every build is on Hugging
+Face under <code>xbill9/</code>, listed in the references.</p>
+<hr />
+<h4 id="mag_right-tip-the-config-must-name-every-16-bit-layer">🔎 Tip:
+The Config Must Name Every 16-Bit Layer</h4>
+<p>A compressed-tensors config quantizes every <code>Linear</code> layer
+except those on its <code>ignore</code> list. A layer the repack leaves
+at 16-bit but the list does not name makes vLLM look for 4-bit tensors
+that are not there:</p>
+<pre class="plaintext"><code>ValueError: There is no module or parameter named &#39;vision_embedder.patch_dense.weight&#39; in Gemma4UnifiedForConditionalGeneration. The available parameters belonging to vision_embedder.patch_dense (ColumnParallelLinear) are: {&#39;vision_embedder.patch_dense.bias&#39;, &#39;vision_embedder.patch_dense.weight_packed&#39;, &#39;vision_embedder.patch_dense.weight_scale&#39;, &#39;vision_embedder.patch_dense.weight_shape&#39;}</code></pre>
+<p>Google's own <code>-w4a16-ct</code> config for the same size carries
+the right list: 17 entries for 12B, 250 for E2B and E4B, where the audio
+tower alone adds 140 layers. Comparing the checkpoint's index against
+its <code>ignore</code> list before deploying finds this in seconds,
+where a failed SageMaker endpoint takes about 30 minutes to reach
+<code>Failed</code>.</p>
+<hr />
+<h4 id="how-the-measurement-works">How the Measurement Works</h4>
+<p>The measurement is part two's <code>compare.py</code>, unchanged:
+fixed-length replies of 16 and 512 tokens for the decode rate, 1, 4 and
+16 requests at once for throughput, and 40 questions with exact answers,
+all at temperature 0 through
+<code>aws sagemaker-runtime invoke-endpoint</code>.</p>
+<pre class="shell"><code>python3 compare.py measure docs/runs/2026-09-29-l4-format-sweep gemma-4-e2b-emb4-l4@us-east-2</code></pre>
+<p>The decode rate cancels the aws CLI start-up and the network; the
+parallel rates include them. That per-call cost varied from 0.532 s to
+1.232 s across runs, so the tables below compare builds by decode rate
+and quote parallel rates only beside it.</p>
+<p>Every build ran on its own <code>ml.g6.xlarge</code> in
+<code>us-east-2</code> with <code>max_model_len</code> 8192 and 90% GPU
+memory, one after the other.</p>
+<hr />
+<h4 id="decode-speed-e2b-every-combination">Decode Speed: E2B, Every
+Combination</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-5.png"
+alt="Table: E2B, Embeddings 16-bit, Embeddings 4-bit" /></p>
+<p>Two effects, each visible in every row and column:</p>
+<ul>
+<li><strong>4-bit embeddings add 17 to 39 tok/s</strong> whatever the
+linears are.</li>
+<li><strong>4-bit linears beat 8-bit by 1.36x to 1.58x</strong> whatever
+the embeddings are.</li>
+</ul>
+<p>The emb4 build replies to a 512-token request in 4.154 to 4.18 s,
+against 5.752 to 6.036 s for text-only.</p>
+<hr />
+<h4 id="why-the-embeddings-matter-lm_head">Why the Embeddings Matter:
+<code>lm_head</code></h4>
+<p>E2B has two large embedding tables: the per-layer table (4.375 GiB)
+and <code>embed_tokens</code>, which <code>lm_head</code> shares (0.75
+GiB). The ple4 build packs only the per-layer table:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-6.png"
+alt="Table: E2B, Per-layer table, embed_tokens and lm_head, GPU weights, Decode" /></p>
+<p>Packing the per-layer table saves 3.14 GiB and leaves decode
+unchanged: each token reads one row of it. Packing <code>lm_head</code>
+gives the 1.36x: every generated token multiplies against all 262,144
+rows of the output layer, so its size is read once per token.</p>
+<hr />
+<h4 id="across-all-five-sizes">Across All Five Sizes</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-7.png"
+alt="Table: Size, text-only, emb4, emb4 / text-only" /></p>
+<p>Decode in tok/s. The gain follows the output layer's share of each
+token's reads. It is largest for the small models and for the 26B, which
+is a mixture of experts that runs about 4B parameters per token, and
+smallest for the dense 31B. Every emb4 build gives the same 40 answers
+as its text-only twin, character for character.</p>
+<p>31B runs on <code>ml.g6.2xlarge</code> (the same L4, 32 GiB of host
+memory) with 97% GPU memory, 4 requests at once and a 1,024-token
+context. Those are the settings under which it starts on an L4 at
+all.</p>
+<hr />
+<h4 id="what-about-fp8-and-int8">What About FP8 and Int8?</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-8.png"
+alt="Table: Size, 4-bit (text-only), FP8, int8, FP8 / 4-bit" /></p>
+<p>Decode in tok/s. Generating a token on the L4 is limited by how fast
+it reads weights from memory, and an 8-bit weight is twice the bytes of
+a 4-bit one. The native FP8 and int8 tensor cores do not change that,
+and the penalty grows with model size. FP8 and int8 land within 3% of
+each other at every size. At 26B and 31B the 8-bit weights, about 26 GB
+and 31 GB, do not fit on one L4.</p>
+<hr />
+<h4 id="does-it-still-answer-correctly">Does It Still Answer
+Correctly?</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-9.png"
+alt="Table: Size, text-only, emb4, FP8, int8" /></p>
+<p>Correct out of 40. Every build scores within two questions of its
+size's text-only build, and emb4 matches text-only answer for answer at
+every size. Forty questions show a large loss and cannot resolve a one-
+or two-question difference.</p>
+<hr />
+<h4 id="what-the-engine-allocates">What the Engine Allocates</h4>
+<p>Smaller weights leave more of the L4 for the KV cache:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-10.png"
+alt="Table: Size, text-only KV (tokens), emb4 KV (tokens)" /></p>
+<p>At E2B and E4B the text-only builds lose more than their smaller
+weights would predict. vLLM sizes the cache after a start-up profiling
+run and counts the compiler's memory as activation on a first start: the
+E2B text-only build measured 5.13 GiB of peak activation against 0.79
+GiB for the same model with its towers. Every SageMaker endpoint starts
+cold, so it always gets the smaller figure. The emb4 builds measured
+1.79 GiB and keep the larger cache.</p>
+<hr />
+<h4 id="compare-to-other-deployments">Compare to Other Deployments</h4>
+<p>The same Google E2B QAT checkpoint served by the same vLLM version on
+a plain EC2 <code>g6.xlarge</code>, measured on the instance itself,
+against the SageMaker endpoint:</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-11.png"
+alt="Table: SageMaker ml.g6.xlarge, EC2 g6.xlarge" /></p>
+<p>The model server is the same on both. What differs is the path to it:
+SageMaker's figure includes signing and sending each request through the
+aws CLI, while the EC2 client ran on the instance.</p>
+<hr />
+<h4 id="and-priceperformance">And Price/Performance?</h4>
+<p><code>ml.g6.xlarge</code> is $1.1267 an hour in
+<code>us-east-2</code>. Per million output tokens at 16 requests at once
+(arithmetic):</p>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-12.png"
+alt="Table: Size, text-only, emb4" /></p>
+<p>FP8 and int8 cost more per token than either at E2B: $0.386 and
+$0.379. The endpoint bills while it exists, busy or idle, so these
+figures hold only while it is kept busy.</p>
+<hr />
+<h4 id="mag_right-tip-inservice-can-lag-a-healthy-container">🔎 Tip:
+<code>InService</code> Can Lag a Healthy Container</h4>
+<p>One endpoint in this series stayed <code>Creating</code> for 3 hours
+26 minutes. Its CloudWatch log shows vLLM serving from 00:18:29 UTC and
+answering SageMaker's health check with 200 every 5 seconds:</p>
+<pre class="plaintext"><code>00:18:39  (APIServer pid=14) INFO: 169.254.178.2:60670 - &quot;GET /ping HTTP/1.1&quot; 200 OK
+...
+03:35:58  (APIServer pid=14) INFO: 169.254.178.2:47052 - &quot;GET /ping HTTP/1.1&quot; 200 OK</code></pre>
+<p>SageMaker moved it to <code>InService</code> at 03:35:58, 3.29 hours
+after the container was healthy, and billed the instance throughout. The
+other 20 endpoints in the same sweep reached <code>InService</code>
+within 11.3 minutes. A deploy script that alerts on time spent in
+<code>Creating</code> catches this; a <code>Creating</code> endpoint
+refuses deletion until it leaves that state.</p>
+<hr />
+<h4 id="so-which-one">So, Which One?</h4>
+<p><img src="https://raw.githubusercontent.com/xbill9/sagemaker-gemma/main/docs/articles/sagemaker-gemma-formats/medium/img/devto-sagemaker-gemma-formats-table-13.png"
+alt="Table: On one L4, 4-bit + 16-bit embeddings, 4-bit + 4-bit embeddings, FP8 or int8" /></p>
+<p>On a SageMaker L4, serve Gemma 4 with 4-bit linears and 4-bit
+embeddings: the emb4 build is the fastest and smallest at every size and
+gives the same answers. FP8 and int8 trail it on every measure taken
+here; long prompts, where arithmetic sets the pace, were not
+measured.</p>
+<hr />
+<h4 id="what-stops-the-meter">What Stops the Meter</h4>
+<p>Each run's script ends with <code>delete_endpoint</code>, which
+removes the endpoint, its config and its model, and a watchdog repeats
+that for every endpoint name in all three regions:</p>
+<pre class="plaintext"><code>2026-09-30T04:00:05Z us-east-1 gemma-4-e2b-fp8emb4-l4: {  &quot;endpoint&quot;: &quot;gemma-4-e2b-fp8emb4-l4&quot;,  &quot;results&quot;: {    &quot;endpoint&quot;: &quot;not found&quot;,    &quot;endpoint-config&quot;: &quot;not found&quot;,    &quot;model&quot;: &quot;not found&quot;  }}</code></pre>
+<hr />
+<h4 id="summary">Summary</h4>
+<p>The goal of this article was to measure how the storage format of
+Gemma 4's QAT weights changes serving speed on a SageMaker L4 endpoint.
+The key to the solution was repacking the same QAT weights several ways
+and changing only <code>SM_VLLM_MODEL</code> between deployments. The
+measured results were:</p>
+<ul>
+<li>🟢 4-bit embeddings and <code>lm_head</code> decode <strong>1.12x to
+1.39x</strong> faster than 16-bit embeddings, E2B to 31B, with identical
+answers</li>
+<li>🟢 The speed comes from <code>lm_head</code>: packing only the
+per-layer table saves 3.14 GiB at E2B and leaves decode unchanged</li>
+<li>🟢 Google's E2B and E4B QAT files store <code>lm_head</code> twice;
+dropping the copy frees 0.75 GiB and 1.25 GiB</li>
+<li>🟢 A W4A16 build of the 26B serves at <strong>91.5 tok/s</strong>
+with 4-bit embeddings, where Google publishes none</li>
+<li>❌ FP8 and int8 decode at <strong>0.58x to 0.71x</strong> of 4-bit
+on the L4, and do not fit at 26B and 31B</li>
+<li>⚠️ A repack's <code>ignore</code> list must name every 16-bit layer,
+or vLLM fails at load</li>
+<li>⚠️ One endpoint stayed <code>Creating</code> for 3.29 hours while
+its container passed every health check</li>
+</ul>
+<p>Scope: one account, SageMaker <code>ml.g6.xlarge</code> (31B on
+<code>ml.g6.2xlarge</code> with reduced settings) in
+<code>us-east-2</code>, vLLM 0.30.0 from the AWS container, one
+deployment per build on 2026-09-29, each on its own instance; Google's
+E2B and E4B QAT baselines were measured on 2026-09-25 and 2026-09-27.
+Prompts were short and long-prompt behaviour was not measured. Decode
+used five replies per length, parallel throughput two batches per level,
+and quality 40 questions at temperature 0, all through the aws CLI from
+one client machine.</p>
+<p>The strategy for using MCP for SageMaker deployment and benchmarking
+was validated with an incremental step by step approach.</p>
+<hr />
+<h4 id="references">References</h4>
+<ul>
+<li>Repository: <a
+href="https://github.com/xbill9/sagemaker-gemma">https://github.com/xbill9/sagemaker-gemma</a></li>
+<li>Part one, deploying Gemma 4 to SageMaker: <a
+href="https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d">https://dev.to/aws-builders/gemma-4-on-an-amazon-sagemaker-endpoint-aws-cli-nvidia-l4-and-an-mcp-server-2c9d</a></li>
+<li>Part two, QAT against bf16: <a
+href="https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m">https://dev.to/aws-builders/gemma-4-on-amazon-sagemaker-qat-weights-decode-205x-faster-than-bf16-on-one-l4-318m</a></li>
+<li>E2B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>E4B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-E4B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>12B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-12B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>26B A4B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-26B-A4B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>31B emb4: <a
+href="https://huggingface.co/xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4">https://huggingface.co/xbill9/gemma-4-31B-it-qat-q4_0-w4a16-ct-text-emb4</a></li>
+<li>E2B FP8: <a
+href="https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text">https://huggingface.co/xbill9/gemma-4-E2B-it-qat-q4_0-fp8-text</a></li>
+<li>E2B int8: <a
+href="https://huggingface.co/xbill9/gemma-4-E2B-it-qat-w8a8-int8">https://huggingface.co/xbill9/gemma-4-E2B-it-qat-w8a8-int8</a></li>
+<li>Google Gemma 4 E2B QAT: <a
+href="https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct">https://huggingface.co/google/gemma-4-E2B-it-qat-w4a16-ct</a></li>
+<li>SageMaker real-time inference: <a
+href="https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html">https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints.html</a></li>
+<li>compressed-tensors: <a
+href="https://github.com/neuralmagic/compressed-tensors">https://github.com/neuralmagic/compressed-tensors</a></li>
+</ul>
+</body>
+</html>

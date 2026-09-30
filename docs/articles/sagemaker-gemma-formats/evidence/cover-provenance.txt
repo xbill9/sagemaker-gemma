@@ -4,3 +4,5 @@
 # name = sha256(bytes)[:8]
 # prompt:
 # Wide banner illustration for a technical blog cover, dark charcoal background with a faint blueprint grid. Bold clean white sans-serif headline centered near the top: "Gemma 4: 4-Bit Embeddings". Below it, a polished isometric 3D scene in the middle of the frame: a sleek fanless single-slot NVIDIA L4 GPU card, with a tall stack of glowing blue memory blocks on its left being compressed by a bright orange light beam into a short thin stack on its right, and soft orange and blue light trails flowing into the card. Minimal, modern, high contrast, blue and orange accents, no clutter, no gauges, no numbers, no other text, no letterboxing. Keep all important content inside the central horizontal band, with generous empty margin at the top and bottom edges.
+
+# builder-cover.jpg: same model, prompt without the headline and 'no text of any kind'; raw 1376x768 -> centre 16:9 crop -> 1200x675 -> JPEG q90 (88718 bytes)
